@@ -2,10 +2,12 @@ import java.util.Random;
 
 public class ComputerPlayer extends Player {
     private AIStrategy strategy;
+    private Board PlayerBoard;
 
-    public ComputerPlayer(Board board, AIStrategy strategy) {
-        super(board);
+    public ComputerPlayer(Board Ownboard, Board PlayerBoard, AIStrategy strategy) {
+        super(Ownboard);
         this.strategy = strategy;
+        this.PlayerBoard = PlayerBoard;
     }
 
     @Override
@@ -28,6 +30,6 @@ public class ComputerPlayer extends Player {
 
     @Override
     public int[] makeMove() {
-        return strategy.calculateMove(board);
+        return strategy.calculateMove(PlayerBoard);
     }
 }

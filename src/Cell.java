@@ -11,7 +11,8 @@ public class Cell {
         this.containsShip = false;
     }
 
-    public boolean isHit() {
+    public boolean isHit() 
+    {
         return hit;
     }
 

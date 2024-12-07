@@ -17,6 +17,7 @@ public class HumanPlayer extends Player {
         System.out.println(board);
 
         // Przykład rozmieszczania jednego statku (statyczne dane dla uproszczenia)
+        //DOdac opcje roznych statkow i rozmiarow
         Ship battleship = new Ship("Battleship", 4);
         System.out.println("Placing Battleship (size 4). Enter starting coordinates (x y) and direction (h for horizontal, v for vertical): ");
         int startX = scanner.nextInt();
@@ -26,12 +27,16 @@ public class HumanPlayer extends Player {
         boolean horizontal = (direction == 'h');
         boolean placed = board.placeShip(battleship, startX, startY, horizontal);
 
-        if (placed) {
+        if (placed) 
+        {
             System.out.println("Battleship placed successfully.");
-        } else {
+            System.out.println(board);
+        } 
+        else 
+        {
             System.out.println("Failed to place Battleship. Try again.");
+            this.placeShips();
         }
-        System.out.println(board);
     }
 
     @Override

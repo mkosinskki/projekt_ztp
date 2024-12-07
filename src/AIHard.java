@@ -9,11 +9,14 @@ public class AIHard implements AIStrategy {
                 Cell cell = board.getCell(i, j);
                 if (!cell.isHit() && cell.containsShip()) 
                 {
+                    System.out.println("CZY TRAFIONE: " + cell.isHit());
+                    System.out.println("Ruch bota: " + i + " " + j);
                     return new int[]{i, j};
                 }
             }
         }
         // Domyślny ruch, jeśli nic nie wykryto
+        System.out.println("Strzelam losowo");
         return new AIEasy().calculateMove(board);
     }
 }
