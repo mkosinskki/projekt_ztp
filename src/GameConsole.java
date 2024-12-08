@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class GameConsole implements IGame {
@@ -5,12 +6,17 @@ public class GameConsole implements IGame {
     private Player player2;
     private Board board1;
     private Board board2;
+    private Ship[] statki;
 
     public void setupGame() {
         Scanner scnaner = new Scanner(System.in);
         System.out.println("Wybierz rozmiar tablicy AxA, napisz A:\n");
         board1 = new Board(scnaner.nextInt());
         board2 = new Board(board1.getSize());
+        //ustawianie statkow (statki)
+        
+        System.out.println("Podaj ilosc statkow: ");
+        //DO IMPLEMENTACJI
 
         System.out.println("\nWybierz tryb gry:\n\t0: Gracz vs Bot\n\t1: Gracz vs Gracz\n\t2: Bot vs Bot\n");
         switch(scnaner.nextInt()){
@@ -51,6 +57,14 @@ public class GameConsole implements IGame {
         // DODAC GUI z personalizacja
         // DODAC SYSTEM OSIAGNIEC
         // DODAC ODBLOKOWYWANIE NOWEJ ZAWARTOSCI
+        // SPRAWDZAMY ILE ZWYCIESTW MA GRACZ | OD TEGO ZALEZY JAKI MOZE WYBRAC WYGLAD STATKU NP. (H zamiast S), ORAZ JAK WYGLADA WODA (ZAMIENIC . na cos innego)
+        // ARRAYLIST STRINGOW 
+
+
+        //nick iloscZwyciestw
+        //osiagniecia
+        //
+        //nastepny gracz
 
         System.out.println("Setting up Player 1:");
         player1.placeShips();
@@ -84,6 +98,75 @@ public class GameConsole implements IGame {
                 System.out.println("Player 2 wins!");
                 gameOver = true;
             }
+        }
+    }
+
+    public void stawianieStatkow(Player gracz)
+    {
+        boolean postawiono = false;
+        int[] koordynaty = new int[2];
+        char kierunek;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\nUstawianie statków\n");
+        System.out.println(gracz.board);
+        for(Ship statek : statki)
+        {
+            while(!postawiono)
+            {
+                System.out.println("Ustawianie statku o dlugosci " + statek.getSize() + ". Podaj wspolrzedne poczatku (x y) statku oraz ustawienie (h / v)");
+                koordynaty[0] = scanner.nextInt();
+                koordynaty[1] = scanner.nextInt();
+                kierunek = scanner.next().charAt(0);
+                postawiono = gracz.placeShips(koordynaty, kierunek, statek);
+                if(!postawiono)
+                {
+                    System.out.println("Blad stawiania statku, zostaniesz poproszony o jego ponowne ustawienie.");
+                }
+            }
+            System.out.println("Pomyslnie postawiono statek.");
+            postawiono = false;
+            System.out.println(gracz.board);
+        }
+        System.out.println("Ustawiono wszystkie statki prawidlowo.");
+        System.out.println(gracz.board);
+    }
+
+    public void ustawianieStatkowAI(Player AI)
+    {
+        System.out.println("Computer is placing ships...");
+        for(Ship statek : statki)
+        {
+           AI.placeShips(statek);
+        }
+        System.out.println("Bot pomyslnie ustawil statki.");
+    }
+
+    public void atakAI(ComputerPlayer AI) //atakujacy gracz
+    {
+        int[] koordynaty = AI.attackEnemy(); 
+        System.out.println("Przeciwnik zaatakowal " + koordynaty[0] + " " + koordynaty[1]);
+    }
+
+    public void atakPrzeciwnik(Player gracz) //przekazujesz przeciwnika ktorego atakuejsz
+    {
+        int[] koordynaty = new int[2];
+        boolean trafionoStatek = false;
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj koordynaty: x y");
+        koordynaty[0] = scanner.nextInt();
+        koordynaty[1] = scanner.nextInt();
+        scanner.close();
+        
+        trafionoStatek = gracz.makeMove(koordynaty);
+        if(trafionoStatek)
+        {
+            System.out.println("Trafiony");
+        }
+        else
+        {
+            System.out.println("Nietrafiony");
         }
     }
 }

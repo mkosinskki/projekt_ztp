@@ -10,26 +10,67 @@ public class ComputerPlayer extends Player {
         this.PlayerBoard = PlayerBoard;
     }
 
+    // @Override
+    // public void placeShips() {
+    //     System.out.println("Computer is placing ships...");
+
+    //     Ship battleship = new Ship("Battleship", 4);
+
+    //     boolean placed = false;
+    //     while (!placed) 
+    //     {
+    //         int startX = new Random().nextInt(board.getSize());
+    //         int startY = new Random().nextInt(board.getSize());
+    //         boolean horizontal = new Random().nextBoolean();
+
+    //         placed = board.placeShip(battleship, startX, startY, horizontal);
+    //     }
+
+    //     System.out.println("Computer placed Battleship.");
+    // }
+
+    // @Override
+    // public int[] makeMove() {
+    //     return strategy.calculateMove(PlayerBoard);
+    // }
+
     @Override
-    public void placeShips() {
-        System.out.println("Computer is placing ships...");
-
-        Ship battleship = new Ship("Battleship", 4);
-
+    public boolean placeShips(Ship statek) 
+    {
         boolean placed = false;
-        while (!placed) {
+        while (!placed) 
+        {
             int startX = new Random().nextInt(board.getSize());
             int startY = new Random().nextInt(board.getSize());
             boolean horizontal = new Random().nextBoolean();
 
-            placed = board.placeShip(battleship, startX, startY, horizontal);
+            placed = board.placeShip(statek, startX, startY, horizontal);
         }
+        return true;
+    }
 
-        System.out.println("Computer placed Battleship.");
+    @Override 
+    public boolean placeShips(int tab[], char direction, Ship statek)
+    {
+        return false; //zwrot bledu
     }
 
     @Override
-    public int[] makeMove() {
-        return strategy.calculateMove(PlayerBoard);
+    public boolean makeMove(int koordynaty[]) 
+    {
+        boolean hit = board.markShot(koordynaty[0], koordynaty[1]);
+        if(hit)
+        {
+            return true; //trafiono w statek
+        }
+        return false; //nie trafiono w statek
+    }
+
+    public int[] attackEnemy()
+    {
+        int[] koordynaty = new int[2];
+        koordynaty = strategy.calculateMove(PlayerBoard);
+        PlayerBoard.markShot(koordynaty[0], koordynaty[1]);
+        return koordynaty;
     }
 }
