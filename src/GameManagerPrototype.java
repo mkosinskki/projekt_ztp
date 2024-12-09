@@ -7,6 +7,7 @@ public class GameManagerPrototype
     private Board board1, board2;
     private Ship[] statki;
     private Interface interfejs;
+    private int wyborTrybuGry;
 
     private GameManagerPrototype(Interface interfejs) 
     {
@@ -30,8 +31,8 @@ public class GameManagerPrototype
         switch (wybor) 
         {
             case 1:
-                int wyborTrybuGry = 0;
-                switch(wyborTrybuGry) 
+                wyborTrybuGry = interfejs.wyborTrybuGry();
+                switch(wyborTrybuGry)
                 {
                     case 1:
                         p1 = new HumanPlayer(board1);
@@ -91,10 +92,17 @@ public class GameManagerPrototype
     
     public void startGame()
     {
+        boolean GameOver = false;
+        while(!GameOver)
+        {
+            atak(p1, p2);
+
+            atak(p2, p1);
+        }
 
     }
 
-    public void stawianieStatkow(Player gracz)
+    private void stawianieStatkow(Player gracz)
     {
         boolean postawiono = false;
         int[] koordynaty;
@@ -137,7 +145,7 @@ public class GameManagerPrototype
         System.out.println("Przeciwnik zaatakowal " + koordynaty[0] + " " + koordynaty[1]);
     }
 
-    public void atakPrzeciwnik(Player gracz) //przekazujesz przeciwnika ktorego atakuejsz
+    public void atakPrzeciwnik(Player atakowany) //przekazujesz przeciwnika ktorego atakuejsz
     {
         int[] koordynaty = new int[2];
         boolean trafionoStatek = false;
@@ -148,7 +156,7 @@ public class GameManagerPrototype
         koordynaty[1] = scanner.nextInt();
         scanner.close();
         
-        trafionoStatek = gracz.makeMove(koordynaty);
+        trafionoStatek = atakowany.makeMove(koordynaty);
         if(trafionoStatek)
         {
             System.out.println("Trafiony");
@@ -156,6 +164,43 @@ public class GameManagerPrototype
         else
         {
             System.out.println("Nietrafiony");
+        }
+    }
+    public void atak(Player atakujacy, Player atakowany)
+    {
+        switch(wyborTrybuGry) {
+            case 1:
+                /*p1 = new HumanPlayer(board1);
+                p2 = new HumanPlayer(board2);*/
+                int[] koordynaty = new int[2];
+                boolean trafionoStatek = false;
+                koordynaty = interfejs.getKoordynaty();
+                trafionoStatek = atakowany.makeMove(koordynaty);
+                interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
+                break;
+            case 2:
+                if (atakujacy instanceof ComputerPlayer) {
+                    koordynaty = ((ComputerPlayer) atakujacy).attackEnemy();
+                    trafionoStatek = atakowany.makeMove(koordynaty);
+                    interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
+                } else{
+                    koordynaty = interfejs.getKoordynaty();
+                    trafionoStatek = atakowany.makeMove(koordynaty);
+                    interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
+                }
+                /*p1 = new HumanPlayer(board1);
+                p2 = new ComputerPlayer(board2, board1, wyborTrudnosciBota());*/
+                break;
+            case 3:
+                koordynaty = ((ComputerPlayer) atakujacy).attackEnemy();
+                trafionoStatek = atakowany.makeMove(koordynaty);
+                interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
+                interfejs.pokazTablice(atakowany.board);
+               /* p1 = new ComputerPlayer(board1, board2, wyborTrudnosciBota());
+                p2 = new ComputerPlayer(board2, board1, wyborTrudnosciBota());*/
+                break;
+            default:
+                throw new AssertionError();
         }
     }
 }
