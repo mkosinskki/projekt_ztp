@@ -166,6 +166,7 @@ public class GameManagerPrototype
             System.out.println("Nietrafiony");
         }
     }
+  
     public void atak(Player atakujacy, Player atakowany)
     {
         switch(wyborTrybuGry) {
@@ -202,5 +203,20 @@ public class GameManagerPrototype
             default:
                 throw new AssertionError();
         }
+
+    public void atakPrzeciwnik2(Player gracz, Player oponent)
+    {
+        int[] koordynaty = new int[2];
+        boolean trafionoStatek = false;
+
+        if(gracz instanceof HumanPlayer)
+        koordynaty=interfejs.getKoordynaty();
+        else{
+        koordynaty=((ComputerPlayer)gracz).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
+        if(oponent instanceof ComputerPlayer)
+        interfejs.komunikatySymulacji();}
+        
+        trafionoStatek = oponent.makeMove(koordynaty);
+        interfejs.komunikatPoStrzale(trafionoStatek);
     }
 }
