@@ -5,9 +5,15 @@ public abstract class Player {
         this.board = board;
     }
 
-    // Logika rozmieszczania statków
-    public abstract void placeShips();
+    // // Logika rozmieszczania statków
+    // public abstract void placeShips();
 
+    // // Logika wykonywania ruchu
+    // public abstract int[] makeMove(); // Zwraca współrzędne [x, y]
+
+    // Logika rozmieszczania statków
+    public abstract boolean placeShips(int koordynaty[], char kierunek, Ship statek);
+    public abstract boolean placeShips(Ship Statek);
     // Logika wykonywania ruchu
-    public abstract int[] makeMove(); // Zwraca współrzędne [x, y]
+    public abstract boolean makeMove(int koordynaty[]); // Zwraca współrzędne [x, y]
 }
