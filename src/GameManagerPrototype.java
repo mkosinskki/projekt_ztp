@@ -203,6 +203,7 @@ public class GameManagerPrototype
             default:
                 throw new AssertionError();
         }
+    }
 
     public void atakPrzeciwnik2(Player gracz, Player oponent)
     {
