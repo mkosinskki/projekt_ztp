@@ -82,19 +82,8 @@ public class GameManagerPrototype {
 
     public void setupGame() {
         int[] iloscStatkow = interfejs.wczytywanieIlosciStatkow();
-        //TWORZENIE STATKOW
-        if(p1 instanceof HumanPlayer) {
-            stawianieStatkow(p1);
-        }
-        else {
-            ustawianieStatkowAI(p1);
-        }
-        if(p2 instanceof HumanPlayer) {
-            stawianieStatkow(p2);
-        }
-        else {
-            ustawianieStatkowAI(p2);
-        }
+        stawianieStatkow(p1);
+        stawianieStatkow(p2);
     }
 
     public void startGame() {
@@ -125,6 +114,7 @@ public class GameManagerPrototype {
 
         for (Ship statek : statki)
         {
+            if(gracz instanceof HumanPlayer){
             while (!postawiono)
             {
                 interfejs.komunikatStatek(1, statek.getSize());
@@ -138,20 +128,16 @@ public class GameManagerPrototype {
             }
             interfejs.komunikatStatek(2, statek.getSize());
             postawiono = false;
-            interfejs.pokazTablice(gracz.board);
+            interfejs.pokazTablice(gracz.board);}
+            else{
+                interfejs.komunikatStatek(1, statek.getSize());
+                gracz.placeShips(statek);
+            }
+
         }
         interfejs.komunikatStatek(4, 0);
+        if(gracz instanceof HumanPlayer)
         interfejs.pokazTablice(gracz.board);
-    }
-
-    public void ustawianieStatkowAI(Player AI) {
-
-        for (Ship statek : statki)
-        {
-            interfejs.komunikatStatek(1, statek.getSize());
-            AI.placeShips(statek);
-        }
-        interfejs.komunikatStatek(4,0);
     }
 
 
