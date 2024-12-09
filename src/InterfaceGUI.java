@@ -19,7 +19,9 @@ public class InterfaceGUI extends Interface {
         return 0;
     }
 
-    public int[] wczytywanieIlosciStatkow(){}
+    public int[] wczytywanieIlosciStatkow(){
+        return new int[0];
+    }
 
     public void komunikatPoStrzale(int[] koordynaty, boolean trafione){}
 
