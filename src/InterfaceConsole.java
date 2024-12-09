@@ -74,13 +74,12 @@ public class InterfaceConsole extends Interface {
     {
         Scanner scanner = new Scanner(System.in);
         int max = wczytajNajdluzszyStatek();
-        int[] ilosciStatkow = new int[max+1];
+        int[] ilosciStatkow = new int[max];
 
-        for(int a=1; a<=max; a++)
+        for(int a=0; a<max; a++)
         {
-            System.out.println("\nPodaj ilosc statkow o dlugosci: " + (a) + " \n");
+            System.out.println("\nPodaj ilosc statkow o dlugosci: " + (a+1) + " \n");
             ilosciStatkow[a] = scanner.nextInt();
-            ilosciStatkow[0]+=ilosciStatkow[a];
         }
 
         scanner.close();
