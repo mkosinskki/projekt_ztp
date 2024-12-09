@@ -11,11 +11,12 @@ public abstract class Interface {
 
     public abstract int[] wczytywanieIlosciStatkow();
 
-    public abstract void komunikatPoStrzale(boolean trafione);
+    public abstract void komunikatPoStrzale(int[] koordynaty, boolean trafione);
 
     public abstract int wyborTrudnosciBota();
 
     public abstract void pokazTablice(Board tablicaGracza);
 
     public abstract void komunikatStatek(int komunikat, int dlugoscStatku);
+
 }

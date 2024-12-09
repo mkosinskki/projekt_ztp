@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class InterfaceConsole extends Interface {
@@ -93,6 +94,7 @@ public class InterfaceConsole extends Interface {
     @Override
     public int[] getKoordynaty()
     {
+        System.out.println("Podaj koordynaty: ");
         Scanner scanner = new Scanner(System.in);
         int[] koordynaty = new int[2];
 
@@ -141,8 +143,9 @@ public class InterfaceConsole extends Interface {
     }
 
     @Override
-    public void komunikatPoStrzale(boolean trafione)
+    public void komunikatPoStrzale(int[] koordynaty, boolean trafione)
     {
+        System.out.println("Strzelono w pole: " + koordynaty[0] + ", " + koordynaty[1]);
         if(trafione)
         {
             System.out.println("Trafiles w statek przeciwnika");
