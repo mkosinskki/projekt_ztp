@@ -158,4 +158,18 @@ public class GameManagerPrototype
             System.out.println("Nietrafiony");
         }
     }
+    public void atakPrzeciwnik2(Player gracz)
+    {
+        int[] koordynaty = new int[2];
+        boolean trafionoStatek = false;
+
+        if(gracz instanceof HumanPlayer)
+        koordynaty=interfejs.getKoordynaty();
+        else
+        koordynaty=((ComputerPlayer)gracz).attackEnemy();
+        // i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
+        
+        trafionoStatek = gracz.makeMove(koordynaty);
+        interfejs.komunikatPoStrzale(trafionoStatek);
+    }
 }
