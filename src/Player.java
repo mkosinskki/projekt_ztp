@@ -1,8 +1,11 @@
 public abstract class Player {
     protected Board board; // Plansza gracza
+    protected String nickname;
 
-    public Player(Board board) {
+    public Player(String nickname, Board board) {
+        this.nickname = nickname;
         this.board = board;
+
     }
 
     // // Logika rozmieszczania statków
@@ -16,4 +19,9 @@ public abstract class Player {
     public abstract boolean placeShips(Ship Statek);
     // Logika wykonywania ruchu
     public abstract boolean makeMove(int koordynaty[]); // Zwraca współrzędne [x, y]
+
+    @Override
+    public String toString() {
+        return nickname;
+    }
 }

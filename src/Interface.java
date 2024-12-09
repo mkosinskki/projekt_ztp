@@ -19,4 +19,6 @@ public abstract class Interface {
 
     public abstract void komunikatStatek(int komunikat, int dlugoscStatku);
 
+    public abstract void komunikatZwyciestwo(Player Winner);
+
 }
