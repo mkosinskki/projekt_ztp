@@ -17,6 +17,67 @@ public class InterfaceConsole extends Interface {
     }
 
     @Override
+    public int wyborTrybuGry()
+    {
+        Scanner scanner = new Scanner(System.in);
+        int wybor;
+
+        System.out.println("\n1) Gracz vs Gracz\n2)Gracz vs AI\n3) AI vs AI");
+        wybor = scanner.nextInt();
+
+        scanner.close();
+        return wybor;
+    }
+
+    @Override
+    public void pokazTablice(Board tablicaGracza)
+    {
+        System.out.println(tablicaGracza);
+    }
+
+    @Override
+    public int wyborTrudnosciBota()
+    {
+        Scanner scanner = new Scanner(System.in);
+        int trudnosc;
+
+        System.out.println("\nWybierz poziom trudności bota:\n1) Latwy\t2) Sredni\t3)Trudny");
+        trudnosc = scanner.nextInt();
+
+        scanner.close();
+        return trudnosc;
+    }
+
+    private int wczytajNajdluzszyStatek()
+    {
+        Scanner scanner = new Scanner(System.in);
+        int rozmiar;
+
+        System.out.println("Podaj dlugosc najdluzszego statku");
+        rozmiar = scanner.nextInt();
+
+        scanner.close();
+        return rozmiar;
+    }
+
+    @Override
+    public int[] wczytywanieIlosciStatkow()
+    {
+        Scanner scanner = new Scanner(System.in);
+        int max = wczytajNajdluzszyStatek();
+        int[] ilosciStatkow = new int[max];
+
+        for(int a=0; a<max; a++)
+        {
+            System.out.println("\nPodaj ilosc statkow o dlugosci: " + (a+1) + " \n");
+            ilosciStatkow[a] = scanner.nextInt();
+        }
+
+        scanner.close();
+        return ilosciStatkow;
+    }
+
+    @Override
     public String wczytajNick()
     {
         Scanner scanner = new Scanner(System.in);
@@ -40,6 +101,27 @@ public class InterfaceConsole extends Interface {
         //Dodac sprawdzanie poprawnosci koordynatow po rozmiarze planszy
         scanner.close();
         return koordynaty;
+    }
+
+    @Override
+    public void komunikatStatek(int komunikat, int dlugoscStatku)
+    {
+        switch (komunikat) {
+            case 1:
+                System.out.println("Ustawianie statku o dlugosci: " + dlugoscStatku);
+                break;
+            case 2:
+                System.out.println("Pomyslnie ustawiono statek o dlugosci: " + dlugoscStatku);
+                break;
+            case 3:
+                System.out.println("Blad stawiania statku! Zostaniesz poproszony o ponowienie operacji.");
+                break;
+            case 4:
+                System.out.println("Wszystkie statki ustawione prawidlowo");
+                break;
+            default:
+                throw new AssertionError();
+        }
     }
 
     @Override

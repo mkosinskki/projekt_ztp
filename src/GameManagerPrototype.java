@@ -4,6 +4,7 @@ public class GameManagerPrototype
 {
     private static GameManagerPrototype instance;
     private Player p1, p2;
+    private Board board1, board2;
     private Ship[] statki;
     private Interface interfejs;
 
@@ -29,6 +30,24 @@ public class GameManagerPrototype
         switch (wybor) 
         {
             case 1:
+                int wyborTrybuGry = 0;
+                switch(wyborTrybuGry) 
+                {
+                    case 1:
+                        p1 = new HumanPlayer(board1);
+                        p2 = new HumanPlayer(board2);
+                        break;
+                    case 2:
+                        p1 = new HumanPlayer(board1);
+                        p2 = new ComputerPlayer(board2, board1, wyborTrudnosciBota());
+                        break;
+                    case 3:
+                        p1 = new ComputerPlayer(board1, board2, wyborTrudnosciBota());
+                        p2 = new ComputerPlayer(board2, board1, wyborTrudnosciBota());
+                        break;
+                    default:
+                        throw new AssertionError();
+                }
                 setupGame();
                 break;
             case 2:
@@ -46,9 +65,28 @@ public class GameManagerPrototype
         }
     }
 
+    public AIStrategy wyborTrudnosciBota()
+    {
+        int trudnosc = interfejs.wyborTrudnosciBota();
+        switch (trudnosc) 
+        {
+            case 1:
+                return new AIEasy();
+            // case 2:
+            //     return new AIMedium();
+            case 3:
+                return new AIHard();
+            default:
+                return new AIEasy();
+        }
+    }
+
     public void setupGame() 
     {
-        
+        int[] iloscStatkow = interfejs.wczytywanieIlosciStatkow();
+        //TWORZENIE STATKOW
+        stawianieStatkow(p1);
+        stawianieStatkow(p2);
     }
     
     public void startGame()
@@ -59,32 +97,28 @@ public class GameManagerPrototype
     public void stawianieStatkow(Player gracz)
     {
         boolean postawiono = false;
-        int[] koordynaty = new int[2];
+        int[] koordynaty;
         char kierunek;
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("\nUstawianie statków\n");
-        System.out.println(gracz.board);
         for(Ship statek : statki)
         {
             while(!postawiono)
             {
-                System.out.println("Ustawianie statku o dlugosci " + statek.getSize() + ". Podaj wspolrzedne poczatku (x y) statku oraz ustawienie (h / v)");
-                koordynaty[0] = scanner.nextInt();
-                koordynaty[1] = scanner.nextInt();
-                kierunek = scanner.next().charAt(0);
+                interfejs.komunikatStatek(1, statek.getSize());
+                koordynaty = interfejs.getKoordynaty();
+                kierunek = interfejs.getUstawienie();
                 postawiono = gracz.placeShips(koordynaty, kierunek, statek);
                 if(!postawiono)
                 {
-                    System.out.println("Blad stawiania statku, zostaniesz poproszony o jego ponowne ustawienie.");
+                    interfejs.komunikatStatek(3, statek.getSize());
                 }
             }
-            System.out.println("Pomyslnie postawiono statek.");
+            interfejs.komunikatStatek(2, statek.getSize());
             postawiono = false;
-            System.out.println(gracz.board);
+            interfejs.pokazTablice(gracz.board);
         }
-        System.out.println("Ustawiono wszystkie statki prawidlowo.");
-        System.out.println(gracz.board);
+        interfejs.komunikatStatek(4, 0);
+        interfejs.pokazTablice(gracz.board);
     }
 
     public void ustawianieStatkowAI(Player AI)
