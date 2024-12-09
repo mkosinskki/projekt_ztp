@@ -4,10 +4,12 @@ public class Ship {
 
     //mozna dodac abstrakcyjne statki np ShipSubmarine itp, ktore beda mialy rozmiar i tylko ustawiasz je na mapie
 
-    public Ship(String type, int size) 
+    public Ship(int size) 
     {
-        this.type = type;
         this.size = size;
+    }
+    public Ship Clone(){
+        return new Ship(size);
     }
 
     public int getSize() 

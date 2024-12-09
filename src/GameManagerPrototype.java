@@ -82,8 +82,11 @@ public class GameManagerPrototype {
 
     public void setupGame() {
         int[] iloscStatkow = interfejs.wczytywanieIlosciStatkow();
-        stawianieStatkow(p1);
-        stawianieStatkow(p2);
+        statki=new Ship[iloscStatkow.length];
+        for(int i=0 ; i<iloscStatkow.length;i++)
+            statki[i]=new Ship(i+1);
+        stawianieStatkow(p1,iloscStatkow);
+        stawianieStatkow(p2,iloscStatkow);
     }
 
     public void startGame() {
@@ -107,31 +110,30 @@ public class GameManagerPrototype {
         interfejs.komunikatZwyciestwo(winner);
     }
 
-    private void stawianieStatkow(Player gracz) {
+    private void stawianieStatkow(Player gracz, int[] liczbaStatkow) {
         boolean postawiono = false;
         int[] koordynaty;
         char kierunek;
-
-        for (Ship statek : statki)
-        {
+        for (int i=0; i<liczbaStatkow.length;i++)
+            for(int j=0; j<liczbaStatkow[i];j++){
             if(gracz instanceof HumanPlayer){
             while (!postawiono)
             {
-                interfejs.komunikatStatek(1, statek.getSize());
+                interfejs.komunikatStatek(1, statki[i].getSize());
                 koordynaty = interfejs.getKoordynaty();
                 kierunek = interfejs.getUstawienie();
-                postawiono = gracz.placeShips(koordynaty, kierunek, statek);
+                postawiono = gracz.placeShips(koordynaty, kierunek, statki[i]);
                 if (!postawiono)
                 {
-                    interfejs.komunikatStatek(3, statek.getSize());
+                    interfejs.komunikatStatek(3, statki[i].getSize());
                 }
             }
-            interfejs.komunikatStatek(2, statek.getSize());
+            interfejs.komunikatStatek(2, statki[i].getSize());
             postawiono = false;
             interfejs.pokazTablice(gracz.board);}
             else{
-                interfejs.komunikatStatek(1, statek.getSize());
-                gracz.placeShips(statek);
+                interfejs.komunikatStatek(1, statki[i].getSize());
+                gracz.placeShips(statki[i]);
             }
 
         }
