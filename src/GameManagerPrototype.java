@@ -21,6 +21,31 @@ public class GameManagerPrototype
         return instance;
     }
 
+    public void przedGra()
+    {
+        int wybor;
+        wybor = interfejs.menu();
+
+        switch (wybor) 
+        {
+            case 1:
+                setupGame();
+                break;
+            case 2:
+                String nick = interfejs.wczytajNick();
+                //IMPLEMENTACJA STATYSTYK I ICH WYPISYWANIA DLA DANEGO NICKNAME'U
+                break;
+            case 3:
+                //DO IMPLEMENTACJI CUSTOMIZACJA PLANSZY (W TYM WYPADKU ZMIANA ZNAKOW STATKOW LUB WODY)
+                break;
+            case 4:
+                //DO IMPLEMENTACJI HISTORII GRY
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }
+
     public void setupGame() 
     {
         
