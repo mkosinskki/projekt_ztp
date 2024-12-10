@@ -1,20 +1,33 @@
-public class CustomisationConsole extends Customisation{
+import java.util.Dictionary;
+import java.util.Hashtable;
+
+public class CustomisationConsole{
     private char waterChar;
     private char shipChar;
+    private static Dictionary<String,CustomisationConsole> customs = new Hashtable<>();
 
-    public char getShipChar() {
+    public static CustomisationConsole getInstance(String nick){
+        if(customs.get(nick) == null)
+            customs.put(nick, new CustomisationConsole());
+        return customs.get(nick);
+    }
+    private CustomisationConsole(){
+        shipChar='S';
+        waterChar='.';
+    }
+    public char getShip() {
         return shipChar;
     }
 
-    public char getWaterChar() {
+    public char getWater() {
         return waterChar;
     }
 
-    public void setShipChar(char shipChar) {
+    public void setShip(char shipChar) {
         this.shipChar = shipChar;
     }
 
-    public void setWaterChar(char waterChar) {
+    public void setWater(char waterChar) {
         this.waterChar = waterChar;
     }
 }
