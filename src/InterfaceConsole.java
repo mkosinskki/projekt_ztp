@@ -168,4 +168,9 @@ public class InterfaceConsole extends Interface {
     public void komunikatZwyciestwo(Player Winner) {
         System.out.println("Wygral :" + Winner.toString());
     }
+
+    @Override
+    public void komunikatOsiagniecie(Player Zdobywający) {
+        System.out.println("achievement get"); //prototyp
+    }
 }

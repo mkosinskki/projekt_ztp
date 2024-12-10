@@ -43,4 +43,9 @@ public class InterfaceGUI extends Interface {
     public void komunikatZwyciestwo(Player Winner) {
 
     }
+
+    @Override
+    public void komunikatOsiagniecie(Player Zdobywający) {
+
+    }
 }

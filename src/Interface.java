@@ -21,4 +21,6 @@ public abstract class Interface {
 
     public abstract void komunikatZwyciestwo(Player Winner);
 
+    public abstract void komunikatOsiagniecie(Player Zdobywający);
+
 }
