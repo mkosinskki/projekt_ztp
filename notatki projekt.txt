@@ -1,3 +1,13 @@
 1) Dodać tworzenie statków (Za każdym razem tworzyć statki rozmiaru 1,2,3,4), klonować je w odpowiedniej ilości i przekazywać do gameManagera celem ustawiania ich przez graczy (Jest wzorzec na to, który tworzy obiekty a potem tworzy ich kopie głębokie).
 
-2) Przerobić ataki w gameManager(Łukasz ma pomysł)
+2) wczytywanie rozmiaru planszy
+
+3) dokończyć historie
+
+4) statystyki 
+
+5) tryb gry standardowy z zadeklarowanymi od razu statkami i ich rozmiarami oraz rozmiarem planszy
+
+6) Customizacja wyglądu
+
+7) Odblokowywanie nowej zawartości

@@ -4,8 +4,8 @@ public class ComputerPlayer extends Player {
     private AIStrategy strategy;
     private Board PlayerBoard;
 
-    public ComputerPlayer(Board Ownboard, Board PlayerBoard, AIStrategy strategy) {
-        super(Ownboard);
+    public ComputerPlayer( String nickname, Board Ownboard, Board PlayerBoard, AIStrategy strategy) {
+        super(nickname, Ownboard);
         this.strategy = strategy;
         this.PlayerBoard = PlayerBoard;
     }
@@ -72,5 +72,10 @@ public class ComputerPlayer extends Player {
         koordynaty = strategy.calculateMove(PlayerBoard);
         PlayerBoard.markShot(koordynaty[0], koordynaty[1]);
         return koordynaty;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

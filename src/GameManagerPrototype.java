@@ -1,50 +1,50 @@
-import java.util.Scanner;
 
-public class GameManagerPrototype 
-{
+public class GameManagerPrototype {
     private static GameManagerPrototype instance;
     private Player p1, p2;
     private Board board1, board2;
     private Ship[] statki;
     private Interface interfejs;
+    private GameHistory gameHistory;
     private int wyborTrybuGry;
 
-    private GameManagerPrototype(Interface interfejs) 
-    {
+    private GameManagerPrototype(Interface interfejs) {
+        gameHistory = new GameHistory();
         this.interfejs = interfejs;
     }
 
-    public static GameManagerPrototype getInstance(Interface interfejs) 
-    {
-        if (instance == null) 
-        {
+    public static GameManagerPrototype getInstance(Interface interfejs) {
+        if (instance == null) {
             instance = new GameManagerPrototype(interfejs);
         }
         return instance;
     }
 
-    public void przedGra()
-    {
+    public void przedGra() {
         int wybor;
         wybor = interfejs.menu();
-
-        switch (wybor) 
-        {
+        switch (wybor) {
             case 1:
                 wyborTrybuGry = interfejs.wyborTrybuGry();
-                switch(wyborTrybuGry)
+                switch (wyborTrybuGry) 
                 {
                     case 1:
-                        p1 = new HumanPlayer(board1);
-                        p2 = new HumanPlayer(board2);
+                        p1 = new HumanPlayer(interfejs.wczytajNick(),board1);
+                        gameHistory.addEvent(p1.toString(),"Wczytanie gracza", "");
+                        p2 = new HumanPlayer(interfejs.wczytajNick(), board2);
+                        gameHistory.addEvent(p2.toString(),"Wczytanie gracza", "");
                         break;
                     case 2:
-                        p1 = new HumanPlayer(board1);
-                        p2 = new ComputerPlayer(board2, board1, wyborTrudnosciBota());
+                        p1 = new HumanPlayer(interfejs.wczytajNick(), board1);
+                        gameHistory.addEvent(p1.toString(),"Wczytanie gracza", "");
+                        p2 = new ComputerPlayer("AI Shaniqua",board2, board1, wyborTrudnosciBota());
+                        gameHistory.addEvent("AI Shaniqua","Wczytanie AI", "");
                         break;
                     case 3:
-                        p1 = new ComputerPlayer(board1, board2, wyborTrudnosciBota());
-                        p2 = new ComputerPlayer(board2, board1, wyborTrudnosciBota());
+                        p1 = new ComputerPlayer("AI Thanapat",board1, board2, wyborTrudnosciBota());
+                        gameHistory.addEvent("AI Thanapat","Wczytanie AI", "");
+                        p2 = new ComputerPlayer("AI Bubbles",board2, board1, wyborTrudnosciBota());
+                        gameHistory.addEvent("AI Bubbles","Wczytanie AI", "");
                         break;
                     default:
                         throw new AssertionError();
@@ -66,11 +66,9 @@ public class GameManagerPrototype
         }
     }
 
-    public AIStrategy wyborTrudnosciBota()
-    {
+    public AIStrategy wyborTrudnosciBota() {
         int trudnosc = interfejs.wyborTrudnosciBota();
-        switch (trudnosc) 
-        {
+        switch (trudnosc) {
             case 1:
                 return new AIEasy();
             // case 2:
@@ -84,140 +82,159 @@ public class GameManagerPrototype
 
     public void setupGame() 
     {
-        int[] iloscStatkow = interfejs.wczytywanieIlosciStatkow();
-        //TWORZENIE STATKOW
-        stawianieStatkow(p1);
-        stawianieStatkow(p2);
-    }
-    
-    public void startGame()
-    {
-        boolean GameOver = false;
-        while(!GameOver)
+        //POMOCNICZE DO TESTOW
+        board1 = new Board(10);
+        board2 = new Board(10);
+        p1 = new ComputerPlayer("AI Thanapat",board1, board2, new AIHard());
+        p2 = new ComputerPlayer("AI Bubbles",board2, board1, new AIEasy());
+        wyborTrybuGry = 3;
+        //KONIEC POMOCNICZE
+        int[] iloscStatkow;
+        
+        switch(interfejs.wyborSetupu()) 
         {
-            atak(p1, p2);
-
-            atak(p2, p1);
+            case 1: //WYBOR STANDARDOWEGO TRYBU GRY
+                iloscStatkow = new int[]{4, 3, 2, 1};
+                board1 = new Board(10);
+                board2 = new Board(10);
+                break;
+            case 2: //WYBOR TRYBU GRY Z ROZMIAREM PLANSZY I ILOSCIA STATKOW
+                iloscStatkow = interfejs.wczytywanieIlosciStatkow();
+                int wielkoscTablicy = interfejs.wielkoscPlanszy();
+                board1 = new Board(wielkoscTablicy);
+                board2 = new Board(wielkoscTablicy);
+                break;
+            default:
+                throw new AssertionError();
         }
 
+        statki = new Ship[iloscStatkow.length];
+        for(int i=0 ; i<iloscStatkow.length; i++)
+        {
+            statki[i]=new Ship(i+1);
+        }
+
+        stawianieStatkow(p1,iloscStatkow);
+        stawianieStatkow(p2,iloscStatkow);
+
+        //POMOCNICZE DO TESTOW
+        startGame();        
     }
 
-    private void stawianieStatkow(Player gracz)
-    {
+    public void startGame() {
+        boolean GameOver = false;
+        Player winner = null;
+        while (!GameOver) {
+            atak(p1, p2);
+            GameOver = p2.board.areAllShipsSunk();
+            if(GameOver){
+                winner = p1;
+                break;
+            }
+
+            atak(p2, p1);
+            GameOver = p1.board.areAllShipsSunk();
+            if(GameOver){
+                winner = p2;
+                break;
+            }
+        }
+        interfejs.komunikatZwyciestwo(winner);
+    }
+
+    private void stawianieStatkow(Player gracz, int[] liczbaStatkow) {
         boolean postawiono = false;
         int[] koordynaty;
         char kierunek;
-
-        for(Ship statek : statki)
-        {
-            while(!postawiono)
+        for (int i=0; i<liczbaStatkow.length;i++)
+            for(int j=0; j<liczbaStatkow[i];j++){
+            if(gracz instanceof HumanPlayer){
+            while (!postawiono)
             {
-                interfejs.komunikatStatek(1, statek.getSize());
+                interfejs.komunikatStatek(1, statki[i].getSize());
                 koordynaty = interfejs.getKoordynaty();
                 kierunek = interfejs.getUstawienie();
-                postawiono = gracz.placeShips(koordynaty, kierunek, statek);
-                if(!postawiono)
+                postawiono = gracz.placeShips(koordynaty, kierunek, statki[i]);
+                if (!postawiono)
                 {
-                    interfejs.komunikatStatek(3, statek.getSize());
+                    interfejs.komunikatStatek(3, statki[i].getSize());
                 }
             }
-            interfejs.komunikatStatek(2, statek.getSize());
+            interfejs.komunikatStatek(2, statki[i].getSize());
             postawiono = false;
-            interfejs.pokazTablice(gracz.board);
+            interfejs.pokazTablice(gracz.board);}
+            else{
+                interfejs.komunikatStatek(1, statki[i].getSize());
+                gracz.placeShips(statki[i]);
+            }
+
         }
         interfejs.komunikatStatek(4, 0);
+        if(gracz instanceof HumanPlayer)
         interfejs.pokazTablice(gracz.board);
     }
 
-    public void ustawianieStatkowAI(Player AI)
-    {
-        System.out.println("Computer is placing ships...");
-        for(Ship statek : statki)
-        {
-           AI.placeShips(statek);
-        }
-        System.out.println("Bot pomyslnie ustawil statki.");
-    }
 
-    public void atakAI(ComputerPlayer AI) //atakujacy gracz
-    {
-        int[] koordynaty = AI.attackEnemy(); 
-        System.out.println("Przeciwnik zaatakowal " + koordynaty[0] + " " + koordynaty[1]);
-    }
-
-    public void atakPrzeciwnik(Player atakowany) //przekazujesz przeciwnika ktorego atakuejsz
-    {
+    public void atak(Player atakujacy, Player atakowany) {
         int[] koordynaty = new int[2];
         boolean trafionoStatek = false;
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Podaj koordynaty: x y");
-        koordynaty[0] = scanner.nextInt();
-        koordynaty[1] = scanner.nextInt();
-        scanner.close();
-        
-        trafionoStatek = atakowany.makeMove(koordynaty);
-        if(trafionoStatek)
-        {
-            System.out.println("Trafiony");
-        }
-        else
-        {
-            System.out.println("Nietrafiony");
-        }
-    }
-  
-    public void atak(Player atakujacy, Player atakowany)
-    {
-        switch(wyborTrybuGry) {
-            case 1:
-                /*p1 = new HumanPlayer(board1);
-                p2 = new HumanPlayer(board2);*/
-                int[] koordynaty = new int[2];
-                boolean trafionoStatek = false;
+        switch (wyborTrybuGry) {
+            case 1: //HUMAN VS HUMAN
                 koordynaty = interfejs.getKoordynaty();
                 trafionoStatek = atakowany.makeMove(koordynaty);
-                interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
                 break;
-            case 2:
+            case 2: // HUMAN VS AI
                 if (atakujacy instanceof ComputerPlayer) {
                     koordynaty = ((ComputerPlayer) atakujacy).attackEnemy();
                     trafionoStatek = atakowany.makeMove(koordynaty);
-                    interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
-                } else{
-                    koordynaty = interfejs.getKoordynaty();
-                    trafionoStatek = atakowany.makeMove(koordynaty);
-                    interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
+                    interfejs.pokazTablice(atakowany.board);
                 }
-                /*p1 = new HumanPlayer(board1);
-                p2 = new ComputerPlayer(board2, board1, wyborTrudnosciBota());*/
+                else {
+                    koordynaty = interfejs.getKoordynaty();
+                }
                 break;
-            case 3:
+            case 3: //AI VS AI
                 koordynaty = ((ComputerPlayer) atakujacy).attackEnemy();
                 trafionoStatek = atakowany.makeMove(koordynaty);
-                interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
                 interfejs.pokazTablice(atakowany.board);
-               /* p1 = new ComputerPlayer(board1, board2, wyborTrudnosciBota());
-                p2 = new ComputerPlayer(board2, board1, wyborTrudnosciBota());*/
                 break;
             default:
                 throw new AssertionError();
         }
     }
 
-    public void atakPrzeciwnik2(Player gracz, Player oponent)
-    {
-        int[] koordynaty = new int[2];
-        boolean trafionoStatek = false;
+    // public void atakPrzeciwnik2(Player gracz, Player oponent)
+    // {
+    //     int[] koordynaty = new int[2];
+    //     boolean trafionoStatek = false;
 
-        if(gracz instanceof HumanPlayer)
-        koordynaty=interfejs.getKoordynaty();
-        else{
-        koordynaty=((ComputerPlayer)gracz).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
-        if(oponent instanceof ComputerPlayer)
-        interfejs.komunikatySymulacji();}
+    //     if(gracz instanceof HumanPlayer)
+    //     koordynaty=interfejs.getKoordynaty();
+    //     else{
+    //     koordynaty=((ComputerPlayer)gracz).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
+    //     if(oponent instanceof ComputerPlayer)
+    //     interfejs.komunikatySymulacji();}
         
-        trafionoStatek = oponent.makeMove(koordynaty);
-        interfejs.komunikatPoStrzale(trafionoStatek);
+    //     trafionoStatek = oponent.makeMove(koordynaty);
+    //     interfejs.komunikatPoStrzale(trafionoStatek);
+    //     interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
+    // }
+    
+        /*public void atakPrzeciwnik2 (Player gracz, Player oponent)
+        {
+            int[] koordynaty = new int[2];
+            boolean trafionoStatek = false;
+
+            if (gracz instanceof HumanPlayer)
+                koordynaty = interfejs.getKoordynaty();
+            else {
+                koordynaty = ((ComputerPlayer) gracz).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
+                if (oponent instanceof ComputerPlayer)
+                    interfejs.komunikatySymulacji();
+            }
+
+            trafionoStatek = oponent.makeMove(koordynaty);
+            interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
+        }*/
     }
-}

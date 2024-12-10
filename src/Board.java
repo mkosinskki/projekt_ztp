@@ -3,8 +3,9 @@ public class Board {
     private final int size;
     private Cell[][] grid;
 
-    public Board(int size) 
+    public Board(int size)
     {
+
         this.size = size;
         this.grid = new Cell[size][size];
         initializeGrid();
@@ -13,6 +14,10 @@ public class Board {
     public int getSize()
     {
         return size;
+    }
+
+    public Cell[][] getGrid() {
+        return grid;
     }
 
     public Cell getCell(int x, int y)
@@ -83,17 +88,17 @@ public class Board {
         return true;
     }
 
-    @Override
-    public String toString() 
+  //  @Override
+/*    public String toString()
     {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                sb.append(grid[i][j].containsShip() ? "S" : ".");
+                sb.append(grid[i][j].containsShip() ? shipChar : waterChar);
                 sb.append(grid[i][j].isHit() ? "X" : " ");
             }
             sb.append("\n");
         }
         return sb.toString();
-    }
+    }*/
 }
