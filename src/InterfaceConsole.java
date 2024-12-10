@@ -1,32 +1,33 @@
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
-public class InterfaceConsole extends Interface {
+public class InterfaceConsole extends Interface 
+{
+    Scanner scanner = new Scanner(System.in);
     private CustomisationConsole customisation;
     @Override
     public int menu()
     {
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         int wybor = 0;
 
         System.out.println("\nMenu uzytkownika\n");
         System.out.println("\t1) Rozpocznij nowa gre\n\t2) Sprawdz statystyki gracza\n\t3) Customizuj plansze");
         wybor = scanner.nextInt();
 
-        scanner.close();
+        // scanner.close();
         return wybor;
     }
 
     @Override
     public int wyborTrybuGry()
     {
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         int wybor;
 
         System.out.println("\n1) Gracz vs Gracz\n2)Gracz vs AI\n3) AI vs AI");
         wybor = scanner.nextInt();
 
-        scanner.close();
+        // scanner.close();
         return wybor;
     }
 
@@ -47,34 +48,35 @@ public class InterfaceConsole extends Interface {
     @Override
     public int wyborTrudnosciBota()
     {
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         int trudnosc;
 
         System.out.println("\nWybierz poziom trudności bota:\n1) Latwy\t2) Sredni\t3)Trudny");
         trudnosc = scanner.nextInt();
 
-        scanner.close();
+        // scanner.close();
         return trudnosc;
     }
 
     private int wczytajNajdluzszyStatek()
     {
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         int rozmiar;
 
         System.out.println("Podaj dlugosc najdluzszego statku");
         rozmiar = scanner.nextInt();
 
-        scanner.close();
+        // scanner.close();
         return rozmiar;
     }
 
     @Override
     public int[] wczytywanieIlosciStatkow()
     {
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         int max = wczytajNajdluzszyStatek();
         int[] ilosciStatkow = new int[max];
+        System.out.println("MAX " + max);
 
         for(int a=0; a<max; a++)
         {
@@ -82,20 +84,20 @@ public class InterfaceConsole extends Interface {
             ilosciStatkow[a] = scanner.nextInt();
         }
 
-        scanner.close();
+        // scanner.close();
         return ilosciStatkow;
     }
 
     @Override
     public String wczytajNick()
     {
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         String nick;
 
         System.out.println("Wprowadz nick gracza: "); //zrobic rozne wersje dla historii i 2 graczy i statystyk
         nick = scanner.nextLine();
 
-        scanner.close();
+        // scanner.close();
         return nick;
     }
 
@@ -103,13 +105,13 @@ public class InterfaceConsole extends Interface {
     public int[] getKoordynaty()
     {
         System.out.println("Podaj koordynaty: ");
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         int[] koordynaty = new int[2];
 
         koordynaty[0] = scanner.nextInt();
         koordynaty[1] = scanner.nextInt();
         //Dodac sprawdzanie poprawnosci koordynatow po rozmiarze planszy
-        scanner.close();
+        // scanner.close();
         return koordynaty;
     }
 
@@ -137,7 +139,7 @@ public class InterfaceConsole extends Interface {
     @Override
     public char getUstawienie()
     {
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         char ustawienie ='\0';
 
         System.out.println("Podaj znak ustawienia (poziomo/pionowo): h/v");
@@ -146,7 +148,7 @@ public class InterfaceConsole extends Interface {
         {
             ustawienie = scanner.next().charAt(0);
         }
-        scanner.close();
+        // scanner.close();
         return Character.toLowerCase(ustawienie);
     }
 
@@ -167,5 +169,21 @@ public class InterfaceConsole extends Interface {
     @Override
     public void komunikatZwyciestwo(Player Winner) {
         System.out.println("Wygral :" + Winner.toString());
+    }
+
+    @Override
+    public int wielkoscPlanszy()
+    {
+        System.out.println("Podaj wielkosc planszy");
+        int wielkosc = scanner.nextInt();
+        return wielkosc;
+    }
+
+    @Override
+    public int wyborSetupu()
+    {
+        System.out.println("\nWybierz tryb gry:\n1) Standardowy\t2) Wlasne ustawienia planszy i statkow");
+        int wybor = scanner.nextInt();
+        return wybor;
     }
 }

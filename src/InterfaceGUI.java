@@ -43,4 +43,16 @@ public class InterfaceGUI extends Interface {
     public void komunikatZwyciestwo(Player Winner) {
 
     }
+
+    @Override
+    public int wyborSetupu()
+    {
+        return 0;
+    }
+
+    @Override
+    public int wielkoscPlanszy()
+    {
+        return 0;
+    }
 }
