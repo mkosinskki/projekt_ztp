@@ -6,8 +6,10 @@ public class HumanPlayer extends Player {
     private CustomisationGUI customisationGUI;
     public HumanPlayer(String nickname, Board board) {
         super(nickname, board);
+        super.winCount = 0;
         customisationConsole.setShipChar('s');
     }
+
 
     //DODAC OPCJE USTAWIANIA RODZAJOW STATKOW I ROZMIARU PLANSZY
 

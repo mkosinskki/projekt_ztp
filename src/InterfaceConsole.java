@@ -172,6 +172,8 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
+    public void komunikatOsiagniecie(Player Zdobywający) {
+        System.out.println("achievement get"); //prototyp
     public int wielkoscPlanszy()
     {
         System.out.println("Podaj wielkosc planszy");

@@ -139,6 +139,7 @@ public class GameManagerPrototype {
                 break;
             }
         }
+        winner.addWinCount();
         interfejs.komunikatZwyciestwo(winner);
     }
 

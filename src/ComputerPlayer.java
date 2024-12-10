@@ -8,6 +8,7 @@ public class ComputerPlayer extends Player {
         super(nickname, Ownboard);
         this.strategy = strategy;
         this.PlayerBoard = PlayerBoard;
+        super.winCount = 0;
     }
 
     // @Override

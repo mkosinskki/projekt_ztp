@@ -1,11 +1,17 @@
 public abstract class Player {
     protected Board board; // Plansza gracza
     protected String nickname;
+    protected int winCount;
 
     public Player(String nickname, Board board) {
         this.nickname = nickname;
         this.board = board;
 
+    }
+
+    public void addWinCount()
+    {
+        winCount++;
     }
 
     // // Logika rozmieszczania statków
@@ -22,6 +28,6 @@ public abstract class Player {
 
     @Override
     public String toString() {
-        return nickname;
+        return nickname + " Liczba zwyciestw: " + winCount;
     }
 }

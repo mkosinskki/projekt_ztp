@@ -21,6 +21,8 @@ public abstract class Interface {
 
     public abstract void komunikatZwyciestwo(Player Winner);
 
+    public abstract void komunikatOsiagniecie(Player Zdobywający);
+
     public abstract int wyborSetupu();
 
     public abstract int wielkoscPlanszy();
