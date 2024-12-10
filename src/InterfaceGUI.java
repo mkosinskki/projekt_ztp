@@ -47,5 +47,14 @@ public class InterfaceGUI extends Interface {
     @Override
     public void komunikatOsiagniecie(Player Zdobywający) {
 
+    public int wyborSetupu()
+    {
+        return 0;
+    }
+
+    @Override
+    public int wielkoscPlanszy()
+    {
+        return 0;
     }
 }

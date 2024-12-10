@@ -1,4 +1,3 @@
-import java.util.Scanner;
 
 public class GameManagerPrototype {
     private static GameManagerPrototype instance;
@@ -27,7 +26,8 @@ public class GameManagerPrototype {
         switch (wybor) {
             case 1:
                 wyborTrybuGry = interfejs.wyborTrybuGry();
-                switch (wyborTrybuGry) {
+                switch (wyborTrybuGry) 
+                {
                     case 1:
                         p1 = new HumanPlayer(interfejs.wczytajNick(),board1);
                         gameHistory.addEvent(p1.toString(),"Wczytanie gracza", "");
@@ -80,21 +80,45 @@ public class GameManagerPrototype {
         }
     }
 
-    public void setupGame() {
-        int[] iloscStatkow = interfejs.wczytywanieIlosciStatkow();
-        //TWORZENIE STATKOW
-        if(p1 instanceof HumanPlayer) {
-            stawianieStatkow(p1);
+    public void setupGame() 
+    {
+        //POMOCNICZE DO TESTOW
+        board1 = new Board(10);
+        board2 = new Board(10);
+        p1 = new ComputerPlayer("AI Thanapat",board1, board2, new AIHard());
+        p2 = new ComputerPlayer("AI Bubbles",board2, board1, new AIEasy());
+        wyborTrybuGry = 3;
+        //KONIEC POMOCNICZE
+        int[] iloscStatkow;
+        
+        switch(interfejs.wyborSetupu()) 
+        {
+            case 1: //WYBOR STANDARDOWEGO TRYBU GRY
+                iloscStatkow = new int[]{4, 3, 2, 1};
+                board1 = new Board(10);
+                board2 = new Board(10);
+                break;
+            case 2: //WYBOR TRYBU GRY Z ROZMIAREM PLANSZY I ILOSCIA STATKOW
+                iloscStatkow = interfejs.wczytywanieIlosciStatkow();
+                int wielkoscTablicy = interfejs.wielkoscPlanszy();
+                board1 = new Board(wielkoscTablicy);
+                board2 = new Board(wielkoscTablicy);
+                break;
+            default:
+                throw new AssertionError();
         }
-        else {
-            ustawianieStatkowAI(p1);
+
+        statki = new Ship[iloscStatkow.length];
+        for(int i=0 ; i<iloscStatkow.length; i++)
+        {
+            statki[i]=new Ship(i+1);
         }
-        if(p2 instanceof HumanPlayer) {
-            stawianieStatkow(p2);
-        }
-        else {
-            ustawianieStatkowAI(p2);
-        }
+
+        stawianieStatkow(p1,iloscStatkow);
+        stawianieStatkow(p2,iloscStatkow);
+
+        //POMOCNICZE DO TESTOW
+        startGame();        
     }
 
     public void startGame() {
@@ -119,40 +143,36 @@ public class GameManagerPrototype {
         interfejs.komunikatZwyciestwo(winner);
     }
 
-    private void stawianieStatkow(Player gracz) {
+    private void stawianieStatkow(Player gracz, int[] liczbaStatkow) {
         boolean postawiono = false;
         int[] koordynaty;
         char kierunek;
-
-        for (Ship statek : statki)
-        {
+        for (int i=0; i<liczbaStatkow.length;i++)
+            for(int j=0; j<liczbaStatkow[i];j++){
+            if(gracz instanceof HumanPlayer){
             while (!postawiono)
             {
-                interfejs.komunikatStatek(1, statek.getSize());
+                interfejs.komunikatStatek(1, statki[i].getSize());
                 koordynaty = interfejs.getKoordynaty();
                 kierunek = interfejs.getUstawienie();
-                postawiono = gracz.placeShips(koordynaty, kierunek, statek);
+                postawiono = gracz.placeShips(koordynaty, kierunek, statki[i]);
                 if (!postawiono)
                 {
-                    interfejs.komunikatStatek(3, statek.getSize());
+                    interfejs.komunikatStatek(3, statki[i].getSize());
                 }
             }
-            interfejs.komunikatStatek(2, statek.getSize());
+            interfejs.komunikatStatek(2, statki[i].getSize());
             postawiono = false;
-            interfejs.pokazTablice(gracz.board);
+            interfejs.pokazTablice(gracz.board);}
+            else{
+                interfejs.komunikatStatek(1, statki[i].getSize());
+                gracz.placeShips(statki[i]);
+            }
+
         }
         interfejs.komunikatStatek(4, 0);
+        if(gracz instanceof HumanPlayer)
         interfejs.pokazTablice(gracz.board);
-    }
-
-    public void ustawianieStatkowAI(Player AI) {
-
-        for (Ship statek : statki)
-        {
-            interfejs.komunikatStatek(1, statek.getSize());
-            AI.placeShips(statek);
-        }
-        interfejs.komunikatStatek(4,0);
     }
 
 
@@ -183,8 +203,25 @@ public class GameManagerPrototype {
             default:
                 throw new AssertionError();
         }
-        interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
     }
+
+    // public void atakPrzeciwnik2(Player gracz, Player oponent)
+    // {
+    //     int[] koordynaty = new int[2];
+    //     boolean trafionoStatek = false;
+
+    //     if(gracz instanceof HumanPlayer)
+    //     koordynaty=interfejs.getKoordynaty();
+    //     else{
+    //     koordynaty=((ComputerPlayer)gracz).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
+    //     if(oponent instanceof ComputerPlayer)
+    //     interfejs.komunikatySymulacji();}
+        
+    //     trafionoStatek = oponent.makeMove(koordynaty);
+    //     interfejs.komunikatPoStrzale(trafionoStatek);
+    //     interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
+    // }
+    
         /*public void atakPrzeciwnik2 (Player gracz, Player oponent)
         {
             int[] koordynaty = new int[2];

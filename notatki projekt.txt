@@ -1,3 +1,11 @@
-1) Dodać tworzenie statków (Za każdym razem tworzyć statki rozmiaru 1,2,3,4), klonować je w odpowiedniej ilości i przekazywać do gameManagera celem ustawiania ich przez graczy (Jest wzorzec na to, który tworzy obiekty a potem tworzy ich kopie głębokie).
+3) dokończyć historie
+
 
 2) Dodać liste playerow i klonowanie playerow jesli maja ten sam nickname (ewentualnie jakis login i haslo)
+
+4) statystyki 
+
+6) Customizacja wyglądu
+
+7) Odblokowywanie nowej zawartości
+
