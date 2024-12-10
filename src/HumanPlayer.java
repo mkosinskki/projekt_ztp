@@ -1,11 +1,12 @@
 import java.util.Scanner;
 
 public class HumanPlayer extends Player {
-    private Scanner scanner;
 
-    public HumanPlayer(Board board) {
-        super(board);
-        this.scanner = new Scanner(System.in);
+    private CustomisationConsole customisationConsole;
+    private CustomisationGUI customisationGUI;
+    public HumanPlayer(String nickname, Board board) {
+        super(nickname, board);
+        customisationConsole.setShipChar('s');
     }
 
     //DODAC OPCJE USTAWIANIA RODZAJOW STATKOW I ROZMIARU PLANSZY
@@ -49,7 +50,7 @@ public class HumanPlayer extends Player {
     // }
 
     @Override
-    public boolean placeShips(int tab[], char direction, Ship statek) 
+    public boolean placeShips(int tab[], char direction, Ship statek)
     {
         int startX = tab[0];
         int startY = tab[1];
@@ -78,5 +79,10 @@ public class HumanPlayer extends Player {
             return true; //trafiono w statek
         }
         return false; //nie trafiono w statek
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

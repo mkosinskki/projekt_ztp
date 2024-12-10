@@ -1,3 +1,4 @@
+/*
 import java.awt.*;
 import javax.swing.*;
 
@@ -47,4 +48,4 @@ public class GameScreen extends JFrame {
 
         return panel;
     }
-}
+}*/

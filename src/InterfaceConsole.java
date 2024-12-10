@@ -2,7 +2,7 @@ import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class InterfaceConsole extends Interface {
-    
+    private CustomisationConsole customisation;
     @Override
     public int menu()
     {
@@ -33,6 +33,14 @@ public class InterfaceConsole extends Interface {
     @Override
     public void pokazTablice(Board tablicaGracza)
     {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < tablicaGracza.getSize(); i++) {
+            for (int j = 0; j < tablicaGracza.getSize(); j++) {
+                sb.append(tablicaGracza.getGrid()[i][j].containsShip() ? customisation.getShipChar() : customisation.getWaterChar());
+                sb.append(tablicaGracza.getGrid()[i][j].isHit() ? "X" : " ");
+            }
+            sb.append("\n");
+        }
         System.out.println(tablicaGracza);
     }
 
@@ -84,7 +92,7 @@ public class InterfaceConsole extends Interface {
         Scanner scanner = new Scanner(System.in);
         String nick;
 
-        System.out.println("Wprowadz nick gracza ktorego statystyki chcesz sprawdzic.");
+        System.out.println("Wprowadz nick gracza: "); //zrobic rozne wersje dla historii i 2 graczy i statystyk
         nick = scanner.nextLine();
 
         scanner.close();
@@ -154,5 +162,10 @@ public class InterfaceConsole extends Interface {
         {
             System.out.println("Nietrafiono w statek przeciwnika");
         }
+    }
+
+    @Override
+    public void komunikatZwyciestwo(Player Winner) {
+        System.out.println("Wygral :" + Winner.toString());
     }
 }
