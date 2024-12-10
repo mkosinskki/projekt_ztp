@@ -27,6 +27,8 @@ public class PlayerList {
             }
         }
         //w innym wypadku zostaje utworzony nowy player
-        return new HumanPlayer(nickname, new Board(8));
+        HumanPlayer gracz = new HumanPlayer(nickname, new Board(8)); // jeszcze do zmiany ten board ale to luz
+        playerList.add(gracz);
+        return gracz;
     }
 }
