@@ -11,7 +11,8 @@ public class CustomisationConsole{
             customs.put(nick, new CustomisationConsole());
         return customs.get(nick);
     }
-    private CustomisationConsole(){
+    private CustomisationConsole()
+    {
         shipChar='S';
         waterChar='.';
     }

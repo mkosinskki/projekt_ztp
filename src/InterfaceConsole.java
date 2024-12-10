@@ -172,8 +172,12 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
-    public void komunikatOsiagniecie(Player Zdobywający) {
+    public void komunikatOsiagniecie(Player Zdobywający) 
+    {
         System.out.println("achievement get"); //prototyp
+    }
+
+    @Override
     public int wielkoscPlanszy()
     {
         System.out.println("Podaj wielkosc planszy");
@@ -190,27 +194,28 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
-    public void customisationMenu(){
+    public void customisationMenu()
+    {
         CustomisationConsole customisation=CustomisationConsole.getInstance(wczytajNick());
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         String pomocniczy;
-        Boolean menu=true;
-        while(menu){
-        System.out.println("Wybierz opcje:\n\t0: Personalizuj statek\n\t1: Personalizuj wode\n\tKazdy inny znak: Wyjdz");
-        switch(scanner.next()){
-            case "0":
-                System.out.println("Podaj znak, ktory ustawic jako statek");
-                customisation.setShip(scanner.next().charAt(0));
-                break;
-            case "1":
-                System.out.println("Podaj znak, ktory ustawic jako wode");
-                customisation.setWater(scanner.next().charAt(0));
-                break;
-            
-            default: menu=false;
+        Boolean menu = true;
+        while(menu)
+        {
+            System.out.println("Wybierz opcje:\n\t0: Personalizuj statek\n\t1: Personalizuj wode\n\tKazdy inny znak: Wyjdz");
+            switch(scanner.next())
+            {
+                case "0":
+                    System.out.println("Podaj znak, ktory ustawic jako statek");
+                    customisation.setShip(scanner.next().charAt(0));
+                    break;
+                case "1":
+                    System.out.println("Podaj znak, ktory ustawic jako wode");
+                    customisation.setWater(scanner.next().charAt(0));
+                    break;
+                default: menu=false;
+            }
         }
-        }
-        ;
     }
 
     

@@ -90,6 +90,9 @@ public class GameManagerPrototype {
         p2 = new ComputerPlayer("AI Bubbles",board2, board1, new AIEasy());
         wyborTrybuGry = 3;
         //KONIEC POMOCNICZE
+
+        interfejs.customisationMenu();
+
         int[] iloscStatkow;
         
         switch(interfejs.wyborSetupu()) 
