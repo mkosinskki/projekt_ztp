@@ -56,6 +56,7 @@ public class GameManagerPrototype {
                 //IMPLEMENTACJA STATYSTYK I ICH WYPISYWANIA DLA DANEGO NICKNAME'U
                 break;
             case 3:
+                interfejs.customisationMenu();
                 //DO IMPLEMENTACJI CUSTOMIZACJA PLANSZY (W TYM WYPADKU ZMIANA ZNAKOW STATKOW LUB WODY)
                 break;
             case 4:
@@ -163,7 +164,7 @@ public class GameManagerPrototype {
             }
             interfejs.komunikatStatek(2, statki[i].getSize());
             postawiono = false;
-            interfejs.pokazTablice(gracz.board);}
+            interfejs.pokazTablice(gracz);}
             else{
                 interfejs.komunikatStatek(1, statki[i].getSize());
                 gracz.placeShips(statki[i]);
@@ -172,7 +173,7 @@ public class GameManagerPrototype {
         }
         interfejs.komunikatStatek(4, 0);
         if(gracz instanceof HumanPlayer)
-        interfejs.pokazTablice(gracz.board);
+        interfejs.pokazTablice(gracz);
     }
 
 
@@ -189,7 +190,7 @@ public class GameManagerPrototype {
                 if (atakujacy instanceof ComputerPlayer) {
                     koordynaty = ((ComputerPlayer) atakujacy).attackEnemy();
                     trafionoStatek = atakowany.makeMove(koordynaty);
-                    interfejs.pokazTablice(atakowany.board);
+                    interfejs.pokazTablice(atakowany);
                 }
                 else {
                     koordynaty = interfejs.getKoordynaty();
@@ -198,7 +199,7 @@ public class GameManagerPrototype {
             case 3: //AI VS AI
                 koordynaty = ((ComputerPlayer) atakujacy).attackEnemy();
                 trafionoStatek = atakowany.makeMove(koordynaty);
-                interfejs.pokazTablice(atakowany.board);
+                interfejs.pokazTablice(atakowany);
                 break;
             default:
                 throw new AssertionError();

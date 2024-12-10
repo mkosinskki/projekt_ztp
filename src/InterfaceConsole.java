@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class InterfaceConsole extends Interface 
 {
     Scanner scanner = new Scanner(System.in);
-    private CustomisationConsole customisation;
     @Override
     public int menu()
     {
@@ -32,17 +31,18 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
-    public void pokazTablice(Board tablicaGracza)
+    public void pokazTablice(Player gracz)
     {
+        CustomisationConsole customisation = CustomisationConsole.getInstance(gracz.nickname);
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < tablicaGracza.getSize(); i++) {
-            for (int j = 0; j < tablicaGracza.getSize(); j++) {
-                sb.append(tablicaGracza.getGrid()[i][j].containsShip() ? customisation.getShipChar() : customisation.getWaterChar());
-                sb.append(tablicaGracza.getGrid()[i][j].isHit() ? "X" : " ");
+        for (int i = 0; i < gracz.board.getSize(); i++) {
+            for (int j = 0; j < gracz.board.getSize(); j++) {
+                sb.append(gracz.board.getGrid()[i][j].containsShip() ? customisation.getShip() : customisation.getWater());
+                sb.append(gracz.board.getGrid()[i][j].isHit() ? "X" : " ");
             }
             sb.append("\n");
         }
-        System.out.println(tablicaGracza);
+        System.out.println(sb.toString());
     }
 
     @Override
@@ -188,4 +188,30 @@ public class InterfaceConsole extends Interface
         int wybor = scanner.nextInt();
         return wybor;
     }
+
+    @Override
+    public void customisationMenu(){
+        CustomisationConsole customisation=CustomisationConsole.getInstance(wczytajNick());
+        Scanner scanner = new Scanner(System.in);
+        String pomocniczy;
+        Boolean menu=true;
+        while(menu){
+        System.out.println("Wybierz opcje:\n\t0: Personalizuj statek\n\t1: Personalizuj wode\n\tKazdy inny znak: Wyjdz");
+        switch(scanner.next()){
+            case "0":
+                System.out.println("Podaj znak, ktory ustawic jako statek");
+                customisation.setShip(scanner.next().charAt(0));
+                break;
+            case "1":
+                System.out.println("Podaj znak, ktory ustawic jako wode");
+                customisation.setWater(scanner.next().charAt(0));
+                break;
+            
+            default: menu=false;
+        }
+        }
+        ;
+    }
+
+    
 }

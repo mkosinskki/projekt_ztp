@@ -34,7 +34,7 @@ public class InterfaceGUI extends Interface {
     }
 
     @Override
-    public void pokazTablice(Board tablicaGracza){}
+    public void pokazTablice(Player gracz){}
 
     @Override
     public void komunikatStatek(int komunikat, int dlugoscStatku){}
@@ -56,5 +56,10 @@ public class InterfaceGUI extends Interface {
     public int wielkoscPlanszy()
     {
         return 0;
+    }
+    
+    @Override
+    public void customisationMenu(){
+        
     }
 }

@@ -3,11 +3,9 @@ import java.util.Scanner;
 public class HumanPlayer extends Player {
 
     private CustomisationConsole customisationConsole;
-    private CustomisationGUI customisationGUI;
     public HumanPlayer(String nickname, Board board) {
         super(nickname, board);
         super.winCount = 0;
-        customisationConsole.setShipChar('s');
     }
 
 

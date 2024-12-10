@@ -15,7 +15,7 @@ public abstract class Interface {
 
     public abstract int wyborTrudnosciBota();
 
-    public abstract void pokazTablice(Board tablicaGracza);
+    public abstract void pokazTablice(Player gracz);
 
     public abstract void komunikatStatek(int komunikat, int dlugoscStatku);
 
@@ -26,4 +26,6 @@ public abstract class Interface {
     public abstract int wyborSetupu();
 
     public abstract int wielkoscPlanszy();
+
+    public abstract void customisationMenu();
 }
