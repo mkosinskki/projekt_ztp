@@ -3,9 +3,8 @@ public abstract class Player {
     protected String nickname;
     protected int winCount;
 
-    public Player(String nickname, Board board) {
+    public Player(String nickname) {
         this.nickname = nickname;
-        this.board = board;
 
     }
 
@@ -25,6 +24,8 @@ public abstract class Player {
     public abstract boolean placeShips(Ship Statek);
     // Logika wykonywania ruchu
     public abstract boolean makeMove(int koordynaty[]); // Zwraca współrzędne [x, y]
+
+    public abstract void setBoard(Board board);
 
     @Override
     public String toString() {

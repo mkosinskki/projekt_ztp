@@ -6,10 +6,12 @@ public class GameManagerPrototype {
     private Ship[] statki;
     private Interface interfejs;
     private GameHistory gameHistory;
+    private PlayerList playerList;
     private int wyborTrybuGry;
 
     private GameManagerPrototype(Interface interfejs) {
         gameHistory = new GameHistory();
+        playerList = new PlayerList();
         this.interfejs = interfejs;
     }
 
@@ -29,22 +31,24 @@ public class GameManagerPrototype {
                 switch (wyborTrybuGry) 
                 {
                     case 1:
-                        p1 = new HumanPlayer(interfejs.wczytajNick(),board1);
-                        gameHistory.addEvent(p1.toString(),"Wczytanie gracza", "");
-                        p2 = new HumanPlayer(interfejs.wczytajNick(), board2);
-                        gameHistory.addEvent(p2.toString(),"Wczytanie gracza", "");
+                        String nick1 = interfejs.wczytajNick();
+                        p1 = playerList.logowanie(nick1,"kkk");
+                        //p1 = new HumanPlayer(interfejs.wczytajNick());
+                        //gameHistory.addEvent(p1.toString(),"Wczytanie gracza", "");
+                        //p2 = new HumanPlayer(interfejs.wczytajNick());
+                        //gameHistory.addEvent(p2.toString(),"Wczytanie gracza", "");
                         break;
                     case 2:
-                        p1 = new HumanPlayer(interfejs.wczytajNick(), board1);
-                        gameHistory.addEvent(p1.toString(),"Wczytanie gracza", "");
-                        p2 = new ComputerPlayer("AI Shaniqua",board2, board1, wyborTrudnosciBota());
-                        gameHistory.addEvent("AI Shaniqua","Wczytanie AI", "");
+                        p1 = new HumanPlayer(interfejs.wczytajNick());
+                        //gameHistory.addEvent(p1.toString(),"Wczytanie gracza", "");
+                        p2 = new ComputerPlayer("AI Shaniqua", wyborTrudnosciBota());
+                        //gameHistory.addEvent("AI Shaniqua","Wczytanie AI", "");
                         break;
                     case 3:
-                        p1 = new ComputerPlayer("AI Thanapat",board1, board2, wyborTrudnosciBota());
-                        gameHistory.addEvent("AI Thanapat","Wczytanie AI", "");
-                        p2 = new ComputerPlayer("AI Bubbles",board2, board1, wyborTrudnosciBota());
-                        gameHistory.addEvent("AI Bubbles","Wczytanie AI", "");
+                        p1 = new ComputerPlayer("AI Thanapat", wyborTrudnosciBota());
+                        //gameHistory.addEvent("AI Thanapat","Wczytanie AI", "");
+                        p2 = new ComputerPlayer("AI Bubbles", wyborTrudnosciBota());
+                        //gameHistory.addEvent("AI Bubbles","Wczytanie AI", "");
                         break;
                     default:
                         throw new AssertionError();
@@ -86,12 +90,12 @@ public class GameManagerPrototype {
         //POMOCNICZE DO TESTOW
         board1 = new Board(10);
         board2 = new Board(10);
-        p1 = new ComputerPlayer("AI Thanapat",board1, board2, new AIHard());
-        p2 = new ComputerPlayer("AI Bubbles",board2, board1, new AIEasy());
+        p1 = new ComputerPlayer("AI Thanapat", new AIHard());
+        p2 = new ComputerPlayer("AI Bubbles", new AIEasy());
         wyborTrybuGry = 3;
         //KONIEC POMOCNICZE
 
-        interfejs.customisationMenu();
+        //interfejs.customisationMenu();
 
         int[] iloscStatkow;
         
@@ -100,13 +104,25 @@ public class GameManagerPrototype {
             case 1: //WYBOR STANDARDOWEGO TRYBU GRY
                 iloscStatkow = new int[]{4, 3, 2, 1};
                 board1 = new Board(10);
+                p1.setBoard(board1);
                 board2 = new Board(10);
+                p2.setBoard(board2);
+                if(p1 instanceof ComputerPlayer)
+                    ((ComputerPlayer) p1).setPlayerBoard(board2);
+                if(p2 instanceof ComputerPlayer)
+                    ((ComputerPlayer) p2).setPlayerBoard(board1);
                 break;
             case 2: //WYBOR TRYBU GRY Z ROZMIAREM PLANSZY I ILOSCIA STATKOW
                 iloscStatkow = interfejs.wczytywanieIlosciStatkow();
                 int wielkoscTablicy = interfejs.wielkoscPlanszy();
                 board1 = new Board(wielkoscTablicy);
+                p1.setBoard(board1);
                 board2 = new Board(wielkoscTablicy);
+                p2.setBoard(board2);
+                if(p1 instanceof ComputerPlayer)
+                    ((ComputerPlayer) p1).setPlayerBoard(board2);
+                if(p2 instanceof ComputerPlayer)
+                    ((ComputerPlayer) p2).setPlayerBoard(board1);
                 break;
             default:
                 throw new AssertionError();

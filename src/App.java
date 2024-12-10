@@ -5,6 +5,7 @@ public class App {
         // GameManager.getInstance(null).startGame();
 
         InterfaceConsole konsola = new InterfaceConsole();
-        GameManagerPrototype.getInstance(konsola).setupGame();
+        //GameManagerPrototype.getInstance(konsola).setupGame();
+        GameManagerPrototype.getInstance(konsola).przedGra();
     }
 }

@@ -4,13 +4,20 @@ public class ComputerPlayer extends Player {
     private AIStrategy strategy;
     private Board PlayerBoard;
 
-    public ComputerPlayer( String nickname, Board Ownboard, Board PlayerBoard, AIStrategy strategy) {
-        super(nickname, Ownboard);
+    public ComputerPlayer( String nickname, AIStrategy strategy) {
+        super(nickname);
         this.strategy = strategy;
-        this.PlayerBoard = PlayerBoard;
         super.winCount = 0;
     }
 
+    @Override
+    public void setBoard(Board board) {
+        super.board = board;
+    }
+
+    public void setPlayerBoard(Board playerBoard) {
+        PlayerBoard = playerBoard;
+    }
     // @Override
     // public void placeShips() {
     //     System.out.println("Computer is placing ships...");
