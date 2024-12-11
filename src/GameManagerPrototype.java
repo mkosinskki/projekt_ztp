@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class GameManagerPrototype {
     private static GameManagerPrototype instance;
@@ -28,31 +30,44 @@ public class GameManagerPrototype {
         switch (wybor) {
             case 1:
                 wyborTrybuGry = interfejs.wyborTrybuGry();
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
+                String formattedDate = now.format(formatter);
+                gameHistory.setDate(formattedDate);
                 switch (wyborTrybuGry) 
                 {
                     case 1:
+                        gameHistory.setGameMode("Gracz vs Gracz");
+
                         String nick1 = interfejs.wczytajNick();
                         p1 = playerList.logowanie(nick1,"kkk");
                         interfejs.komunikatLogowanie(p1.nickname);
+                        gameHistory.setPlayer1(nick1);
+
                         String nick2 = interfejs.wczytajNick();
                         p2 = playerList.logowanie(nick2,"kkk");
                         interfejs.komunikatLogowanie(p2.nickname);
-                        //p1 = new HumanPlayer(interfejs.wczytajNick());
-                        //gameHistory.addEvent(p1.toString(),"Wczytanie gracza", "");
-                        //p2 = new HumanPlayer(interfejs.wczytajNick());
-                        //gameHistory.addEvent(p2.toString(),"Wczytanie gracza", "");
+                        gameHistory.setPlayer2(nick2);
+
+                        gameHistory.saveToFile("History.txt");
                         break;
                     case 2:
+                        gameHistory.setGameMode("Gracz vs AI");
                         p1 = new HumanPlayer(interfejs.wczytajNick());
-                        //gameHistory.addEvent(p1.toString(),"Wczytanie gracza", "");
+                        gameHistory.setPlayer1(p1.nickname);
+
                         p2 = new ComputerPlayer("AI Shaniqua", wyborTrudnosciBota());
-                        //gameHistory.addEvent("AI Shaniqua","Wczytanie AI", "");
+                        gameHistory.setPlayer2("AI Shaniqua");
                         break;
                     case 3:
+                        gameHistory.setGameMode("Tryb symulacji");
+
                         p1 = new ComputerPlayer("AI Thanapat", wyborTrudnosciBota());
-                        //gameHistory.addEvent("AI Thanapat","Wczytanie AI", "");
+                        gameHistory.setPlayer1("AI Thanapat");
+
                         p2 = new ComputerPlayer("AI Bubbles", wyborTrudnosciBota());
-                        //gameHistory.addEvent("AI Bubbles","Wczytanie AI", "");
+                        gameHistory.setPlayer2("AI Bubbles");
+
                         break;
                     default:
                         throw new AssertionError();
@@ -154,6 +169,7 @@ public class GameManagerPrototype {
         Player winner = null;
         while (!GameOver) {
             atak(p1, p2);
+            //gameHistory.addEvent(new Event(p1.nickname, "Atakuje", ""));
             GameOver = p2.board.areAllShipsSunk();
             if(GameOver){
                 winner = p1;
@@ -161,14 +177,17 @@ public class GameManagerPrototype {
             }
 
             atak(p2, p1);
+            //gameHistory.addEvent(new Event(p1.nickname, "Atakuje", ""));
             GameOver = p1.board.areAllShipsSunk();
             if(GameOver){
                 winner = p2;
                 break;
             }
         }
+        gameHistory.setWinner(winner.nickname);
         winner.addWinCount();
         interfejs.komunikatZwyciestwo(winner);
+        gameHistory.saveToFile("History.txt");
     }
 
     private void stawianieStatkow(Player gracz, int[] liczbaStatkow) {

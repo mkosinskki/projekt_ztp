@@ -1,0 +1,6 @@
+Game Mode: Tryb symulacji
+Date: 11.12.2024, 09:39
+Players:
+  - Player 1: AI Thanapat
+  - Player 2: AI Bubbles
+Winner: AI Bubbles
