@@ -65,4 +65,10 @@ public class InterfaceGUI extends Interface {
     {
         
     }
+
+    @Override
+    public void komunikatLogowanie(String nick)
+    {
+        
+    }
 }
