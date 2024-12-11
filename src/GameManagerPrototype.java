@@ -24,10 +24,23 @@ public class GameManagerPrototype {
         return instance;
     }
 
-    public void przedGra() {
+    public void aplikacja()
+    {
+        while(true)
+        {
+            przedGra();
+            setupGame();
+            startGame();
+            gameHistory.saveToFile("History.txt");
+        }
+    }
+
+    public void przedGra() 
+    {
         int wybor;
         wybor = interfejs.menu();
-        switch (wybor) {
+        switch (wybor) 
+        {
             case 1:
                 wyborTrybuGry = interfejs.wyborTrybuGry();
                 LocalDateTime now = LocalDateTime.now();
@@ -48,8 +61,6 @@ public class GameManagerPrototype {
                         p2 = playerList.logowanie(nick2,"kkk");
                         interfejs.komunikatLogowanie(p2.nickname);
                         gameHistory.setPlayer2(nick2);
-
-                        gameHistory.saveToFile("History.txt");
                         break;
                     case 2:
                         gameHistory.setGameMode("Gracz vs AI");
@@ -90,9 +101,11 @@ public class GameManagerPrototype {
         }
     }
 
-    public AIStrategy wyborTrudnosciBota() {
+    public AIStrategy wyborTrudnosciBota() 
+    {
         int trudnosc = interfejs.wyborTrudnosciBota();
-        switch (trudnosc) {
+        switch (trudnosc) 
+        {
             case 1:
                 return new AIEasy();
             // case 2:
@@ -164,7 +177,8 @@ public class GameManagerPrototype {
         startGame();        
     }
 
-    public void startGame() {
+    public void startGame() 
+    {
         boolean GameOver = false;
         Player winner = null;
         while (!GameOver) {
@@ -187,7 +201,7 @@ public class GameManagerPrototype {
         gameHistory.setWinner(winner.nickname);
         winner.addWinCount();
         interfejs.komunikatZwyciestwo(winner);
-        gameHistory.saveToFile("History.txt");
+        playerList.updateWins(winner);
     }
 
     private void stawianieStatkow(Player gracz, int[] liczbaStatkow) {
@@ -231,12 +245,14 @@ public class GameManagerPrototype {
             case 1: //HUMAN VS HUMAN
                 koordynaty = interfejs.getKoordynaty();
                 trafionoStatek = atakowany.makeMove(koordynaty);
+                gameHistory.addEvent(new Event(atakujacy.nickname, " zaatakowal gracza " + atakowany.nickname, "Strzal w pole x: " + koordynaty[0] + " y: " + koordynaty[1]));
                 break;
             case 2: // HUMAN VS AI
                 if (atakujacy instanceof ComputerPlayer) {
                     koordynaty = ((ComputerPlayer) atakujacy).attackEnemy();
                     trafionoStatek = atakowany.makeMove(koordynaty);
                     interfejs.pokazTablice(atakowany);
+                    gameHistory.addEvent(new Event(atakujacy.nickname, " zaatakowal gracza " + atakowany.nickname, "Strzal w pole x: " + koordynaty[0] + " y: " + koordynaty[1]));
                 }
                 else {
                     koordynaty = interfejs.getKoordynaty();
@@ -246,6 +262,7 @@ public class GameManagerPrototype {
                 koordynaty = ((ComputerPlayer) atakujacy).attackEnemy();
                 trafionoStatek = atakowany.makeMove(koordynaty);
                 interfejs.pokazTablice(atakowany);
+                gameHistory.addEvent(new Event(atakujacy.nickname, " zaatakowal gracza " + atakowany.nickname, "Strzal w pole x: " + koordynaty[0] + " y: " + koordynaty[1]));
                 break;
             default:
                 throw new AssertionError();

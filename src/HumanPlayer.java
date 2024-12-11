@@ -1,4 +1,3 @@
-import java.util.Scanner;
 
 public class HumanPlayer extends Player {
 
@@ -8,7 +7,10 @@ public class HumanPlayer extends Player {
         super.winCount = 0;
     }
 
-
+    public void setWins(int wins)
+    {
+        super.winCount = wins;
+    }
     //DODAC OPCJE USTAWIANIA RODZAJOW STATKOW I ROZMIARU PLANSZY
 
     // @Override
