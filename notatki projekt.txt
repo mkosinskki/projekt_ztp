@@ -1,11 +1,6 @@
 3) dokończyć historie
 
-
-2) Dodać liste playerow i klonowanie playerow jesli maja ten sam nickname (ewentualnie jakis login i haslo)
-
 4) statystyki 
-
-6) Customizacja wyglądu
 
 7) Odblokowywanie nowej zawartości
 

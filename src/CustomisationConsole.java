@@ -6,9 +6,12 @@ public class CustomisationConsole{
     private char shipChar;
     private static Dictionary<String,CustomisationConsole> customs = new Hashtable<>();
 
-    public static CustomisationConsole getInstance(String nick){
+    public static CustomisationConsole getInstance(String nick)
+    {
         if(customs.get(nick) == null)
+        {
             customs.put(nick, new CustomisationConsole());
+        }
         return customs.get(nick);
     }
     private CustomisationConsole()

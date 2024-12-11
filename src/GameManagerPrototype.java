@@ -33,6 +33,10 @@ public class GameManagerPrototype {
                     case 1:
                         String nick1 = interfejs.wczytajNick();
                         p1 = playerList.logowanie(nick1,"kkk");
+                        interfejs.komunikatLogowanie(p1.nickname);
+                        String nick2 = interfejs.wczytajNick();
+                        p2 = playerList.logowanie(nick2,"kkk");
+                        interfejs.komunikatLogowanie(p2.nickname);
                         //p1 = new HumanPlayer(interfejs.wczytajNick());
                         //gameHistory.addEvent(p1.toString(),"Wczytanie gracza", "");
                         //p2 = new HumanPlayer(interfejs.wczytajNick());
@@ -88,11 +92,11 @@ public class GameManagerPrototype {
     public void setupGame() 
     {
         //POMOCNICZE DO TESTOW
-        board1 = new Board(10);
-        board2 = new Board(10);
-        p1 = new ComputerPlayer("AI Thanapat", new AIHard());
-        p2 = new ComputerPlayer("AI Bubbles", new AIEasy());
-        wyborTrybuGry = 3;
+        // board1 = new Board(10);
+        // board2 = new Board(10);
+        // p1 = new ComputerPlayer("AI Thanapat", new AIHard());
+        // p2 = new ComputerPlayer("AI Bubbles", new AIEasy());
+        // wyborTrybuGry = 3;
         //KONIEC POMOCNICZE
 
         //interfejs.customisationMenu();
@@ -120,9 +124,13 @@ public class GameManagerPrototype {
                 board2 = new Board(wielkoscTablicy);
                 p2.setBoard(board2);
                 if(p1 instanceof ComputerPlayer)
+                {
                     ((ComputerPlayer) p1).setPlayerBoard(board2);
+                }
                 if(p2 instanceof ComputerPlayer)
+                {
                     ((ComputerPlayer) p2).setPlayerBoard(board1);
+                }
                 break;
             default:
                 throw new AssertionError();

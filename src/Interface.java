@@ -28,4 +28,6 @@ public abstract class Interface {
     public abstract int wielkoscPlanszy();
 
     public abstract void customisationMenu();
+
+    public abstract void komunikatLogowanie(String nick);
 }
