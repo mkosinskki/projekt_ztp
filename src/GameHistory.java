@@ -3,10 +3,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
-    private List<Event> events; // Lista zdarzeń w grze
+    private List<Event> events = new ArrayList<>(); // Lista zdarzeń w grze
     private String gameMode; // Tryb gry (np. "Standard", "Simulation")
     private String date; // Data rozegrania gry
     private String winner; // Zwycięzca (np. "Player 1")
@@ -34,7 +35,8 @@ public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
     }
 
     public GameHistory addEvent(Event event) {
-        this.events.add(event);
+        //this.events.add(event);
+        events.add(event);
         return this;
     }
 
@@ -48,7 +50,8 @@ public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
     }
 
     // Dodawanie zdarzenia do historii
-    public void addEvent(String player, String action, String details) {
+    public void addEvent(String player, String action, String details) 
+    {
         events.add(new Event(player, action, details));
     }
 
@@ -78,8 +81,9 @@ public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
 
     // Zapis historii gry do pliku tekstowego
     public void saveToFile(String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.write(exportHistory());
+            writer.write("\n\n\n");
             System.out.println("Game history saved to " + filePath);
         } catch (IOException e) {
             System.err.println("Error saving game history: " + e.getMessage());
