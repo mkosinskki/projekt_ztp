@@ -76,7 +76,7 @@ public class PlayerList {
 
             // Wzorzec dla linii gracza
             Pattern pattern = Pattern.compile(
-                    "Nick: (.*?), Ilosc zwyciestw: (\\d+), Osiagniecia: (.+)"
+                    "Nick: (.*?), Ilosc zwyciestw: (\\d+), Osiagniecia: (.*)"
             );
 
             for (String line : lines) {
@@ -84,17 +84,19 @@ public class PlayerList {
                 if (matcher.find()) {
                     String nick = matcher.group(1);
                     int wins = Integer.parseInt(matcher.group(2));
-                    String achievementsRaw = matcher.group(3);
+                    String achievementsRaw = matcher.group(3).trim();
 
                     // Tworzenie HashMap dla osiągnięć
                     HashMap<Integer, String> achievements = new HashMap<>();
-                    Pattern achievementPattern = Pattern.compile("(\\d+) \"([^\"]+)\"");
-                    Matcher achievementMatcher = achievementPattern.matcher(achievementsRaw);
+                    if (!achievementsRaw.isEmpty()) {
+                        Pattern achievementPattern = Pattern.compile("(\\d+) \"([^\"]+)\"");
+                        Matcher achievementMatcher = achievementPattern.matcher(achievementsRaw);
 
-                    while (achievementMatcher.find()) {
-                        int id = Integer.parseInt(achievementMatcher.group(1));
-                        String description = achievementMatcher.group(2);
-                        achievements.put(id, description);
+                        while (achievementMatcher.find()) {
+                            int id = Integer.parseInt(achievementMatcher.group(1));
+                            String description = achievementMatcher.group(2);
+                            achievements.put(id, description);
+                        }
                     }
 
                     // Tworzenie obiektu HumanPlayer
@@ -102,10 +104,15 @@ public class PlayerList {
                     pom.setWins(wins);
                     pom.setAchievementList(achievements);
                     playerList.add(pom);
+                    System.out.println("TO STRING PLAYER: " + pom.toString());
                 }
             }
 
             System.out.println("Gracze wczytani poprawnie.");
+            for (HumanPlayer player : playerList) 
+            {
+                System.out.println(player);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
