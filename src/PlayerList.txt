@@ -1,2 +1,4 @@
-Nick: chuj, Ilosc zwyciestw: 1
-Nick: cipa, Ilosc zwyciestw: 0
+Nick: ala, Ilosc zwyciestw: 1, Osiagniecia: 1 "jestes Bogiem",
+Nick: ma, Ilosc zwyciestw: 0, Osiagniecia: 
+Nick: ma, Ilosc zwyciestw: 1, Osiagniecia: 1 "jestes Bogiem",
+Nick: ma, Ilosc zwyciestw: 0, Osiagniecia: 

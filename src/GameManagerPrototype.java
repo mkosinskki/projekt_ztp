@@ -1,5 +1,7 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
 
 public class GameManagerPrototype {
     private static GameManagerPrototype instance;
@@ -10,11 +12,16 @@ public class GameManagerPrototype {
     private GameHistory gameHistory;
     private PlayerList playerList;
     private int wyborTrybuGry;
+    private HashMap<Integer,String> listaOsiagniec;
 
     private GameManagerPrototype(Interface interfejs) {
         gameHistory = new GameHistory();
         playerList = new PlayerList();
         this.interfejs = interfejs;
+        listaOsiagniec = new HashMap<>();
+        listaOsiagniec.put(1, "jestes Bogiem");
+        listaOsiagniec.put(2,"uswiadom to sobie");
+        listaOsiagniec.put(3,"wyobraz to sobie");
     }
 
     public static GameManagerPrototype getInstance(Interface interfejs) {
@@ -86,7 +93,17 @@ public class GameManagerPrototype {
                 setupGame();
                 break;
             case 2:
-                String nick = interfejs.wczytajNick();
+                switch (interfejs.wyborStatystyk()) {
+                    case 1:
+                        //opcja 1 - chcesz zobaczyc statystyki konkretnego gracza:
+                        String nick = interfejs.wczytajNick();
+                        interfejs.komunikatGracz(playerList.findPlayer(nick));
+                        break;
+                    case 2:
+                        //opcja 2 - chcesz zobaczyc statystyki wszystkich graczy:
+                        interfejs.komunikatStatystykiWszystkich(playerList);
+                        break;
+                }
                 //IMPLEMENTACJA STATYSTYK I ICH WYPISYWANIA DLA DANEGO NICKNAME'U
                 break;
             case 3:
@@ -200,8 +217,16 @@ public class GameManagerPrototype {
         }
         gameHistory.setWinner(winner.nickname);
         winner.addWinCount();
+        if(winner instanceof HumanPlayer) {
+            if (listaOsiagniec.containsKey(winner.winCount)) //jesli w liscie kryteriow osiagniec jest liczba zwyciestw zwyciezcy
+            {
+                ((HumanPlayer) winner).getListaOsiagniec().put(winner.winCount, listaOsiagniec.get(winner.winCount)); //dodaje osiagniecie
+                interfejs.komunikatOsiagniecie(winner);
+            }
+            playerList.updateWins(winner);
+        }
         interfejs.komunikatZwyciestwo(winner);
-        playerList.updateWins(winner);
+
     }
 
     private void stawianieStatkow(Player gracz, int[] liczbaStatkow) {
@@ -235,6 +260,7 @@ public class GameManagerPrototype {
         if(gracz instanceof HumanPlayer)
         interfejs.pokazTablice(gracz);
     }
+
 
 
     public void atak(Player atakujacy, Player atakowany) {

@@ -21,6 +21,20 @@ public class InterfaceGUI extends Interface {
     }
 
     @Override
+    public void komunikatStatystykiWszystkich(PlayerList playerList) {
+
+    }
+
+    @Override
+    public int wyborStatystyk() {
+        return 0;
+    }
+
+    @Override
+    public void komunikatGracz(Player player)
+    {
+    }
+    @Override
     public int[] wczytywanieIlosciStatkow(){
         return new int[0];
     }

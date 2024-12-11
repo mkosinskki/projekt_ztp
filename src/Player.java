@@ -29,6 +29,6 @@ public abstract class Player {
 
     @Override
     public String toString() {
-        return nickname + " Liczba zwyciestw: " + winCount;
+        return "Nick: " + nickname + ", Ilosc zwyciestw: " + winCount;
     }
 }

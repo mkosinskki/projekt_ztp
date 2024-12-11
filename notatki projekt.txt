@@ -1,5 +1,4 @@
-3) dokończyć historie
-
-4) statystyki
 
 7) Odblokowywanie nowej zawartości
+
+8) osiagniecia do zmiany ale do umla styknie bo wszystkie metody i pola są dodane

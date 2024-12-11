@@ -9,6 +9,8 @@ public abstract class Interface {
 
     public abstract char getUstawienie();
 
+    public abstract int wyborStatystyk();
+
     public abstract int[] wczytywanieIlosciStatkow();
 
     public abstract void komunikatPoStrzale(int[] koordynaty, boolean trafione);
@@ -18,6 +20,10 @@ public abstract class Interface {
     public abstract void pokazTablice(Player gracz);
 
     public abstract void komunikatStatek(int komunikat, int dlugoscStatku);
+
+    public abstract void komunikatGracz(Player player);
+
+    public abstract void komunikatStatystykiWszystkich(PlayerList playerList);
 
     public abstract void komunikatZwyciestwo(Player Winner);
 

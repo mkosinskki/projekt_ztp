@@ -1,11 +1,23 @@
+import java.util.HashMap;
+import java.util.List;
 
 public class HumanPlayer extends Player {
 
+    public HashMap<Integer,String> listaOsiagniec;
     private CustomisationConsole customisationConsole;
     public HumanPlayer(String nickname) {
         super(nickname);
         super.winCount = 0;
+        listaOsiagniec = new HashMap<>();
     }
+
+    public HashMap<Integer, String> getListaOsiagniec() {
+        return listaOsiagniec;
+    }
+
+    /*public void addAchievement(Achievement a) {
+        this.achievementList.add(a);
+    }*/
 
     public void setWins(int wins)
     {
@@ -88,8 +100,16 @@ public class HumanPlayer extends Player {
         return false; //nie trafiono w statek
     }
 
+    public void setAchievementList(HashMap<Integer, String> listaOsiagniec) {
+        this.listaOsiagniec = listaOsiagniec;
+    }
+
     @Override
     public String toString() {
-        return super.toString();
-    }
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append(", Osiagniecia: ");
+        listaOsiagniec.forEach((key, value) -> sb.append(key + " " + "\"" + value + "\"" +","));
+        return sb.toString();
+    } //trzeba zmienic i dodac jeszcze wypisanie osiagniec
 }

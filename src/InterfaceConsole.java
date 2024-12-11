@@ -311,7 +311,24 @@ public class InterfaceConsole extends Interface {
     }
 
     @Override
+    public void komunikatGracz(Player player)
+    {
+        System.out.println(player.toString());
+    }
+
+    @Override
+    public void komunikatStatystykiWszystkich(PlayerList playerList) {
+        System.out.println(playerList.toString());
+    }
+
+    @Override
+    public int wyborStatystyk() {
+        return readInt("wybierz opcje 1-statystyki konkretnego gracza, 2-statystyki wszystkich");
+    }
+
+    @Override
     public int[] getKoordynaty() {
+        System.out.println("Podaj koordynaty:");
         int x = readInt("Podaj współrzędną X:");
         int y = readInt("Podaj współrzędną Y:");
         return new int[]{x, y};
@@ -359,6 +376,7 @@ public class InterfaceConsole extends Interface {
 
     @Override
     public void komunikatOsiagniecie(Player Zdobywający) {
+
         System.out.println("achievement get"); // prototyp
     }
 
