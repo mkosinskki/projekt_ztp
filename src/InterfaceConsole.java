@@ -91,13 +91,14 @@ public class InterfaceConsole extends Interface
     @Override
     public String wczytajNick()
     {
-        // Scanner scanner = new Scanner(System.in);
+        Scanner scanner1 = new Scanner(System.in);
         String nick;
-
+        //scanner.nextLine();
+        //scanner.skip("\n");
         System.out.println("Wprowadz nick gracza: "); //zrobic rozne wersje dla historii i 2 graczy i statystyk
-        nick = scanner.nextLine();
+        nick = scanner1.nextLine();
 
-        // scanner.close();
+        // scanner1.close();
         return nick;
     }
 

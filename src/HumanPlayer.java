@@ -3,8 +3,8 @@ import java.util.Scanner;
 public class HumanPlayer extends Player {
 
     private CustomisationConsole customisationConsole;
-    public HumanPlayer(String nickname, Board board) {
-        super(nickname, board);
+    public HumanPlayer(String nickname) {
+        super(nickname);
         super.winCount = 0;
     }
 
@@ -64,7 +64,12 @@ public class HumanPlayer extends Player {
         return false;
     }
 
-    @Override 
+    @Override
+    public void setBoard(Board board) {
+        super.board = board;
+    }
+
+    @Override
     public boolean placeShips(Ship statek)
     {
         return false; //zwrot bledu 
