@@ -102,7 +102,11 @@ public class GameManagerPrototype {
                 //IMPLEMENTACJA STATYSTYK I ICH WYPISYWANIA DLA DANEGO NICKNAME'U
                 break;
             case 3:
-                interfejs.customisationMenu(interfejs.wczytajNick());
+                String nick = interfejs.wczytajNick();
+                if(playerList.findPlayer(nick).getOsiagniecie(1))
+                    interfejs.customisationMenu(nick);
+                else
+                interfejs.bladCustomizacji(nick);
                 //DO IMPLEMENTACJI CUSTOMIZACJA PLANSZY (W TYM WYPADKU ZMIANA ZNAKOW STATKOW LUB WODY)
                 break;
             case 4:

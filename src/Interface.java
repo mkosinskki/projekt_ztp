@@ -35,5 +35,7 @@ public abstract class Interface {
 
     public abstract void customisationMenu(String nick);
 
+    public abstract void bladCustomizacji(String nick);
+
     public abstract void komunikatLogowanie(String nick);
 }

@@ -409,6 +409,12 @@ public class InterfaceConsole extends Interface {
             }
         }
     }
+    
+    @Override
+    public void bladCustomizacji(String nick){
+        System.out.println("Gracz "+nick+" nie wygral jeszcze ani jednej gry aby odblokowac customizacje\n");
+    }
+
 
     @Override
     public void komunikatLogowanie(String nick) {
