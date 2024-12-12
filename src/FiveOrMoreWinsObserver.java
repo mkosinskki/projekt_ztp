@@ -3,7 +3,7 @@ public class FiveOrMoreWinsObserver implements IObserver {
         if(gracz.getOsiagniecie(1))
             gracz.Unsubscribe(this);
         if(wins!=0 && wins%5==0){
-            GameManagerPrototype.getInstance(null).interfejs.komunikatOsiagniecie(1);
+            GameManager.getInstance(null).interfejs.komunikatOsiagniecie(1);
             gracz.setAchievementList(1);
             gracz.Unsubscribe(this);}
     }

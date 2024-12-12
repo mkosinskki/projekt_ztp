@@ -90,7 +90,7 @@ public class PlayerList {
                     String achievementsRaw = matcher.group(5).trim();
 
                     // Tworzenie osiągnieć
-                    boolean[] achievements = new boolean[GameManagerPrototype.osiagniecia.length];
+                    boolean[] achievements = new boolean[GameManager.osiagniecia.length];
                     if (!achievementsRaw.isEmpty()) {
                         Pattern achievementPattern = Pattern.compile("(\\d+) \"([^\"]+)\"");
                         Matcher achievementMatcher = achievementPattern.matcher(achievementsRaw);

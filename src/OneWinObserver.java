@@ -4,7 +4,7 @@ public class OneWinObserver implements IObserver{
             gracz.Unsubscribe(this);
         if(wins==1){
             gracz.setAchievementList(0);
-            GameManagerPrototype.getInstance(null).interfejs.komunikatOsiagniecie(0);
+            GameManager.getInstance(null).interfejs.komunikatOsiagniecie(0);
             gracz.Unsubscribe(this);}
     }
 }

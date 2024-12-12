@@ -1,11 +1,9 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
 
-public class GameManagerPrototype {
+public class GameManager {
     public final static String[] osiagniecia = {"1 win", "5 wins", "30 ships placed", "you hit an enemy 20 times"};
-    private static GameManagerPrototype instance;
+    private static GameManager instance;
     private Player p1, p2;
     private Ship[] statki;
     public final Interface interfejs;
@@ -13,7 +11,7 @@ public class GameManagerPrototype {
     private PlayerList playerList;
     private int wyborTrybuGry;
 
-    private GameManagerPrototype(Interface interfejs) {
+    private GameManager(Interface interfejs) {
         gameHistory = new GameHistory();
         playerList = new PlayerList();
         this.interfejs = interfejs;
@@ -23,9 +21,9 @@ public class GameManagerPrototype {
         playerList.updateAllPlayersInList();
     }
 
-    public static GameManagerPrototype getInstance(Interface interfejs) {
+    public static GameManager getInstance(Interface interfejs) {
         if (instance == null) {
-            instance = new GameManagerPrototype(interfejs);
+            instance = new GameManager(interfejs);
         }
         return instance;
     }
@@ -215,7 +213,8 @@ public class GameManagerPrototype {
         if(winner instanceof HumanPlayer)
             playerList.updateWins(winner);
         interfejs.komunikatZwyciestwo(winner);
-
+        gameHistory.exportHistory();
+        gameHistory.saveToFile("History.txt");
     }
 
     private void stawianieStatkow(Player gracz, int[] liczbaStatkow) {
@@ -249,8 +248,6 @@ public class GameManagerPrototype {
         if(gracz instanceof HumanPlayer)
         interfejs.pokazTablice(gracz);
     }
-
-
 
     // public void atak(Player atakujacy, Player atakowany) {
     //     int[] koordynaty = new int[2];
@@ -301,22 +298,5 @@ public class GameManagerPrototype {
         ((HumanPlayer)gracz).updateHits(trafionoStatek);
         gameHistory.addEvent(new Event(gracz.nickname, " zaatakowal gracza " + oponent.nickname, "Strzal w pole x: " + koordynaty[0] + " y: " + koordynaty[1]));
         interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
-    }
-    
-        /*public void atakPrzeciwnik2 (Player gracz, Player oponent)
-        {
-            int[] koordynaty = new int[2];
-            boolean trafionoStatek = false;
-
-            if (gracz instanceof HumanPlayer)
-                koordynaty = interfejs.getKoordynaty();
-            else {
-                koordynaty = ((ComputerPlayer) gracz).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
-                if (oponent instanceof ComputerPlayer)
-                    interfejs.komunikatySymulacji();
-            }
-
-            trafionoStatek = oponent.makeMove(koordynaty);
-            interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
-        }*/
-    }
+    }    
+}
