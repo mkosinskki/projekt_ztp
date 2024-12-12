@@ -103,7 +103,7 @@ public class GameManagerPrototype {
                 break;
             case 3:
                 String nick = interfejs.wczytajNick();
-                if(playerList.findPlayer(nick).getOsiagniecie(1))
+                if(playerList.findPlayer(nick).getOsiagniecie(0))
                     interfejs.customisationMenu(nick);
                 else
                 interfejs.bladCustomizacji(nick);
