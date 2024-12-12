@@ -76,7 +76,7 @@ public class PlayerList {
 
             // Wzorzec dla linii gracza
             Pattern pattern = Pattern.compile(
-                    "Nick: (.*?), Ilosc zwyciestw: (\\d+), Osiagniecia: (.*)"
+                    "Nick: (.*?), Ilosc zwyciestw: (\\d+), Trafione pola: (\\d+), Postawione statki: (\\d+), Osiagniecia: (.*)"
             );
 
             for (String line : lines) {
@@ -84,18 +84,20 @@ public class PlayerList {
                 if (matcher.find()) {
                     String nick = matcher.group(1);
                     int wins = Integer.parseInt(matcher.group(2));
-                    String achievementsRaw = matcher.group(3).trim();
+                    int fieldsHit = Integer.parseInt(matcher.group(3));
+                    int placedShips = Integer.parseInt(matcher.group(4));
+                    
+                    String achievementsRaw = matcher.group(5).trim();
 
-                    // Tworzenie HashMap dla osiągnięć
-                    HashMap<Integer, String> achievements = new HashMap<>();
+                    // Tworzenie osiągnieć
+                    boolean[] achievements = new boolean[GameManagerPrototype.osiagniecia.length];
                     if (!achievementsRaw.isEmpty()) {
                         Pattern achievementPattern = Pattern.compile("(\\d+) \"([^\"]+)\"");
                         Matcher achievementMatcher = achievementPattern.matcher(achievementsRaw);
 
                         while (achievementMatcher.find()) {
                             int id = Integer.parseInt(achievementMatcher.group(1));
-                            String description = achievementMatcher.group(2);
-                            achievements.put(id, description);
+                            achievements[id]=true;
                         }
                     }
 
@@ -103,6 +105,7 @@ public class PlayerList {
                     HumanPlayer pom = new HumanPlayer(nick);
                     pom.setWins(wins);
                     pom.setAchievementList(achievements);
+                    pom.setRecords(fieldsHit,placedShips);
                     playerList.add(pom);
                     System.out.println("TO STRING PLAYER: " + pom.toString());
                 }
@@ -151,6 +154,12 @@ public class PlayerList {
         playerList.add(gracz);
         saveToFile(gracz);
         return gracz;
+    }
+
+    public void updateAllPlayersInList(){
+        for (HumanPlayer player : playerList) {
+            updateWins(player);
+        }
     }
 
     public void updateWins(Player player)

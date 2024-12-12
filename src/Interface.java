@@ -27,13 +27,13 @@ public abstract class Interface {
 
     public abstract void komunikatZwyciestwo(Player Winner);
 
-    public abstract void komunikatOsiagniecie(Player Zdobywający);
+    public abstract void komunikatOsiagniecie(int i);
 
     public abstract int wyborSetupu();
 
     public abstract int wielkoscPlanszy();
 
-    public abstract void customisationMenu();
+    public abstract void customisationMenu(String nick);
 
     public abstract void komunikatLogowanie(String nick);
 }

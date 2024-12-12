@@ -1,4 +1,3 @@
-Nick: ala, Ilosc zwyciestw: 4, Osiagniecia: 1 "jestes Bogiem",2 "uswiadom to sobie",3 "wyobraz to sobie",
-Nick: ma, Ilosc zwyciestw: 1, Osiagniecia: 1 "jestes Bogiem",
-Nick: chuj, Ilosc zwyciestw: 0, Osiagniecia: 
-Nick: pizda, Ilosc zwyciestw: 1, Osiagniecia: 1 "jestes Bogiem",
+Nick: 1, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia: 
+Nick: a, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 1, Osiagniecia: 
+Nick: b, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia: 

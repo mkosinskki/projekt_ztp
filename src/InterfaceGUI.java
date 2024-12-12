@@ -59,7 +59,7 @@ public class InterfaceGUI extends Interface {
     }
 
     @Override
-    public void komunikatOsiagniecie(Player Zdobywający) {
+    public void komunikatOsiagniecie(int i) {
     }
 
     @Override
@@ -75,7 +75,7 @@ public class InterfaceGUI extends Interface {
     }
     
     @Override
-    public void customisationMenu()
+    public void customisationMenu(String nick)
     {
         
     }

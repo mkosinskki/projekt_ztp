@@ -226,7 +226,9 @@
 //     }
 // }
 
+import java.sql.Time;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class InterfaceConsole extends Interface {
     private final Scanner scanner = new Scanner(System.in);
@@ -375,10 +377,10 @@ public class InterfaceConsole extends Interface {
     }
 
     @Override
-    public void komunikatOsiagniecie(Player Zdobywający) {
-
-        System.out.println("achievement get"); // prototyp
-    }
+    public void komunikatOsiagniecie(int i) {
+        System.out.println("Achievment got: "+GameManagerPrototype.osiagniecia[i]);
+        App.Delay(2000);
+}
 
     @Override
     public int wielkoscPlanszy() {
@@ -391,8 +393,8 @@ public class InterfaceConsole extends Interface {
     }
 
     @Override
-    public void customisationMenu() {
-        CustomisationConsole customisation = CustomisationConsole.getInstance(wczytajNick());
+    public void customisationMenu(String nick) {
+        CustomisationConsole customisation = CustomisationConsole.getInstance(nick);
         boolean menu = true;
         while (menu) {
             switch (readString("Wybierz opcję:\n\t0: Personalizuj statek\n\t1: Personalizuj wodę\n\tKażdy inny znak: Wyjdź")) {
