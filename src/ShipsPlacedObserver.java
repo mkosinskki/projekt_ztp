@@ -4,7 +4,7 @@ public class ShipsPlacedObserver implements IObserver{
             gracz.Unsubscribe(this);
         if(shipsPlaced==30){
             gracz.setAchievementList(2);
-            GameManagerPrototype.getInstance(null).interfejs.komunikatOsiagniecie(2);
+            GameManager.getInstance(null).interfejs.komunikatOsiagniecie(2);
             gracz.Unsubscribe(this);}
     }
 }

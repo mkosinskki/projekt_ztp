@@ -4,7 +4,7 @@ public class EnemiesHitObserver implements IObserver{
             gracz.Unsubscribe(this);
         if(enemiesHit==20){
             gracz.setAchievementList(0);
-            GameManagerPrototype.getInstance(null).interfejs.komunikatOsiagniecie(3);
+            GameManager.getInstance(null).interfejs.komunikatOsiagniecie(3);
             gracz.Unsubscribe(this);}
     }
 }
