@@ -4,89 +4,89 @@ public class InterfaceGUI extends Interface {
         return 0;
     }
     @Override
-    public int wyborTrybuGry(){
+    public int chooseGameMode(){
         return 0;
     }
     @Override
-    public String wczytajNick(){
+    public String getNickname(){
         return "";
     }
     @Override
-    public int[] getKoordynaty(){
+    public int[] getCoordinates(){
         return new int[0];
     }
     @Override
-    public char getUstawienie(){
+    public char getDirection(){
         return 0;
     }
 
     @Override
-    public void komunikatStatystykiWszystkich(PlayerList playerList) {
+    public void showAllPlayersStatistics(PlayerList playerList) {
 
     }
 
     @Override
-    public int wyborStatystyk() {
+    public int chooseStatistics() {
         return 0;
     }
 
     @Override
-    public void komunikatGracz(Player player)
+    public void showPlayer(Player player)
     {
     }
     @Override
-    public int[] wczytywanieIlosciStatkow(){
+    public int[] getShipCount(){
         return new int[0];
     }
 
     @Override
-    public void komunikatPoStrzale(int[] koordynaty, boolean trafione){}
+    public void shotResultMessage(int[] coordinates, boolean hit){}
 
     @Override
-    public int wyborTrudnosciBota(){
+    public int chooseAIdifficulty(){
         return 0;
     }
 
     @Override
-    public void pokazTablice(Player gracz){}
+    public void showBoard(Player player){}
 
     @Override
-    public void komunikatStatek(int komunikat, int dlugoscStatku){}
+    public void MessagesRegardingShip(int option, int ShipSize){}
 
     @Override
-    public void komunikatZwyciestwo(Player Winner) {
+    public void winnerMessage(Player Winner) {
 
     }
 
     @Override
-    public void komunikatOsiagniecie(int i) {
+    public void achievementMessage(int i) {
     }
 
     @Override
-    public int wyborSetupu()
+    public int chooseSetup()
     {
         return 0;
     }
 
     @Override
-    public int wielkoscPlanszy()
+    public int getBoardSize()
     {
         return 0;
     }
     
     @Override
-    public void customisationMenu(String nick)
+    public void customisationMenu()
     {
         
     }
 
     @Override
-    public void bladCustomizacji(String nick){
+    public void CustomisationErrorMessage(String nick){
         System.out.println("Gracz "+nick+" nie wygral jeszcze ani jednej gry aby odblokowac customizacje\n");
     }
 
     @Override
-    public void komunikatLogowanie(String nick)
+    public void loggedInMessage(String nick)
     {
         
     }

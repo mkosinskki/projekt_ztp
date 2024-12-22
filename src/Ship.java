@@ -1,10 +1,9 @@
 public class Ship {
     // private String type;
-    private int size;
+    private final int size;
 
-    //mozna dodac abstrakcyjne statki np ShipSubmarine itp, ktore beda mialy rozmiar i tylko ustawiasz je na mapie
 
-    public Ship(int size) 
+    public Ship(int size)
     {
         this.size = size;
     }
@@ -12,7 +11,7 @@ public class Ship {
     //     return new Ship(size);
     // }
 
-    public int getSize() 
+    public int getSize()
     {
         return size;
     }

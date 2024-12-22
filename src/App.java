@@ -8,14 +8,14 @@ public class App {
         // GameManager.getInstance(new GameConsole());
         // GameManager.getInstance(null).startGame();
 
-        InterfaceConsole konsola = new InterfaceConsole();
+        InterfaceConsole console = new InterfaceConsole();
         //GameManagerPrototype.getInstance(konsola).setupGame();
-        GameManager.getInstance(konsola).przedGra();
+        GameManager.getInstance(console).userMenu();
     }
     
-    public static void Delay(long czas){
+    public static void Delay(long time){
         long millis = System.currentTimeMillis() % 10000;
-        while(millis+czas>System.currentTimeMillis() % 10000)
-        ;
+        while(millis+time>System.currentTimeMillis() % 10000)
+            ;
     }
 }

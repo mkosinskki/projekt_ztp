@@ -2,51 +2,51 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class GameManager {
-    public final static String[] osiagniecia = {"1 win", "5 wins", "30 ships placed", "you hit an enemy 20 times"};
+    public final static String[] achievements = {"1 win", "5 wins", "30 ships placed", "you hit an enemy 20 times"};
     private static GameManager instance;
     private Player p1, p2;
-    private Ship[] statki;
-    public final Interface interfejs;
+    private Ship[] ships;
+    public Interface myInterface;
     private GameHistory gameHistory;
     private PlayerList playerList;
     private int wyborTrybuGry;
 
-    private GameManager(Interface interfejs) {
+    private GameManager(Interface ChosenInterface) {
         gameHistory = new GameHistory();
         playerList = new PlayerList();
-        this.interfejs = interfejs;
+        this.myInterface = ChosenInterface;
     }
 
     public void updateAllPlayers(){
         playerList.updateAllPlayersInList();
-    }
+            }
 
-    public static GameManager getInstance(Interface interfejs) {
+    public static GameManager getInstance(Interface myInterface) {
         if (instance == null) {
-            instance = new GameManager(interfejs);
+            instance = new GameManager(myInterface);
         }
         return instance;
     }
 
-    public void aplikacja()
+    public void app()
     {
         while(true)
         {
-            przedGra();
+            userMenu();
             setupGame();
             startGame();
             gameHistory.saveToFile("History.txt");
         }
     }
 
-    public void przedGra() 
+    public void userMenu()
     {
         int wybor;
-        wybor = interfejs.menu();
+        wybor = myInterface.menu();
         switch (wybor) 
         {
             case 1:
-                wyborTrybuGry = interfejs.wyborTrybuGry();
+                wyborTrybuGry = myInterface.chooseGameMode();
                 LocalDateTime now = LocalDateTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
                 String formattedDate = now.format(formatter);
@@ -56,17 +56,17 @@ public class GameManager {
                     case 1:
                         gameHistory.setGameMode("Gracz vs Gracz");
 
-                        String nick1 = interfejs.wczytajNick();
-                        p1 = playerList.logowanie(nick1,"kkk");
-                        interfejs.komunikatLogowanie(p1.nickname);
+                        String nick1 = myInterface.getNickname();
+                        p1 = playerList.loggingIn(nick1);
+                        myInterface.loggedInMessage(p1.nickname);
 
-                        String nick2 = interfejs.wczytajNick();
-                        p2 = playerList.logowanie(nick2,"kkk");
-                        interfejs.komunikatLogowanie(p2.nickname);
+                        String nick2 = myInterface.getNickname();
+                        p2 = playerList.loggingIn(nick2);
+                        myInterface.loggedInMessage(p2.nickname);
                         break;
                     case 2:
                         gameHistory.setGameMode("Gracz vs AI");
-                        p1 = new HumanPlayer(interfejs.wczytajNick());
+                        p1 = new HumanPlayer(myInterface.getNickname());
 
                         p2 = new ComputerPlayer("AI Shaniqua", wyborTrudnosciBota());
                         break;
@@ -86,25 +86,25 @@ public class GameManager {
                 setupGame();
                 break;
             case 2:
-                switch (interfejs.wyborStatystyk()) {
+                switch (myInterface.chooseStatistics()) {
                     case 1:
                         //opcja 1 - chcesz zobaczyc statystyki konkretnego gracza:
-                        String nick = interfejs.wczytajNick();
-                        interfejs.komunikatGracz(playerList.findPlayer(nick));
+                        String nick = myInterface.getNickname();
+                        myInterface.showPlayer(playerList.findPlayer(nick));
                         break;
                     case 2:
                         //opcja 2 - chcesz zobaczyc statystyki wszystkich graczy:
-                        interfejs.komunikatStatystykiWszystkich(playerList);
+                        myInterface.showAllPlayersStatistics(playerList);
                         break;
                 }
                 //IMPLEMENTACJA STATYSTYK I ICH WYPISYWANIA DLA DANEGO NICKNAME'U
                 break;
             case 3:
-                String nick = interfejs.wczytajNick();
-                if(playerList.findPlayer(nick).getOsiagniecie(0))
-                    interfejs.customisationMenu(nick);
+                String nick = myInterface.getNickname();
+                if(playerList.findPlayer(nick).getMyAchievements(0))
+                    myInterface.customisationMenu();
                 else
-                interfejs.bladCustomizacji(nick);
+                    myInterface.CustomisationErrorMessage(nick);
                 //DO IMPLEMENTACJI CUSTOMIZACJA PLANSZY (W TYM WYPADKU ZMIANA ZNAKOW STATKOW LUB WODY)
                 break;
             case 4:
@@ -117,8 +117,8 @@ public class GameManager {
 
     public AIStrategy wyborTrudnosciBota() 
     {
-        int trudnosc = interfejs.wyborTrudnosciBota();
-        switch (trudnosc) 
+        int mode = myInterface.chooseAIdifficulty();
+        switch (mode)
         {
             case 1:
                 return new AIEasy();
@@ -143,12 +143,12 @@ public class GameManager {
 
         //interfejs.customisationMenu();
 
-        int[] iloscStatkow;
+        int[] shipCount;
         
-        switch(interfejs.wyborSetupu()) 
+        switch(myInterface.chooseSetup())
         {
             case 1: //WYBOR STANDARDOWEGO TRYBU GRY
-                iloscStatkow = new int[]{4, 3, 2, 1};
+                shipCount = new int[]{4, 3, 2, 1};
                 p1.setBoard(new Board(10));
                 p2.setBoard(new Board(10));
                 if(p1 instanceof ComputerPlayer)
@@ -157,10 +157,10 @@ public class GameManager {
                     ((ComputerPlayer) p2).setPlayerBoard(p1.board);
                 break;
             case 2: //WYBOR TRYBU GRY Z ROZMIAREM PLANSZY I ILOSCIA STATKOW
-                iloscStatkow = interfejs.wczytywanieIlosciStatkow();
-                int wielkoscTablicy = interfejs.wielkoscPlanszy();
-                p1.setBoard(new Board(wielkoscTablicy));
-                p2.setBoard(new Board(wielkoscTablicy));
+                shipCount = myInterface.getShipCount();
+                int boardSize = myInterface.getBoardSize();
+                p1.setBoard(new Board(boardSize));
+                p2.setBoard(new Board(boardSize));
                 if(p1 instanceof ComputerPlayer)
                 {
                     ((ComputerPlayer) p1).setPlayerBoard(p2.board);
@@ -174,14 +174,14 @@ public class GameManager {
                 throw new AssertionError();
         }
 
-        statki = new Ship[iloscStatkow.length];
-        for(int i=0 ; i<iloscStatkow.length; i++)
+        ships = new Ship[shipCount.length];
+        for(int i=0 ; i<shipCount.length; i++)
         {
-            statki[i]=new Ship(i+1);
+            ships[i]=new Ship(i+1);
         }
 
-        stawianieStatkow(p1,iloscStatkow);
-        stawianieStatkow(p2,iloscStatkow);
+        placingShips(p1,shipCount);
+        placingShips(p2,shipCount);
 
         //POMOCNICZE DO TESTOW
         startGame();        
@@ -212,91 +212,60 @@ public class GameManager {
         winner.addWinCount();
         if(winner instanceof HumanPlayer)
             playerList.updateWins(winner);
-        interfejs.komunikatZwyciestwo(winner);
+        myInterface.winnerMessage(winner);
         gameHistory.exportHistory();
         gameHistory.saveToFile("History.txt");
     }
 
-    private void stawianieStatkow(Player gracz, int[] liczbaStatkow) {
-        boolean postawiono = false;
-        int[] koordynaty;
-        char kierunek;
-        for (int i=0; i<liczbaStatkow.length;i++)
-            for(int j=0; j<liczbaStatkow[i];j++){
-            if(gracz instanceof HumanPlayer){
-            while (!postawiono)
+    private void placingShips(Player player, int[] shipCount) {
+        boolean placed = false;
+        int[] coordinates;
+        char direction;
+        for (int i=0; i<shipCount.length;i++)
+            for(int j=0; j<shipCount[i];j++){
+            if(player instanceof HumanPlayer){
+            while (!placed)
             {
-                interfejs.komunikatStatek(1, statki[i].getSize());
-                koordynaty = interfejs.getKoordynaty();
-                kierunek = interfejs.getUstawienie();
-                postawiono = gracz.placeShips(koordynaty, kierunek, statki[i]);
-                if (!postawiono)
+                myInterface.MessagesRegardingShip(1, ships[i].getSize());
+                coordinates = myInterface.getCoordinates();
+                direction = myInterface.getDirection();
+                placed = player.placeShips(coordinates, direction, ships[i]);
+                if (!placed)
                 {
-                    interfejs.komunikatStatek(3, statki[i].getSize());
+                    myInterface.MessagesRegardingShip(3, ships[i].getSize());
                 }
             }
-            interfejs.komunikatStatek(2, statki[i].getSize());
-            postawiono = false;
-            interfejs.pokazTablice(gracz);}
+            myInterface.MessagesRegardingShip(2, ships[i].getSize());
+            placed = false;
+            myInterface.showBoard(player);}
             else{
-                interfejs.komunikatStatek(1, statki[i].getSize());
-                gracz.placeShips(statki[i]);
+                myInterface.MessagesRegardingShip(1, ships[i].getSize());
+                player.placeShips(ships[i]);
             }
 
         }
-        interfejs.komunikatStatek(4, 0);
-        if(gracz instanceof HumanPlayer)
-        interfejs.pokazTablice(gracz);
+        myInterface.MessagesRegardingShip(4, 0);
+        if(player instanceof HumanPlayer)
+            myInterface.showBoard(player);
     }
 
-    // public void atak(Player atakujacy, Player atakowany) {
-    //     int[] koordynaty = new int[2];
-    //     boolean trafionoStatek = false;
 
-    //     switch (wyborTrybuGry) {
-    //         case 1: //HUMAN VS HUMAN
-    //             koordynaty = interfejs.getKoordynaty();
-    //             trafionoStatek = atakowany.makeMove(koordynaty);
-    //             gameHistory.addEvent(new Event(atakujacy.nickname, " zaatakowal gracza " + atakowany.nickname, "Strzal w pole x: " + koordynaty[0] + " y: " + koordynaty[1]));
-    //             break;
-    //         case 2: // HUMAN VS AI
-    //             if (atakujacy instanceof ComputerPlayer) {
-    //                 koordynaty = ((ComputerPlayer) atakujacy).attackEnemy();
-    //                 trafionoStatek = atakowany.makeMove(koordynaty);
-    //                 interfejs.pokazTablice(atakowany);
-    //                 gameHistory.addEvent(new Event(atakujacy.nickname, " zaatakowal gracza " + atakowany.nickname, "Strzal w pole x: " + koordynaty[0] + " y: " + koordynaty[1]));
-    //             }
-    //             else {
-    //                 koordynaty = interfejs.getKoordynaty();
-    //             }
-    //             break;
-    //         case 3: //AI VS AI
-    //             koordynaty = ((ComputerPlayer) atakujacy).attackEnemy();
-    //             trafionoStatek = atakowany.makeMove(koordynaty);
-    //             interfejs.pokazTablice(atakowany);
-    //             gameHistory.addEvent(new Event(atakujacy.nickname, " zaatakowal gracza " + atakowany.nickname, "Strzal w pole x: " + koordynaty[0] + " y: " + koordynaty[1]));
-    //             break;
-    //         default:
-    //             throw new AssertionError();
-    //     }
-    // }
-
-    public void atak(Player gracz, Player oponent)
+    public void atak(Player player, Player opponent)
     {
-        int[] koordynaty = new int[2];
-        boolean trafionoStatek = false, isPlayerHuman = gracz instanceof HumanPlayer;
+        int[] coordinates = new int[2];
+        boolean hitShip = false, isPlayerHuman = player instanceof HumanPlayer;
 
         if(isPlayerHuman)//gdy człowiek
-        koordynaty=interfejs.getKoordynaty();
+            coordinates=myInterface.getCoordinates();
         else//gdy AI
-        koordynaty=((ComputerPlayer)gracz).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
-        // if(oponent instanceof ComputerPlayer)    //chyba nie potrzebne bo AI vs AI i tak to samo wypisuje
-        trafionoStatek = oponent.makeMove(koordynaty);
+            coordinates=((ComputerPlayer)player).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
+        // if(opponent instanceof ComputerPlayer)    //chyba nie potrzebne bo AI vs AI i tak to samo wypisuje
+        hitShip = opponent.makeMove(coordinates);
         if(!isPlayerHuman)
-        interfejs.pokazTablice(oponent);
+            myInterface.showBoard(opponent);
         else
-        ((HumanPlayer)gracz).updateHits(trafionoStatek);
-        gameHistory.addEvent(new Event(gracz.nickname, " zaatakowal gracza " + oponent.nickname, "Strzal w pole x: " + koordynaty[0] + " y: " + koordynaty[1]));
-        interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
-    }    
+            ((HumanPlayer)player).updateHits(hitShip);
+        gameHistory.addEvent(new Event(player.nickname, " zaatakowal gracza " + opponent.nickname, "Strzal w pole x: " + coordinates[0] + " y: " + coordinates[1]));
+        myInterface.shotResultMessage(coordinates, hitShip);
+    }
 }
