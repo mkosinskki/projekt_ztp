@@ -1,4 +1,3 @@
-Nick: ala, Ilosc zwyciestw: 1, Osiagniecia: 1 "jestes Bogiem",
-Nick: ma, Ilosc zwyciestw: 0, Osiagniecia: 
-Nick: ma, Ilosc zwyciestw: 1, Osiagniecia: 1 "jestes Bogiem",
-Nick: ma, Ilosc zwyciestw: 0, Osiagniecia: 
+Nick: 1, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia: 
+Nick: a, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 1, Osiagniecia: 
+Nick: b, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia: 

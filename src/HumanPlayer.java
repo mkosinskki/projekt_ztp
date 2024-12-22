@@ -1,19 +1,57 @@
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HumanPlayer extends Player {
-
-    public HashMap<Integer,String> achievements;
-    private CustomisationConsole customisationConsole;
+    private final static IObserver[] usableObservers = {new OneWinObserver(),
+                                                        new FiveOrMoreWinsObserver(),
+                                                        new ShipsPlacedObserver(),
+                                                        new EnemiesHitObserver()};
+    private final String[] AvailableAchievements = GameManager.achievements; //zle uzycie singletona bo mamy globalny dostep
+    private boolean[] myAchievements = new boolean[AvailableAchievements.length];
+    private int shipsPlaced=0, enemiesHit=0;
+    List<IObserver> observers;
     public HumanPlayer(String nickname) {
         super(nickname);
         super.winCount = 0;
-        achievements = new HashMap<>();
+        observers=new ArrayList<IObserver>();
+        for(int i=0; i<usableObservers.length; i++)
+            Subscribe(usableObservers[i]);
     }
 
-    public HashMap<Integer, String> getAchievements() {
-        return achievements;
+    public boolean getMyAchievements(int i) {
+        return myAchievements[i];
+    }
+    public void setRecords(int a, int b){
+        shipsPlaced=b;
+        enemiesHit=a;
+    }
+    public void updateHits(boolean bool){
+        if(bool)
+            enemiesHit++;
+        Notify();
+    }
+    private void Subscribe(IObserver observer)
+    {
+        observers.add(observer);
     }
 
+    public void Unsubscribe(IObserver observer){
+        observers.remove(observer);
+    }
+    private void Notify(){
+        for (IObserver observer : observers) {
+            observer.Notify(winCount, shipsPlaced, enemiesHit, this);
+        }
+    }
+    @Override
+    public void addWinCount()
+    {
+        Notify();
+        winCount++;
+    }
+    /*public void addAchievement(Achievement a) {
+        this.achievementList.add(a);
+    }*/
 
     public void setWins(int wins)
     {
@@ -33,6 +71,8 @@ public class HumanPlayer extends Player {
 
         if (placed) 
         {
+            shipsPlaced++;
+            Notify();
             return true;
         } 
         return false;
@@ -60,16 +100,23 @@ public class HumanPlayer extends Player {
         return false; //nie trafiono w statek
     }
 
-    public void setAchievementList(HashMap<Integer, String> achievements) {
-        this.achievements = achievements;
+    public void setAchievementList(int i) {
+        myAchievements[i]=true;
+    }
+    public void setAchievementList(boolean[] lista) {
+        myAchievements =lista;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString());
+        sb.append(", Trafione pola: "+enemiesHit);
+        sb.append(", Postawione statki: "+shipsPlaced);
         sb.append(", Osiagniecia: ");
-        achievements.forEach((key, value) -> sb.append(key + " " + "\"" + value + "\"" +","));
+        for(int i = 0; i< myAchievements.length; i++)
+            if(myAchievements[i])
+                sb.append(i + " " + "\"" + AvailableAchievements[i] + "\"" +",");
         return sb.toString();
     } //trzeba zmienic i dodac jeszcze wypisanie osiagniec
 }

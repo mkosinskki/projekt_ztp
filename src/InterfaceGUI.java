@@ -59,7 +59,7 @@ public class InterfaceGUI extends Interface {
     }
 
     @Override
-    public void achievementMessage(Player achiever) {
+    public void achievementMessage(int i) {
     }
 
     @Override
@@ -78,6 +78,11 @@ public class InterfaceGUI extends Interface {
     public void customisationMenu()
     {
         
+    }
+
+    @Override
+    public void CustomisationErrorMessage(String nick){
+        System.out.println("Gracz "+nick+" nie wygral jeszcze ani jednej gry aby odblokowac customizacje\n");
     }
 
     @Override

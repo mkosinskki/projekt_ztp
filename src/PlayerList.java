@@ -2,7 +2,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,7 +74,7 @@ public class PlayerList {
 
             // Wzorzec dla linii gracza
             Pattern pattern = Pattern.compile(
-                    "Nick: (.*?), Ilosc zwyciestw: (\\d+), Osiagniecia: (.+)"
+                    "Nick: (.*?), Ilosc zwyciestw: (\\d+), Trafione pola: (\\d+), Postawione statki: (\\d+), Osiagniecia: (.*)"
             );
 
             for (String line : lines) {
@@ -83,23 +82,28 @@ public class PlayerList {
                 if (matcher.find()) {
                     String nick = matcher.group(1);
                     int wins = Integer.parseInt(matcher.group(2));
-                    String achievementsRaw = matcher.group(3);
+                    int fieldsHit = Integer.parseInt(matcher.group(3));
+                    int placedShips = Integer.parseInt(matcher.group(4));
 
-                    // Tworzenie HashMap dla osiągnięć
-                    HashMap<Integer, String> achievements = new HashMap<>();
-                    Pattern achievementPattern = Pattern.compile("(\\d+) \"([^\"]+)\"");
-                    Matcher achievementMatcher = achievementPattern.matcher(achievementsRaw);
+                    String achievementsRaw = matcher.group(5).trim();
 
-                    while (achievementMatcher.find()) {
-                        int id = Integer.parseInt(achievementMatcher.group(1));
-                        String description = achievementMatcher.group(2);
-                        achievements.put(id, description);
+                    // Tworzenie osiągnieć
+                    boolean[] achievements = new boolean[GameManager.achievements.length];
+                    if (!achievementsRaw.isEmpty()) {
+                        Pattern achievementPattern = Pattern.compile("(\\d+) \"([^\"]+)\"");
+                        Matcher achievementMatcher = achievementPattern.matcher(achievementsRaw);
+
+                        while (achievementMatcher.find()) {
+                            int id = Integer.parseInt(achievementMatcher.group(1));
+                            achievements[id]=true;
+                        }
                     }
 
                     // Tworzenie obiektu HumanPlayer
                     HumanPlayer pom = new HumanPlayer(nick);
                     pom.setWins(wins);
                     pom.setAchievementList(achievements);
+                    pom.setRecords(fieldsHit,placedShips);
                     playerList.add(pom);
                 }
             }
@@ -112,19 +116,19 @@ public class PlayerList {
 
     public HumanPlayer findPlayer(String nickname)
     {
-        HumanPlayer pom = null;
+        HumanPlayer temp = null;
         for(HumanPlayer player : playerList) 
         {
             if (player.nickname.equals(nickname)) 
             {
-                pom = (HumanPlayer) player;
-                return pom;
+                temp = (HumanPlayer) player;
+                return temp;
             }
         }
-        return  pom;
+        return  temp;
     }
 
-    public HumanPlayer logowanie(String nickname)
+    public HumanPlayer loggingIn(String nickname)
     {
         HumanPlayer player = findPlayer(nickname);
         //jesli jest taki nickname w bazie, zostaje zwrocony player z listy
@@ -137,6 +141,12 @@ public class PlayerList {
         playerList.add(newPlayer);
         saveToFile(newPlayer);
         return newPlayer;
+    }
+
+    public void updateAllPlayersInList(){
+        for (HumanPlayer player : playerList) {
+            updateWins(player);
+        }
     }
 
     public void updateWins(Player player)

@@ -27,13 +27,15 @@ public abstract class Interface {
 
     public abstract void winnerMessage(Player Winner);
 
-    public abstract void achievementMessage(Player achiever);
+    public abstract void achievementMessage(int i);
 
     public abstract int chooseSetup();
 
     public abstract int getBoardSize();
 
     public abstract void customisationMenu();
+
+    public abstract void CustomisationErrorMessage(String nick);
 
     public abstract void loggedInMessage(String nick);
 }
