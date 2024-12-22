@@ -1,55 +1,55 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.List;
 
 public class GameManagerPrototype {
     private static GameManagerPrototype instance;
     private Player p1, p2;
     private Board board1, board2;
-    private Ship[] statki;
-    private Interface interfejs;
+    private Ship[] ships;
+    private Interface Interface;
     private GameHistory gameHistory;
     private PlayerList playerList;
     private int wyborTrybuGry;
-    private HashMap<Integer,String> listaOsiagniec;
+    private HashMap<Integer,String> achievements;
 
-    private GameManagerPrototype(Interface interfejs) {
+    private GameManagerPrototype(Interface ChosenInterface) {
         gameHistory = new GameHistory();
         playerList = new PlayerList();
-        this.interfejs = interfejs;
-        listaOsiagniec = new HashMap<>();
-        listaOsiagniec.put(1, "jestes Bogiem");
-        listaOsiagniec.put(2,"uswiadom to sobie");
-        listaOsiagniec.put(3,"wyobraz to sobie");
+        this.Interface = ChosenInterface;
+        achievements = new HashMap<>();
+        achievements.put(1, "jestes Bogiem");
+        achievements.put(2,"uswiadom to sobie");
+        achievements.put(3,"wyobraz to sobie");
     }
 
-    public static GameManagerPrototype getInstance(Interface interfejs) {
+    public static GameManagerPrototype getInstance(Interface Interface) {
         if (instance == null) {
-            instance = new GameManagerPrototype(interfejs);
+            instance = new GameManagerPrototype(Interface);
         }
         return instance;
     }
+    
 
-    public void aplikacja()
+    public void app()
     {
         while(true)
         {
-            przedGra();
+            userMenu();
             setupGame();
             startGame();
             gameHistory.saveToFile("History.txt");
         }
     }
 
-    public void przedGra() 
+    public void userMenu() 
     {
         int wybor;
-        wybor = interfejs.menu();
+        wybor = Interface.menu();
         switch (wybor) 
         {
             case 1:
-                wyborTrybuGry = interfejs.wyborTrybuGry();
+                wyborTrybuGry = Interface.chooseGameMode();
                 LocalDateTime now = LocalDateTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
                 String formattedDate = now.format(formatter);
@@ -59,19 +59,19 @@ public class GameManagerPrototype {
                     case 1:
                         gameHistory.setGameMode("Gracz vs Gracz");
 
-                        String nick1 = interfejs.wczytajNick();
-                        p1 = playerList.logowanie(nick1,"kkk");
-                        interfejs.komunikatLogowanie(p1.nickname);
+                        String nick1 = Interface.getNickname();
+                        p1 = playerList.logowanie(nick1);
+                        Interface.loggedInMessage(p1.nickname);
                         gameHistory.setPlayer1(nick1);
 
-                        String nick2 = interfejs.wczytajNick();
-                        p2 = playerList.logowanie(nick2,"kkk");
-                        interfejs.komunikatLogowanie(p2.nickname);
+                        String nick2 = Interface.getNickname();
+                        p2 = playerList.logowanie(nick2);
+                        Interface.loggedInMessage(p2.nickname);
                         gameHistory.setPlayer2(nick2);
                         break;
                     case 2:
                         gameHistory.setGameMode("Gracz vs AI");
-                        p1 = new HumanPlayer(interfejs.wczytajNick());
+                        p1 = new HumanPlayer(Interface.getNickname());
                         gameHistory.setPlayer1(p1.nickname);
 
                         p2 = new ComputerPlayer("AI Shaniqua", wyborTrudnosciBota());
@@ -93,21 +93,21 @@ public class GameManagerPrototype {
                 setupGame();
                 break;
             case 2:
-                switch (interfejs.wyborStatystyk()) {
+                switch (Interface.chooseStatistics()) {
                     case 1:
                         //opcja 1 - chcesz zobaczyc statystyki konkretnego gracza:
-                        String nick = interfejs.wczytajNick();
-                        interfejs.komunikatGracz(playerList.findPlayer(nick));
+                        String nick = Interface.getNickname();
+                        Interface.showPlayer(playerList.findPlayer(nick));
                         break;
                     case 2:
                         //opcja 2 - chcesz zobaczyc statystyki wszystkich graczy:
-                        interfejs.komunikatStatystykiWszystkich(playerList);
+                        Interface.showAllPlayersStatistics(playerList);
                         break;
                 }
                 //IMPLEMENTACJA STATYSTYK I ICH WYPISYWANIA DLA DANEGO NICKNAME'U
                 break;
             case 3:
-                interfejs.customisationMenu();
+                Interface.customisationMenu();
                 //DO IMPLEMENTACJI CUSTOMIZACJA PLANSZY (W TYM WYPADKU ZMIANA ZNAKOW STATKOW LUB WODY)
                 break;
             case 4:
@@ -120,8 +120,8 @@ public class GameManagerPrototype {
 
     public AIStrategy wyborTrudnosciBota() 
     {
-        int trudnosc = interfejs.wyborTrudnosciBota();
-        switch (trudnosc) 
+        int mode = Interface.chooseAIdifficulty();
+        switch (mode) 
         {
             case 1:
                 return new AIEasy();
@@ -148,7 +148,7 @@ public class GameManagerPrototype {
 
         int[] iloscStatkow;
         
-        switch(interfejs.wyborSetupu()) 
+        switch(Interface.chooseSetup())
         {
             case 1: //WYBOR STANDARDOWEGO TRYBU GRY
                 iloscStatkow = new int[]{4, 3, 2, 1};
@@ -162,8 +162,8 @@ public class GameManagerPrototype {
                     ((ComputerPlayer) p2).setPlayerBoard(board1);
                 break;
             case 2: //WYBOR TRYBU GRY Z ROZMIAREM PLANSZY I ILOSCIA STATKOW
-                iloscStatkow = interfejs.wczytywanieIlosciStatkow();
-                int wielkoscTablicy = interfejs.wielkoscPlanszy();
+                iloscStatkow = Interface.getShipCount();
+                int wielkoscTablicy = Interface.getBoardSize();
                 board1 = new Board(wielkoscTablicy);
                 p1.setBoard(board1);
                 board2 = new Board(wielkoscTablicy);
@@ -181,14 +181,14 @@ public class GameManagerPrototype {
                 throw new AssertionError();
         }
 
-        statki = new Ship[iloscStatkow.length];
+        ships = new Ship[iloscStatkow.length];
         for(int i=0 ; i<iloscStatkow.length; i++)
         {
-            statki[i]=new Ship(i+1);
+            ships[i]=new Ship(i+1);
         }
 
-        stawianieStatkow(p1,iloscStatkow);
-        stawianieStatkow(p2,iloscStatkow);
+        placingShips(p1,iloscStatkow);
+        placingShips(p2,iloscStatkow);
 
         //POMOCNICZE DO TESTOW
         startGame();        
@@ -218,114 +218,80 @@ public class GameManagerPrototype {
         gameHistory.setWinner(winner.nickname);
         winner.addWinCount();
         if(winner instanceof HumanPlayer) {
-            if (listaOsiagniec.containsKey(winner.winCount)) //jesli w liscie kryteriow osiagniec jest liczba zwyciestw zwyciezcy
+            if (achievements.containsKey(winner.winCount)) //jesli w liscie kryteriow osiagniec jest liczba zwyciestw zwyciezcy
             {
-                ((HumanPlayer) winner).getListaOsiagniec().put(winner.winCount, listaOsiagniec.get(winner.winCount)); //dodaje osiagniecie
-                interfejs.komunikatOsiagniecie(winner);
+                ((HumanPlayer) winner).getAchievements().put(winner.winCount, achievements.get(winner.winCount)); //dodaje osiagniecie
+                Interface.achievementMessage(winner);
             }
             playerList.updateWins(winner);
         }
-        interfejs.komunikatZwyciestwo(winner);
+        Interface.winnerMessage(winner);
 
     }
 
-    private void stawianieStatkow(Player gracz, int[] liczbaStatkow) {
-        boolean postawiono = false;
-        int[] koordynaty;
-        char kierunek;
-        for (int i=0; i<liczbaStatkow.length;i++)
-            for(int j=0; j<liczbaStatkow[i];j++){
-            if(gracz instanceof HumanPlayer){
-            while (!postawiono)
+    private void placingShips(Player player, int[] shipCount) {
+        boolean placed = false;
+        int[] coordinates;
+        char direction;
+        for (int i=0; i<shipCount.length;i++)
+            for(int j=0; j<shipCount[i];j++){
+            if(player instanceof HumanPlayer){
+            while (!placed)
             {
-                interfejs.komunikatStatek(1, statki[i].getSize());
-                koordynaty = interfejs.getKoordynaty();
-                kierunek = interfejs.getUstawienie();
-                postawiono = gracz.placeShips(koordynaty, kierunek, statki[i]);
-                if (!postawiono)
+                Interface.MessagesRegardingShip(1, ships[i].getSize());
+                coordinates = Interface.getCoordinates();
+                direction = Interface.getDirection();
+                placed = player.placeShips(coordinates, direction, ships[i]);
+                if (!placed)
                 {
-                    interfejs.komunikatStatek(3, statki[i].getSize());
+                    Interface.MessagesRegardingShip(3, ships[i].getSize());
                 }
             }
-            interfejs.komunikatStatek(2, statki[i].getSize());
-            postawiono = false;
-            interfejs.pokazTablice(gracz);}
+            Interface.MessagesRegardingShip(2, ships[i].getSize());
+            placed = false;
+            Interface.showBoard(player);}
             else{
-                interfejs.komunikatStatek(1, statki[i].getSize());
-                gracz.placeShips(statki[i]);
+                Interface.MessagesRegardingShip(1, ships[i].getSize());
+                player.placeShips(ships[i]);
             }
 
         }
-        interfejs.komunikatStatek(4, 0);
-        if(gracz instanceof HumanPlayer)
-        interfejs.pokazTablice(gracz);
+        Interface.MessagesRegardingShip(4, 0);
+        if(player instanceof HumanPlayer)
+            Interface.showBoard(player);
     }
 
 
 
-    public void atak(Player atakujacy, Player atakowany) {
-        int[] koordynaty = new int[2];
-        boolean trafionoStatek = false;
+    public void atak(Player attacking, Player attacked) {
+        int[] coordinates = new int[2];
+        boolean shipHit = false;
 
         switch (wyborTrybuGry) {
             case 1: //HUMAN VS HUMAN
-                koordynaty = interfejs.getKoordynaty();
-                trafionoStatek = atakowany.makeMove(koordynaty);
-                gameHistory.addEvent(new Event(atakujacy.nickname, " zaatakowal gracza " + atakowany.nickname, "Strzal w pole x: " + koordynaty[0] + " y: " + koordynaty[1]));
+                coordinates = Interface.getCoordinates();
+                shipHit = attacked.makeMove(coordinates);
+                gameHistory.addEvent(new Event(attacking.nickname, " zaatakowal gracza " + attacked.nickname, "Strzal w pole x: " + coordinates[0] + " y: " + coordinates[1]));
                 break;
             case 2: // HUMAN VS AI
-                if (atakujacy instanceof ComputerPlayer) {
-                    koordynaty = ((ComputerPlayer) atakujacy).attackEnemy();
-                    trafionoStatek = atakowany.makeMove(koordynaty);
-                    interfejs.pokazTablice(atakowany);
-                    gameHistory.addEvent(new Event(atakujacy.nickname, " zaatakowal gracza " + atakowany.nickname, "Strzal w pole x: " + koordynaty[0] + " y: " + koordynaty[1]));
+                if (attacking instanceof ComputerPlayer) {
+                    coordinates = ((ComputerPlayer) attacking).attackEnemy();
+                    shipHit = attacked.makeMove(coordinates);
+                    Interface.showBoard(attacked);
+                    gameHistory.addEvent(new Event(attacking.nickname, " zaatakowal gracza " + attacked.nickname, "Strzal w pole x: " + coordinates[0] + " y: " + coordinates[1]));
                 }
                 else {
-                    koordynaty = interfejs.getKoordynaty();
+                    coordinates = Interface.getCoordinates();
                 }
                 break;
             case 3: //AI VS AI
-                koordynaty = ((ComputerPlayer) atakujacy).attackEnemy();
-                trafionoStatek = atakowany.makeMove(koordynaty);
-                interfejs.pokazTablice(atakowany);
-                gameHistory.addEvent(new Event(atakujacy.nickname, " zaatakowal gracza " + atakowany.nickname, "Strzal w pole x: " + koordynaty[0] + " y: " + koordynaty[1]));
+                coordinates = ((ComputerPlayer) attacking).attackEnemy();
+                shipHit = attacked.makeMove(coordinates);
+                Interface.showBoard(attacked);
+                gameHistory.addEvent(new Event(attacking.nickname, " zaatakowal gracza " + attacked.nickname, "Strzal w pole x: " + coordinates[0] + " y: " + coordinates[1]));
                 break;
             default:
                 throw new AssertionError();
         }
     }
-
-    // public void atakPrzeciwnik2(Player gracz, Player oponent)
-    // {
-    //     int[] koordynaty = new int[2];
-    //     boolean trafionoStatek = false;
-
-    //     if(gracz instanceof HumanPlayer)
-    //     koordynaty=interfejs.getKoordynaty();
-    //     else{
-    //     koordynaty=((ComputerPlayer)gracz).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
-    //     if(oponent instanceof ComputerPlayer)
-    //     interfejs.komunikatySymulacji();}
-        
-    //     trafionoStatek = oponent.makeMove(koordynaty);
-    //     interfejs.komunikatPoStrzale(trafionoStatek);
-    //     interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
-    // }
-    
-        /*public void atakPrzeciwnik2 (Player gracz, Player oponent)
-        {
-            int[] koordynaty = new int[2];
-            boolean trafionoStatek = false;
-
-            if (gracz instanceof HumanPlayer)
-                koordynaty = interfejs.getKoordynaty();
-            else {
-                koordynaty = ((ComputerPlayer) gracz).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
-                if (oponent instanceof ComputerPlayer)
-                    interfejs.komunikatySymulacji();
-            }
-
-            trafionoStatek = oponent.makeMove(koordynaty);
-            interfejs.komunikatPoStrzale(koordynaty, trafionoStatek);
-        }*/
     }

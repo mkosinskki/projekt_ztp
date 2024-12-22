@@ -6,6 +6,6 @@ public class App {
 
         InterfaceConsole konsola = new InterfaceConsole();
         //GameManagerPrototype.getInstance(konsola).setupGame();
-        GameManagerPrototype.getInstance(konsola).przedGra();
+        GameManagerPrototype.getInstance(konsola).userMenu();
     }
 }

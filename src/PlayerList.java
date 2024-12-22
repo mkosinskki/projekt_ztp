@@ -8,8 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PlayerList {
-    private List<HumanPlayer> playerList = new ArrayList<>(); // tu taktyczny singletonik potem
-    private HashMap<String, String> hasla = new HashMap<>();
+    private List<HumanPlayer> playerList = new ArrayList<>();
 
     public PlayerList()
     {
@@ -105,7 +104,6 @@ public class PlayerList {
                 }
             }
 
-            System.out.println("Gracze wczytani poprawnie.");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,46 +124,40 @@ public class PlayerList {
         return  pom;
     }
 
-    public HumanPlayer logowanie(String nickname, String haslo)
+    public HumanPlayer logowanie(String nickname)
     {
         HumanPlayer player = findPlayer(nickname);
-        //jesli jest taki zestaw nickname i haslo, zostaje zwrocony player z listy
-        if(player!=null) 
+        //jesli jest taki nickname w bazie, zostaje zwrocony player z listy
+        if(player!=null)
         {
-            // if (hasla.containsKey(player.nickname) && hasla.get(player.nickname).equals(haslo)) 
-            // {
-            //     return player; trzeba dodac hasla potem
-            // }
             return player;
         }
-
         //w innym wypadku zostaje utworzony nowy player
-        HumanPlayer gracz = new HumanPlayer(nickname);
-        playerList.add(gracz);
-        saveToFile(gracz);
-        return gracz;
+        HumanPlayer newPlayer = new HumanPlayer(nickname);
+        playerList.add(newPlayer);
+        saveToFile(newPlayer);
+        return newPlayer;
     }
 
     public void updateWins(Player player)
     {
 
-        int a = 0;
+        int temp = 0;
         for(Player test : playerList)
         {
             if(test.nickname.equals(player.nickname))
             {
                 break;
             }
-            a++;
+            temp++;
         }
 
         try 
         {
             List<String> lines = Files.readAllLines(Paths.get("src\\PlayerList.txt"));
 
-            // Zmień zawartość wybranej linii
-            //lines.set(a, "Nick: " + player.nickname + ", Ilosc zwyciestw: " + player.winCount);
-            lines.set(a, player.toString());
+            // Zmień zawartość wybranej linii (linii na ktorej zapisany jest wybrany gracz)
+            lines.set(temp, player.toString());
 
             // Zapisz zmienione linie do pliku
             Files.write(Paths.get("src\\PlayerList.txt"), lines);
@@ -187,7 +179,7 @@ public class PlayerList {
         } 
         catch (IOException e) 
         {
-            System.err.println("Error saving game history: " + e.getMessage());
+            System.err.println("Błąd w zapisywaniu historii gry: " + e.getMessage());
         }
     }
 
