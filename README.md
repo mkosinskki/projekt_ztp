@@ -1,6 +1,6 @@
 Instrukcja uruchomienia aplikacji:
 
-1. Upewnij się, że masz zainstalowaną Javę.
+1. Upewnij się, że masz zainstalowaną Javę w wersji 17 lub nowszej:
     - Otwórz wiersz poleceń i wpisz: java -version
     - Jeśli Java nie jest zainstalowana, pobierz ją z: https://www.java.com/download/
 
