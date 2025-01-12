@@ -1,18 +1,15 @@
-## Getting Started
+Instrukcja uruchomienia aplikacji:
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+1. Upewnij się, że masz zainstalowaną Javę.
+    - Otwórz wiersz poleceń i wpisz: java -version
+    - Jeśli Java nie jest zainstalowana, pobierz ją z: https://www.java.com/download/
 
-## Folder Structure
+2. Kliknij dwukrotnie plik PLAY.bat, aby uruchomić aplikację.
 
-The workspace contains two folders by default, where:
+3. W razie problemów sprawdź, czy Java została poprawnie zainstalowana i dodana do zmiennych środowiskowych (Path).
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+4. W folderze głównym znajduje się PLAY - Shortcut, który można przenieść na Pulpit, aby aplikacje odpalać z poziomu Pulpitu.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+5. W razie problemów z uruchomieniem pliku PLAY.bat należy w wierszu poleceń (w tym samym katalogu co projekt), wpisać komende:
+ 
+   java -jar app.jar
