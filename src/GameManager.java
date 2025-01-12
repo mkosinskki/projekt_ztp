@@ -35,7 +35,7 @@ public class GameManager {
             userMenu();
             setupGame();
             startGame();
-            gameHistory.saveToFile("History.txt");
+            gameHistory.saveToFile("src/History.txt");
         }
     }
 
@@ -214,7 +214,7 @@ public class GameManager {
             playerList.updateWins(winner);
         myInterface.winnerMessage(winner);
         gameHistory.exportHistory();
-        gameHistory.saveToFile("History.txt");
+        gameHistory.saveToFile("src/History.txt");
     }
 
     private void placingShips(Player player, int[] shipCount) {
