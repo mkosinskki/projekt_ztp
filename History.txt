@@ -185,3 +185,52 @@ Events:
 
 
 
+Game Mode: Tryb symulacji
+Date: 13.12.2024, 12:15
+Players:
+  - Player 1: AI Thanapat
+  - Player 2: AI Bubbles
+Winner: AI Thanapat
+Events:
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 0 y: 7
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 7 y: 0
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 1 y: 1
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 8 y: 9
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 1 y: 2
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 2 y: 7
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 1 y: 3
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 3 y: 6
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 1 y: 7
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 1 y: 0
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 3 y: 3
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 5 y: 9
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 4 y: 8
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 3 y: 8
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 5 y: 2
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 3 y: 7
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 6 y: 0
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 5 y: 8
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 6 y: 1
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 4 y: 3
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 6 y: 2
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 9 y: 9
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 7 y: 2
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 2 y: 0
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 7 y: 3
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 8 y: 4
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 7 y: 4
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 6 y: 6
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 7 y: 5
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 9 y: 9
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 7 y: 8
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 2 y: 8
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 8 y: 8
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 6 y: 1
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 9 y: 4
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 9 y: 4
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 9 y: 5
+- Player: AI Bubbles, Action:  zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 3 y: 8
+- Player: AI Thanapat, Action:  zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 9 y: 6
+
+
+
