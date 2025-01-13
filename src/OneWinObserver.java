@@ -1,10 +1,10 @@
 public class OneWinObserver implements IObserver{
-    public void Notify(int wins, int shipsPlaced, int enemiesHit, HumanPlayer gracz){
-        if(gracz.getOsiagniecie(0))
-            gracz.Unsubscribe(this);
+    public void Notify(int wins, int shipsPlaced, int enemiesHit, HumanPlayer hp){
+        if(hp.getMyAchievements(0))
+            hp.Unsubscribe(this);
         if(wins==1){
-            gracz.setAchievementList(0);
-            GameManager.getInstance(null).interfejs.komunikatOsiagniecie(0);
-            gracz.Unsubscribe(this);}
+            hp.setAchievementList(0);
+            GameManager.getInstance(null).myInterface.achievementMessage(0);
+            hp.Unsubscribe(this);}
     }
 }

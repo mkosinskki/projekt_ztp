@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class HumanPlayer extends Player {
@@ -7,8 +6,8 @@ public class HumanPlayer extends Player {
                                                         new FiveOrMoreWinsObserver(),
                                                         new ShipsPlacedObserver(),
                                                         new EnemiesHitObserver()};
-    private final String[] osiagniecia = GameManager.osiagniecia;
-    private boolean[] zdobyteOsiagniecia = new boolean[osiagniecia.length];
+    private final String[] AvailableAchievements = GameManager.achievements; //zle uzycie singletona bo mamy globalny dostep
+    private boolean[] myAchievements = new boolean[AvailableAchievements.length];
     private int shipsPlaced=0, enemiesHit=0;
     List<IObserver> observers;
     public HumanPlayer(String nickname) {
@@ -16,11 +15,11 @@ public class HumanPlayer extends Player {
         super.winCount = 0;
         observers=new ArrayList<IObserver>();
         for(int i=0; i<usableObservers.length; i++)
-        Subscribe(usableObservers[i]);
+            Subscribe(usableObservers[i]);
     }
 
-    public boolean getOsiagniecie(int i) {
-        return zdobyteOsiagniecia[i];
+    public boolean getMyAchievements(int i) {
+        return myAchievements[i];
     }
     public void setRecords(int a, int b){
         shipsPlaced=b;
@@ -28,7 +27,7 @@ public class HumanPlayer extends Player {
     }
     public void updateHits(boolean bool){
         if(bool)
-        enemiesHit++;
+            enemiesHit++;
         Notify();
     }
     private void Subscribe(IObserver observer)
@@ -59,13 +58,17 @@ public class HumanPlayer extends Player {
         super.winCount = wins;
     }
 
+
+
+
     @Override
-    public boolean placeShips(int tab[], char direction, Ship statek)
+    public boolean placeShips(int tab[], char direction, Ship ship)
     {
         int startX = tab[0];
         int startY = tab[1];
         boolean horizontal = (direction == 'h');
-        boolean placed = board.placeShip(statek, startX, startY, horizontal);
+        boolean placed = board.placeShip(ship, startX, startY, horizontal);
+
         if (placed) 
         {
             shipsPlaced++;
@@ -81,15 +84,15 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    public boolean placeShips(Ship statek)
+    public boolean placeShips(Ship ship)
     {
         return false; //zwrot bledu 
     }
 
     @Override
-    public boolean makeMove(int tab[]) 
+    public boolean makeMove(int[] arr)
     {
-        boolean hit = board.markShot(tab[0], tab[1]);
+        boolean hit = board.markShot(arr[0], arr[1]);
         if(hit)
         {
             return true; //trafiono w statek
@@ -98,10 +101,10 @@ public class HumanPlayer extends Player {
     }
 
     public void setAchievementList(int i) {
-        zdobyteOsiagniecia[i]=true;
+        myAchievements[i]=true;
     }
     public void setAchievementList(boolean[] lista) {
-        zdobyteOsiagniecia=lista;
+        myAchievements =lista;
     }
 
     @Override
@@ -111,9 +114,9 @@ public class HumanPlayer extends Player {
         sb.append(", Trafione pola: "+enemiesHit);
         sb.append(", Postawione statki: "+shipsPlaced);
         sb.append(", Osiagniecia: ");
-        for(int i=0;i<zdobyteOsiagniecia.length;i++)
-        if(zdobyteOsiagniecia[i])
-        sb.append(i + " " + "\"" + osiagniecia[i] + "\"" +",");
+        for(int i = 0; i< myAchievements.length; i++)
+            if(myAchievements[i])
+                sb.append(i + " " + "\"" + AvailableAchievements[i] + "\"" +",");
         return sb.toString();
     } //trzeba zmienic i dodac jeszcze wypisanie osiagniec
 }

@@ -20,7 +20,7 @@ public class ComputerPlayer extends Player {
     }
 
     @Override
-    public boolean placeShips(Ship statek) 
+    public boolean placeShips(Ship ship)
     {
         boolean placed = false;
         while (!placed) 
@@ -29,13 +29,13 @@ public class ComputerPlayer extends Player {
             int startY = new Random().nextInt(board.getSize());
             boolean horizontal = new Random().nextBoolean();
 
-            placed = board.placeShip(statek, startX, startY, horizontal);
+            placed = board.placeShip(ship, startX, startY, horizontal);
         }
         return true;
     }
 
     @Override 
-    public boolean placeShips(int tab[], char direction, Ship statek)
+    public boolean placeShips(int tab[], char direction, Ship ship)
     {
         return false; //zwrot bledu
     }
@@ -53,10 +53,10 @@ public class ComputerPlayer extends Player {
 
     public int[] attackEnemy()
     {
-        int[] koordynaty = new int[2];
-        koordynaty = strategy.calculateMove(PlayerBoard);
-        // PlayerBoard.markShot(koordynaty[0], koordynaty[1]);
-        return koordynaty;
+        int[] coordinates = new int[2];
+        coordinates = strategy.calculateMove(PlayerBoard);
+        PlayerBoard.markShot(coordinates[0], coordinates[1]);
+        return coordinates;
     }
 
     @Override

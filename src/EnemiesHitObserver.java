@@ -1,10 +1,10 @@
 public class EnemiesHitObserver implements IObserver{
-    public void Notify(int wins, int shipsPlaced, int enemiesHit, HumanPlayer gracz){
-        if(gracz.getOsiagniecie(3))
-            gracz.Unsubscribe(this);
+    public void Notify(int wins, int shipsPlaced, int enemiesHit, HumanPlayer player){
+        if(player.getMyAchievements(3))
+            player.Unsubscribe(this);
         if(enemiesHit==20){
-            gracz.setAchievementList(0);
-            GameManager.getInstance(null).interfejs.komunikatOsiagniecie(3);
-            gracz.Unsubscribe(this);}
+            player.setAchievementList(0);
+            GameManager.getInstance(null).myInterface.achievementMessage(3);
+            player.Unsubscribe(this);}
     }
 }
