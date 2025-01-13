@@ -36,15 +36,19 @@ public class InterfaceConsole extends Interface {
     }
 
     @Override
-    public int menu() {
+    public int menu() 
+    {
         return readInt("\nMenu użytkownika\n" +
                 "1) Rozpocznij nową grę\n" +
                 "2) Sprawdź statystyki gracza\n" +
-                "3) Customizuj planszę");
+                "3) Customizuj planszę\n" +
+                "4) Przejrzyj historie gier\n" +
+                "5) Wylacz gre\n");
     }
 
     @Override
-    public int chooseGameMode() {
+    public int chooseGameMode() 
+    {
         return readInt("\n1) Gracz vs Gracz\n2) Gracz vs AI\n3) AI vs AI");
     }
 

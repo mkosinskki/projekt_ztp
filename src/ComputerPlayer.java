@@ -59,7 +59,8 @@ public class ComputerPlayer extends Player {
     }
 
     @Override
-    public String toString() {
+    public String toString() 
+    {
         return super.toString();
     }
 }

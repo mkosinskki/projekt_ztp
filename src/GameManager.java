@@ -37,8 +37,6 @@ public class GameManager {
         while(true)
         {
             userMenu();
-            setupGame();
-            startGame();
             gameHistory.saveToFile("src/History.txt");
         }
     }
@@ -88,9 +86,11 @@ public class GameManager {
                 gameHistory.setPlayer1(p1.nickname);
                 gameHistory.setPlayer2(p2.nickname);
                 setupGame();
+                startGame();
                 break;
             case 2:
-                switch (myInterface.chooseStatistics()) {
+                switch (myInterface.chooseStatistics()) 
+                {
                     case 1:
                         //opcja 1 - chcesz zobaczyc statystyki konkretnego gracza:
                         String nick = myInterface.getNickname();
@@ -106,13 +106,20 @@ public class GameManager {
             case 3:
                 String nick = myInterface.getNickname();
                 if(playerList.findPlayer(nick).getMyAchievements(0))
+                {
                     myInterface.customisationMenu();
+                }
                 else
+                {
                     myInterface.CustomisationErrorMessage(nick);
+                }
                 //DO IMPLEMENTACJI CUSTOMIZACJA PLANSZY (W TYM WYPADKU ZMIANA ZNAKOW STATKOW LUB WODY)
                 break;
             case 4:
                 //DO IMPLEMENTACJI HISTORII GRY
+                break;
+            case 5:
+                System.exit(1);
                 break;
             default:
                 throw new AssertionError();
@@ -137,16 +144,6 @@ public class GameManager {
 
     public void setupGame() 
     {
-        //POMOCNICZE DO TESTOW
-        // board1 = new Board(10);
-        // board2 = new Board(10);
-        // p1 = new ComputerPlayer("AI Thanapat", new AIHard());
-        // p2 = new ComputerPlayer("AI Bubbles", new AIEasy());
-        // wyborTrybuGry = 3;
-        //KONIEC POMOCNICZE
-
-        //interfejs.customisationMenu();
-
         int[] shipCount;
         
         switch(myInterface.chooseSetup())
@@ -156,9 +153,13 @@ public class GameManager {
                 p1.setBoard(new Board(10));
                 p2.setBoard(new Board(10));
                 if(p1 instanceof ComputerPlayer)
+                {
                     ((ComputerPlayer) p1).setPlayerBoard(p2.board);
+                }
                 if(p2 instanceof ComputerPlayer)
+                {
                     ((ComputerPlayer) p2).setPlayerBoard(p1.board);
+                }
                 break;
             case 2: //WYBOR TRYBU GRY Z ROZMIAREM PLANSZY I ILOSCIA STATKOW
                 shipCount = myInterface.getShipCount();
@@ -185,21 +186,20 @@ public class GameManager {
         }
 
         placingShips(p1,shipCount);
-        placingShips(p2,shipCount);
-
-        //POMOCNICZE DO TESTOW
-        startGame();        
+        placingShips(p2,shipCount);      
     }
 
     public void startGame() 
     {
         boolean GameOver = false;
         Player winner = null;
-        while (!GameOver) {
+        while (!GameOver) 
+        {
             atak(p1, p2);
             //gameHistory.addEvent(new Event(p1.nickname, "Atakuje", ""));
             GameOver = p2.board.areAllShipsSunk();
-            if(GameOver){
+            if(GameOver)
+            {
                 winner = p1;
                 break;
             }
@@ -207,52 +207,64 @@ public class GameManager {
             atak(p2, p1);
             //gameHistory.addEvent(new Event(p1.nickname, "Atakuje", ""));
             GameOver = p1.board.areAllShipsSunk();
-            if(GameOver){
+            if(GameOver)
+            {
                 winner = p2;
                 break;
             }
         }
         gameHistory.setWinner(winner.nickname);
         winner.addWinCount();
+
         if(winner instanceof HumanPlayer)
+        {
             playerList.updateWins(winner);
+        }
+
         myInterface.winnerMessage(winner);
         gameHistory.exportHistory();
         gameHistory.saveToFile("src/History.txt");
     }
 
-    private void placingShips(Player player, int[] shipCount) {
+    private void placingShips(Player player, int[] shipCount) 
+    {
         boolean placed = false;
         int[] coordinates;
         char direction;
         for (int i=0; i<shipCount.length;i++)
-            for(int j=0; j<shipCount[i];j++){
-            if(player instanceof HumanPlayer){
-            while (!placed)
+        {
+            for(int j=0; j<shipCount[i];j++)
             {
-                myInterface.MessagesRegardingShip(1, ships[i].getSize());
-                coordinates = myInterface.getCoordinates();
-                direction = myInterface.getDirection();
-                placed = player.placeShips(coordinates, direction, ships[i]);
-                if (!placed)
+                if(player instanceof HumanPlayer)
                 {
-                    myInterface.MessagesRegardingShip(3, ships[i].getSize());
+                    while (!placed)
+                    {
+                        myInterface.MessagesRegardingShip(1, ships[i].getSize());
+                        coordinates = myInterface.getCoordinates();
+                        direction = myInterface.getDirection();
+                        placed = player.placeShips(coordinates, direction, ships[i]);
+                        if (!placed)
+                        {
+                            myInterface.MessagesRegardingShip(3, ships[i].getSize());
+                        }
+                    }
+                    myInterface.MessagesRegardingShip(2, ships[i].getSize());
+                    placed = false;
+                    myInterface.showBoard(player);
+                }
+                else
+                {
+                    myInterface.MessagesRegardingShip(1, ships[i].getSize());
+                    player.placeShips(ships[i]);
                 }
             }
-            myInterface.MessagesRegardingShip(2, ships[i].getSize());
-            placed = false;
-            myInterface.showBoard(player);}
-            else{
-                myInterface.MessagesRegardingShip(1, ships[i].getSize());
-                player.placeShips(ships[i]);
-            }
-
         }
         myInterface.MessagesRegardingShip(4, 0);
         if(player instanceof HumanPlayer)
+        {
             myInterface.showBoard(player);
+        }
     }
-
 
     public void atak(Player player, Player opponent)
     {
@@ -260,17 +272,22 @@ public class GameManager {
         boolean hitShip = false, isPlayerHuman = player instanceof HumanPlayer;
 
         if(isPlayerHuman)//gdy człowiek
-            coordinates=myInterface.getCoordinates();
+        {
+            coordinates=myInterface.getCoordinates(); 
+        }
         else//gdy AI
+        {
             coordinates=((ComputerPlayer)player).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
-        // if(opponent instanceof ComputerPlayer)    //chyba nie potrzebne bo AI vs AI i tak to samo wypisuje
+        }
         hitShip = opponent.board.markShot(coordinates[0],coordinates[1]);
-        if(!isPlayerHuman){
+        if(!isPlayerHuman)
+        {
             myInterface.showBoard(opponent);
             myInterface.shotResultMessage(coordinates, hitShip);
             App.Delay(2500);
         }
-        else{
+        else
+        {
             ((HumanPlayer)player).updateHits(hitShip);
             myInterface.shotResultMessage(coordinates, hitShip);
         }

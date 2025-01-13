@@ -2,7 +2,8 @@
 public class App {
     public static void main(String[] args) throws Exception 
     {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> 
+        {
             GameManager.getInstance(null).updateAllPlayers();
         }));
         // GameManager.getInstance(new GameConsole());
@@ -13,9 +14,9 @@ public class App {
         GameManager.getInstance(console).userMenu();
     }
     
-    public static void Delay(long time){
+    public static void Delay(long time)
+    {
         long millis = System.currentTimeMillis() % 10000;
-        while(millis+time>System.currentTimeMillis() % 10000)
-            ;
+        while(millis+time>System.currentTimeMillis() % 10000);
     }
 }
