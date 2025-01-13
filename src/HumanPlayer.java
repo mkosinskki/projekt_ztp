@@ -2,20 +2,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HumanPlayer extends Player {
-    private final static IObserver[] usableObservers = {new OneWinObserver(),
-                                                        new FiveOrMoreWinsObserver(),
-                                                        new ShipsPlacedObserver(),
-                                                        new EnemiesHitObserver()};
-    private final String[] AvailableAchievements = GameManager.achievements; //zle uzycie singletona bo mamy globalny dostep
-    private boolean[] myAchievements = new boolean[AvailableAchievements.length];
+    private boolean[] myAchievements = new boolean[GameManager.achievements.length];
     private int shipsPlaced=0, enemiesHit=0;
     List<IObserver> observers;
     public HumanPlayer(String nickname) {
         super(nickname);
         super.winCount = 0;
         observers=new ArrayList<IObserver>();
-        for(int i=0; i<usableObservers.length; i++)
-            Subscribe(usableObservers[i]);
+        for(int i=0; i<GameManager.usableObservers.length; i++)
+            Subscribe(GameManager.usableObservers[i]);
     }
 
     public boolean getMyAchievements(int i) {
@@ -116,7 +111,7 @@ public class HumanPlayer extends Player {
         sb.append(", Osiagniecia: ");
         for(int i = 0; i< myAchievements.length; i++)
             if(myAchievements[i])
-                sb.append(i + " " + "\"" + AvailableAchievements[i] + "\"" +",");
+                sb.append(i + " " + "\"" + GameManager.achievements[i] + "\"" +",");
         return sb.toString();
     } //trzeba zmienic i dodac jeszcze wypisanie osiagniec
 }

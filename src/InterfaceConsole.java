@@ -54,8 +54,10 @@ public class InterfaceConsole extends Interface {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < player.board.getSize(); i++) {
             for (int j = 0; j < player.board.getSize(); j++) {
+                if(!player.board.getGrid()[i][j].isHit())
                 sb.append(player.board.getGrid()[i][j].containsShip() ? customisation.getShip() : customisation.getWater());
-                sb.append(player.board.getGrid()[i][j].isHit() ? "X" : " ");
+                else
+                sb.append("X");
             }
             sb.append("\n");
         }

@@ -3,6 +3,10 @@ import java.time.format.DateTimeFormatter;
 
 public class GameManager {
     public final static String[] achievements = {"1 win", "5 wins", "30 ships placed", "you hit an enemy 20 times"};
+    public final static IObserver[] usableObservers = {new OneWinObserver(),
+        new FiveOrMoreWinsObserver(),
+        new ShipsPlacedObserver(),
+        new EnemiesHitObserver()};
     private static GameManager instance;
     private Player p1, p2;
     private Ship[] ships;
@@ -11,7 +15,7 @@ public class GameManager {
     private PlayerList playerList;
     private int wyborTrybuGry;
 
-    private GameManager(Interface ChosenInterface) {
+    private GameManager(Interface ChosenInterface){
         gameHistory = new GameHistory();
         playerList = new PlayerList();
         this.myInterface = ChosenInterface;
@@ -27,7 +31,7 @@ public class GameManager {
         }
         return instance;
     }
-
+    
     public void app()
     {
         while(true)
@@ -260,12 +264,16 @@ public class GameManager {
         else//gdy AI
             coordinates=((ComputerPlayer)player).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
         // if(opponent instanceof ComputerPlayer)    //chyba nie potrzebne bo AI vs AI i tak to samo wypisuje
-        hitShip = opponent.makeMove(coordinates);
-        if(!isPlayerHuman)
+        hitShip = opponent.board.markShot(coordinates[0],coordinates[1]);
+        if(!isPlayerHuman){
             myInterface.showBoard(opponent);
-        else
+            myInterface.shotResultMessage(coordinates, hitShip);
+            App.Delay(2500);
+        }
+        else{
             ((HumanPlayer)player).updateHits(hitShip);
+            myInterface.shotResultMessage(coordinates, hitShip);
+        }
         gameHistory.addEvent(new Event(player.nickname, " zaatakowal gracza " + opponent.nickname, "Strzal w pole x: " + coordinates[0] + " y: " + coordinates[1]));
-        myInterface.shotResultMessage(coordinates, hitShip);
     }
 }
