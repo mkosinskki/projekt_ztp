@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 public class GameManager {
     public final static String[] achievements = {"1 win", "5 wins", "30 ships placed", "you hit an enemy 20 times"};
@@ -11,18 +12,22 @@ public class GameManager {
     private PlayerList playerList;
     private int wyborTrybuGry;
 
-    private GameManager(Interface ChosenInterface) {
+    private GameManager(Interface ChosenInterface) 
+    {
         gameHistory = new GameHistory();
         playerList = new PlayerList();
         this.myInterface = ChosenInterface;
     }
 
-    public void updateAllPlayers(){
+    public void updateAllPlayers()
+    {
         playerList.updateAllPlayersInList();
-            }
+    }
 
-    public static GameManager getInstance(Interface myInterface) {
-        if (instance == null) {
+    public static GameManager getInstance(Interface myInterface) 
+    {
+        if (instance == null) 
+        {
             instance = new GameManager(myInterface);
         }
         return instance;
@@ -33,7 +38,6 @@ public class GameManager {
         while(true)
         {
             userMenu();
-            setupGame();
             startGame();
             gameHistory.saveToFile("src/History.txt");
         }
@@ -84,9 +88,11 @@ public class GameManager {
                 gameHistory.setPlayer1(p1.nickname);
                 gameHistory.setPlayer2(p2.nickname);
                 setupGame();
+                startGame();
                 break;
             case 2:
-                switch (myInterface.chooseStatistics()) {
+                switch (myInterface.chooseStatistics()) 
+                {
                     case 1:
                         //opcja 1 - chcesz zobaczyc statystyki konkretnego gracza:
                         String nick = myInterface.getNickname();
@@ -110,6 +116,9 @@ public class GameManager {
             case 4:
                 //DO IMPLEMENTACJI HISTORII GRY
                 break;
+            case 5:
+                System.exit(1);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -122,8 +131,8 @@ public class GameManager {
         {
             case 1:
                 return new AIEasy();
-            // case 2:
-            //     return new AIMedium();
+            case 2:
+                return new AIMedium();
             case 3:
                 return new AIHard();
             default:
@@ -133,16 +142,6 @@ public class GameManager {
 
     public void setupGame() 
     {
-        //POMOCNICZE DO TESTOW
-        // board1 = new Board(10);
-        // board2 = new Board(10);
-        // p1 = new ComputerPlayer("AI Thanapat", new AIHard());
-        // p2 = new ComputerPlayer("AI Bubbles", new AIEasy());
-        // wyborTrybuGry = 3;
-        //KONIEC POMOCNICZE
-
-        //interfejs.customisationMenu();
-
         int[] shipCount;
         
         switch(myInterface.chooseSetup())
@@ -181,72 +180,92 @@ public class GameManager {
         }
 
         placingShips(p1,shipCount);
-        placingShips(p2,shipCount);
-
-        //POMOCNICZE DO TESTOW
-        startGame();        
+        placingShips(p2,shipCount);        
     }
 
     public void startGame() 
     {
         boolean GameOver = false;
         Player winner = null;
-        while (!GameOver) {
+        while (!GameOver) 
+        {
             atak(p1, p2);
-            //gameHistory.addEvent(new Event(p1.nickname, "Atakuje", ""));
             GameOver = p2.board.areAllShipsSunk();
-            if(GameOver){
+            if(GameOver)
+            {
                 winner = p1;
                 break;
             }
 
             atak(p2, p1);
-            //gameHistory.addEvent(new Event(p1.nickname, "Atakuje", ""));
             GameOver = p1.board.areAllShipsSunk();
-            if(GameOver){
+            if(GameOver)
+            {
                 winner = p2;
                 break;
             }
         }
         gameHistory.setWinner(winner.nickname);
         winner.addWinCount();
+
         if(winner instanceof HumanPlayer)
+        {
             playerList.updateWins(winner);
+        }
+
         myInterface.winnerMessage(winner);
         gameHistory.exportHistory();
         gameHistory.saveToFile("src/History.txt");
     }
 
-    private void placingShips(Player player, int[] shipCount) {
+    private void placingShips(Player player, int[] shipCount) 
+    {
         boolean placed = false;
         int[] coordinates;
         char direction;
         for (int i=0; i<shipCount.length;i++)
-            for(int j=0; j<shipCount[i];j++){
-            if(player instanceof HumanPlayer){
-            while (!placed)
+        {
+            for(int j=0; j<shipCount[i];j++)
             {
-                myInterface.MessagesRegardingShip(1, ships[i].getSize());
-                coordinates = myInterface.getCoordinates();
-                direction = myInterface.getDirection();
-                placed = player.placeShips(coordinates, direction, ships[i]);
-                if (!placed)
+                if(player instanceof HumanPlayer)
                 {
-                    myInterface.MessagesRegardingShip(3, ships[i].getSize());
+                
+                    while (!placed)
+                    {
+                        myInterface.MessagesRegardingShip(1, ships[i].getSize());
+                        coordinates = myInterface.getCoordinates();
+                        direction = myInterface.getDirection();
+                        placed = player.placeShips(coordinates, direction, ships[i]);
+                        if (!placed)
+                        {
+                            myInterface.MessagesRegardingShip(3, ships[i].getSize());
+                        }
+                    }
+                    myInterface.MessagesRegardingShip(2, ships[i].getSize());
+                    placed = false;
+                    myInterface.showBoard(player);
+                }
+                else
+                {
+                    myInterface.MessagesRegardingShip(1, ships[i].getSize());
+                    try
+                    {
+                        TimeUnit.SECONDS.sleep(1);
+                    }
+                    catch(InterruptedException e)
+                    {
+                        
+                    }
+                    player.placeShips(ships[i]);
                 }
             }
-            myInterface.MessagesRegardingShip(2, ships[i].getSize());
-            placed = false;
-            myInterface.showBoard(player);}
-            else{
-                myInterface.MessagesRegardingShip(1, ships[i].getSize());
-                player.placeShips(ships[i]);
-            }
+            myInterface.MessagesRegardingShip(4, 0);
 
+            if(player instanceof HumanPlayer)
+            {
+                myInterface.showBoard(player);
+            }
         }
-        myInterface.MessagesRegardingShip(4, 0);
-        if(player instanceof HumanPlayer)
-            myInterface.showBoard(player);
     }
 
 
@@ -256,15 +275,35 @@ public class GameManager {
         boolean hitShip = false, isPlayerHuman = player instanceof HumanPlayer;
 
         if(isPlayerHuman)//gdy człowiek
+        {
             coordinates=myInterface.getCoordinates();
+        }
         else//gdy AI
+        {
             coordinates=((ComputerPlayer)player).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
+        }
         // if(opponent instanceof ComputerPlayer)    //chyba nie potrzebne bo AI vs AI i tak to samo wypisuje
         hitShip = opponent.makeMove(coordinates);
+        System.out.println(opponent.toString());
+        System.out.println(coordinates[0] + " " + coordinates[1]);
         if(!isPlayerHuman)
+        {
             myInterface.showBoard(opponent);
+            // try
+            // {
+            //     TimeUnit.SECONDS.sleep(5);
+            // }
+            // catch(InterruptedException e)
+            // {
+                    
+            // }
+            // myInterface.shotResultMessage(coordinates, hitShip);
+            // myInterface.showBoard(opponent);
+        }
         else
+        {
             ((HumanPlayer)player).updateHits(hitShip);
+        }
         gameHistory.addEvent(new Event(player.nickname, " zaatakowal gracza " + opponent.nickname, "Strzal w pole x: " + coordinates[0] + " y: " + coordinates[1]));
         myInterface.shotResultMessage(coordinates, hitShip);
     }

@@ -58,9 +58,6 @@ public class HumanPlayer extends Player {
         super.winCount = wins;
     }
 
-
-
-
     @Override
     public boolean placeShips(int tab[], char direction, Ship ship)
     {

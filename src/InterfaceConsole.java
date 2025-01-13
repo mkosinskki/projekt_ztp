@@ -36,20 +36,25 @@ public class InterfaceConsole extends Interface {
     }
 
     @Override
-    public int menu() {
+    public int menu() 
+    {
         return readInt("\nMenu użytkownika\n" +
                 "1) Rozpocznij nową grę\n" +
                 "2) Sprawdź statystyki gracza\n" +
-                "3) Customizuj planszę");
+                "3) Customizuj planszę\n" +
+                "4) Sprawdz historie gry\n" +
+                "5) Wylacz gre\n" );
     }
 
     @Override
-    public int chooseGameMode() {
+    public int chooseGameMode() 
+    {
         return readInt("\n1) Gracz vs Gracz\n2) Gracz vs AI\n3) AI vs AI");
     }
 
     @Override
-    public void showBoard(Player player) {
+    public void showBoard(Player player) 
+    {
         CustomisationConsole customisation = CustomisationConsole.getInstance(player.nickname);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < player.board.getSize(); i++) {
@@ -63,22 +68,26 @@ public class InterfaceConsole extends Interface {
     }
 
     @Override
-    public int chooseAIdifficulty() {
+    public int chooseAIdifficulty() 
+    {
         return readInt("\nWybierz poziom trudności bota:\n1) Łatwy\n2) Średni\n3) Trudny");
     }
 
     @Override
-    public int[] getShipCount() {
+    public int[] getShipCount() 
+    {
         int max = readInt("Podaj długość najdłuższego statku");
         int[] ilosciStatkow = new int[max];
-        for (int a = 0; a < max; a++) {
+        for (int a = 0; a < max; a++) 
+        {
             ilosciStatkow[a] = readInt("Podaj ilość statków o długości: " + (a + 1));
         }
         return ilosciStatkow;
     }
 
     @Override
-    public String getNickname() {
+    public String getNickname() 
+    {
         return readString("Wprowadź nick gracza: ");
     }
 
@@ -116,10 +125,10 @@ public class InterfaceConsole extends Interface {
                 System.out.println("Pomyślnie ustawiono statek o długości: " + ShipSize);
                 break;
             case 3:
-                System.out.println("Błąd stawiania statku! Zostaniesz poproszony o ponowienie operacji.");
+                System.out.println("\nBłąd stawiania statku! Zostaniesz poproszony o ponowienie operacji.\n");
                 break;
             case 4:
-                System.out.println("Wszystkie statki ustawione prawidłowo");
+                System.out.println("\nWszystkie statki ustawione prawidłowo\n");
                 break;
             default:
                 throw new AssertionError();
@@ -132,12 +141,16 @@ public class InterfaceConsole extends Interface {
     }
 
     @Override
-    public void shotResultMessage(int[] coordinates, boolean hit) {
+    public void shotResultMessage(int[] coordinates, boolean hit)
+     {
         System.out.println("Strzelono w pole: " + coordinates[0] + ", " + coordinates[1]);
-        if (hit) {
-            System.out.println("Trafiłeś w statek przeciwnika");
-        } else {
-            System.out.println("Nie trafiono w statek przeciwnika");
+        if (hit) 
+        {
+            System.out.println("Trafiłeś w statek przeciwnika\n\n");
+        } 
+        else 
+        {
+            System.out.println("Nie trafiono w statek przeciwnika\n\n");
         }
     }
 
@@ -181,13 +194,15 @@ public class InterfaceConsole extends Interface {
     }
 
     @Override
-    public void CustomisationErrorMessage(String nick){
-        System.out.println("Gracz "+nick+" nie wygral jeszcze ani jednej gry aby odblokowac customizacje\n");
+    public void CustomisationErrorMessage(String nick)
+    {
+        System.out.println("Gracz " + nick + " nie wygral jeszcze ani jednej gry aby odblokowac customizacje\n");
     }
 
 
     @Override
-    public void loggedInMessage(String nick) {
+    public void loggedInMessage(String nick) 
+    {
         System.out.println("Pomyślnie zalogowano jako: " + nick);
     }
 }

@@ -84,7 +84,6 @@ public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.write(exportHistory());
             writer.write("\n\n\n");
-            System.out.println("Game history saved to " + filePath);
         } catch (IOException e) {
             System.err.println("Error saving game history: " + e.getMessage());
         }

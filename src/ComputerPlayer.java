@@ -55,7 +55,6 @@ public class ComputerPlayer extends Player {
     {
         int[] coordinates = new int[2];
         coordinates = strategy.calculateMove(PlayerBoard);
-        PlayerBoard.markShot(coordinates[0], coordinates[1]);
         return coordinates;
     }
 
