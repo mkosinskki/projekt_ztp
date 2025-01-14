@@ -16,7 +16,6 @@ public abstract class Player {
 
     // Logika rozmieszczania statków
     public abstract boolean placeShips(int koordynaty[], char kierunek, Ship statek);
-    public abstract boolean placeShips(Ship Statek);
     // Logika wykonywania ruchu
     public abstract boolean makeMove(int koordynaty[]); // Zwraca współrzędne [x, y]
 

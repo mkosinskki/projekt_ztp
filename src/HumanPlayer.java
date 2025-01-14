@@ -78,11 +78,6 @@ public class HumanPlayer extends Player {
         super.board = board;
     }
 
-    @Override
-    public boolean placeShips(Ship ship)
-    {
-        return false; //zwrot bledu 
-    }
 
     @Override
     public boolean makeMove(int[] arr)

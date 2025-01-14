@@ -90,6 +90,11 @@ public class InterfaceGUI extends Interface {
     {
         
     }
+    @Override
+    public void showHistoryMenu(GameHistory gameHistory)
+    {
+        ;
+    }
 
     @Override
     public void errorMessages(int errorNumber){}

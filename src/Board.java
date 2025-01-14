@@ -11,6 +11,17 @@ public class Board {
         initializeGrid();
     }
 
+    public String wypiszInfo(Player player){
+        StringBuilder sb = new StringBuilder();
+        for(Cell[] wiersz : grid){
+            for(Cell c : wiersz){
+                sb.append(c.containsShip()?CustomisationConsole.getInstance(player.nickname).getShip():
+                CustomisationConsole.getInstance(player.nickname).getWater());
+            }
+        }
+        return sb.toString();
+    }
+
     public int getSize()
     {
         return size;
