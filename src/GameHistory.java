@@ -91,7 +91,8 @@ public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
     }
 
     // Odczyt historii gry z pliku tekstowego
-    public static String loadFromFile(String filePath) {
+    public static String loadFromFile(String filePath) 
+    {
         try {
             return new String(Files.readAllBytes(Paths.get(filePath)));
         } catch (IOException e) {

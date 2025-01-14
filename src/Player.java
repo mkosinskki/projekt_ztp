@@ -22,6 +22,11 @@ public abstract class Player {
 
     public abstract void setBoard(Board board);
 
+    public String getNickname()
+    {
+        return nickname;
+    }
+
     @Override
     public String toString() {
         return "Nick: " + nickname + ", Ilosc zwyciestw: " + winCount;

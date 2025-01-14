@@ -92,5 +92,11 @@ public class InterfaceGUI extends Interface {
     }
 
     @Override
-    public void errorMesseges(int errorNumber){}
+    public void errorMessages(int errorNumber){}
+
+    @Override
+    public void settingShipsMessage(String nickname){}
+
+    @Override
+    public int choosePlayerToCheck(){return 0;}
 }

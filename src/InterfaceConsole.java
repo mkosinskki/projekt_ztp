@@ -61,7 +61,7 @@ public class InterfaceConsole extends Interface
     @Override
     public int chooseGameMode() 
     {
-        return readInt("\n1) Gracz vs Gracz\n2) Gracz vs AI\n3) AI vs AI");
+        return readInt("\n0) Powrot\n1) Gracz vs Gracz\n2) Gracz vs AI\n3) AI vs AI\n");
     }
 
     @Override
@@ -122,7 +122,7 @@ public class InterfaceConsole extends Interface
     @Override
     public int chooseStatistics() 
     {
-        return readInt("\nwybierz opcje\n1-statystyki konkretnego gracza\n2-statystyki wszystkich\n");
+        return readInt("\n0) Powrot\n1) statystyki konkretnego gracza\n2) statystyki wszystkich\n");
     }
 
     @Override
@@ -146,10 +146,10 @@ public class InterfaceConsole extends Interface
                 System.out.println("Pomyślnie ustawiono statek o długości: " + ShipSize);
                 break;
             case 3:
-                System.out.println("Błąd stawiania statku! Zostaniesz poproszony o ponowienie operacji.");
+                System.out.println("\nBłąd stawiania statku! Zostaniesz poproszony o ponowienie operacji.\n");
                 break;
             case 4:
-                System.out.println("Wszystkie statki ustawione prawidłowo");
+                System.out.println("\nWszystkie statki ustawione prawidłowo\n");
                 break;
             default:
                 throw new AssertionError();
@@ -236,7 +236,7 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
-    public void errorMesseges(int errorNumber)
+    public void errorMessages(int errorNumber)
     {
         switch (errorNumber) 
         {
@@ -244,9 +244,22 @@ public class InterfaceConsole extends Interface
                 System.out.println("Podano niepoprawne koordynaty.");
                 break;
             case 1:
+            System.out.println("Niepoprawny wybor");
                 break;
             default:
                 System.out.println("Nieznany blad.");
         }
+    }
+
+    @Override
+    public void settingShipsMessage(String nickname)
+    {
+        System.out.println("\n" + nickname + " ustawia statki.\n");
+    }
+
+    @Override
+    public int choosePlayerToCheck()
+    {
+        return readInt("\n0) Powrot\n1) Podaj nick gracza którego plansza bedzie customizowana\n");
     }
 }

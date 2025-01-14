@@ -41,88 +41,117 @@ public class GameManager {
         }
     }
 
-    public void userMenu()
+    public void userMenu() 
     {
         int wybor;
         wybor = myInterface.menu();
-        switch (wybor) 
-        {
-            case 1:
-                wyborTrybuGry = myInterface.chooseGameMode();
-                LocalDateTime now = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
-                String formattedDate = now.format(formatter);
-                gameHistory.setDate(formattedDate);
-                switch (wyborTrybuGry) 
-                {
-                    case 1:
-                        gameHistory.setGameMode("Gracz vs Gracz");
+        while (true) 
+        { 
+            switch (wybor) 
+            {
+                case 1:
+                    wyborTrybuGry = myInterface.chooseGameMode();
+                    LocalDateTime now = LocalDateTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
+                    String formattedDate = now.format(formatter);
+                    gameHistory.setDate(formattedDate);
+                    boolean valid = false;
 
-                        String nick1 = myInterface.getNickname();
-                        p1 = playerList.loggingIn(nick1);
-                        myInterface.loggedInMessage(p1.nickname);
+                    while(!valid)
+                    {
+                        switch (wyborTrybuGry) 
+                        {
+                            case 0:
+                                userMenu();
+                            case 1:
+                                gameHistory.setGameMode("Gracz vs Gracz");
 
-                        String nick2 = myInterface.getNickname();
-                        p2 = playerList.loggingIn(nick2);
-                        myInterface.loggedInMessage(p2.nickname);
+                                String nick1 = myInterface.getNickname();
+                                p1 = playerList.loggingIn(nick1);
+                                myInterface.loggedInMessage(p1.nickname);
+
+                                String nick2 = myInterface.getNickname();
+                                p2 = playerList.loggingIn(nick2);
+                                myInterface.loggedInMessage(p2.nickname);
+                                valid = true;
+                                break;
+                            case 2:
+                                gameHistory.setGameMode("Gracz vs AI");
+                                p1 = new HumanPlayer(myInterface.getNickname());
+
+                                p2 = new ComputerPlayer("AI Shaniqua", wyborTrudnosciBota());
+                                valid = true;
+                                break;
+                            case 3:
+                                gameHistory.setGameMode("Tryb symulacji");
+
+                                p1 = new ComputerPlayer("AI Thanapat", wyborTrudnosciBota());
+
+                                p2 = new ComputerPlayer("AI Bubbles", wyborTrudnosciBota());
+                                valid = true;
+                                break;
+                            default:
+                                myInterface.errorMessages(1);
+                                wyborTrybuGry = myInterface.chooseGameMode();
+                                break;
+                        }
+                    }
+                    gameHistory.setPlayer1(p1.nickname);
+                    gameHistory.setPlayer2(p2.nickname);
+                    setupGame();
+                    startGame();
+                    wybor = myInterface.menu();
+                    break;
+                case 2:
+                    switch (myInterface.chooseStatistics()) 
+                    {
+                        case 0:
+                            userMenu();
+                        case 1:
+                            String nick = myInterface.getNickname();
+                            myInterface.showPlayer(playerList.findPlayer(nick));
+                            break;
+                        case 2:
+                            myInterface.showAllPlayersStatistics(playerList);
+                            break;
+                        default:
+                            myInterface.errorMessages(1);
+                            wybor = 2;
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch(myInterface.choosePlayerToCheck())
+                    {
+                        case 0:
+                            userMenu();
+                        case 1:
+                            String nick = myInterface.getNickname();
+                            if (playerList.findPlayer(nick).getMyAchievements(0)) 
+                            {
+                                myInterface.customisationMenu();
+                            } 
+                            else 
+                            {
+                                myInterface.CustomisationErrorMessage(nick);
+                            }
+                            break;
+                        default:
+                        myInterface.errorMessages(1);
+                        wybor = 3;
                         break;
-                    case 2:
-                        gameHistory.setGameMode("Gracz vs AI");
-                        p1 = new HumanPlayer(myInterface.getNickname());
-
-                        p2 = new ComputerPlayer("AI Shaniqua", wyborTrudnosciBota());
-                        break;
-                    case 3:
-                        gameHistory.setGameMode("Tryb symulacji");
-
-                        p1 = new ComputerPlayer("AI Thanapat", wyborTrudnosciBota());
-
-                        p2 = new ComputerPlayer("AI Bubbles", wyborTrudnosciBota());
-
-                        break;
-                    default:
-                        throw new AssertionError();
-                }
-                gameHistory.setPlayer1(p1.nickname);
-                gameHistory.setPlayer2(p2.nickname);
-                setupGame();
-                startGame();
-                break;
-            case 2:
-                switch (myInterface.chooseStatistics()) 
-                {
-                    case 1:
-                        //opcja 1 - chcesz zobaczyc statystyki konkretnego gracza:
-                        String nick = myInterface.getNickname();
-                        myInterface.showPlayer(playerList.findPlayer(nick));
-                        break;
-                    case 2:
-                        //opcja 2 - chcesz zobaczyc statystyki wszystkich graczy:
-                        myInterface.showAllPlayersStatistics(playerList);
-                        break;
-                }
-                //IMPLEMENTACJA STATYSTYK I ICH WYPISYWANIA DLA DANEGO NICKNAME'U
-                break;
-            case 3:
-                String nick = myInterface.getNickname();
-                if(playerList.findPlayer(nick).getMyAchievements(0))
-                {
-                    myInterface.customisationMenu();
-                }
-                else
-                {
-                    myInterface.CustomisationErrorMessage(nick);
-                }
-                //DO IMPLEMENTACJI CUSTOMIZACJA PLANSZY (W TYM WYPADKU ZMIANA ZNAKOW STATKOW LUB WODY)
-                break;
-            case 4:
-                //DO IMPLEMENTACJI HISTORII GRY
-                break;
-            case 5:
-                System.exit(1);
-                break;
-            default:
-                throw new AssertionError();
+                    }
+                case 4:
+                    //DO IMPLEMENTACJI HISTORII GRY
+                    break;
+                case 5:
+                    System.exit(1);
+                    break;
+                default:
+                    myInterface.errorMessages(1);
+                    wybor = myInterface.menu();
+                    break;
+            }
         }
     }
 
@@ -133,8 +162,8 @@ public class GameManager {
         {
             case 1:
                 return new AIEasy();
-            // case 2:
-            //     return new AIMedium();
+            case 2:
+                return new AIMedium();
             case 3:
                 return new AIHard();
             default:
@@ -184,8 +213,9 @@ public class GameManager {
         {
             ships[i]=new Ship(i+1);
         }
-
+        myInterface.settingShipsMessage(p1.getNickname());
         placingShips(p1,shipCount);
+        myInterface.settingShipsMessage(p2.getNickname());
         placingShips(p2,shipCount);      
     }
 
@@ -196,7 +226,6 @@ public class GameManager {
         while (!GameOver) 
         {
             atak(p1, p2);
-            //gameHistory.addEvent(new Event(p1.nickname, "Atakuje", ""));
             GameOver = p2.board.areAllShipsSunk();
             if(GameOver)
             {
@@ -205,7 +234,6 @@ public class GameManager {
             }
 
             atak(p2, p1);
-            //gameHistory.addEvent(new Event(p1.nickname, "Atakuje", ""));
             GameOver = p1.board.areAllShipsSunk();
             if(GameOver)
             {
@@ -258,6 +286,7 @@ public class GameManager {
                 else
                 {
                     myInterface.MessagesRegardingShip(1, ships[i].getSize());
+                    
                     player.placeShips(ships[i]);
                 }
             }
@@ -277,14 +306,14 @@ public class GameManager {
 
         if(isPlayerHuman)//gdy człowiek
         {
-            System.out.println("ATAKUJE BOTA");
+            coordinates=myInterface.getCoordinates();
             if(coordinates[0] > opponent.board.getSize() || coordinates[0] < 0)
             {
                 poprawneKoordynaty = true;
             }
             else
             {
-                myInterface.errorMesseges(0);
+                myInterface.errorMessages(0);
                 coordinates=myInterface.getCoordinates(); 
             }
         }

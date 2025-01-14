@@ -39,5 +39,9 @@ public abstract class Interface {
 
     public abstract void loggedInMessage(String nick);
 
-    public abstract void errorMesseges(int errorNumber);
+    public abstract void errorMessages(int errorNumber);
+
+    public abstract void settingShipsMessage(String nickname);
+
+    public abstract int choosePlayerToCheck();
 }

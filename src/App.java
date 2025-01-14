@@ -16,7 +16,7 @@ public class App {
     
     public static void Delay(long time)
     {
-        long millis = System.currentTimeMillis() % 10000;
-        while(millis+time>System.currentTimeMillis() % 10000);
+        long millis = System.currentTimeMillis() % 10000000;
+        while(millis+time>System.currentTimeMillis() % 10000000);
     }
 }
