@@ -216,11 +216,14 @@ public class GameManager {
         gameHistory.setWinner(winner.nickname);
         winner.addWinCount();
 
-        if(winner instanceof HumanPlayer)
+        if(p1 instanceof HumanPlayer)
         {
-            playerList.updateWins(winner);
+            playerList.updateWins(p1);
         }
-
+        if(p2 instanceof HumanPlayer)
+        {
+            playerList.updateWins(p2);
+        }
         myInterface.winnerMessage(winner);
         gameHistory.exportHistory();
         gameHistory.saveToFile("src/History.txt");
