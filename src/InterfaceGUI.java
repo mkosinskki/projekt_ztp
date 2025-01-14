@@ -90,4 +90,7 @@ public class InterfaceGUI extends Interface {
     {
         
     }
+
+    @Override
+    public void errorMesseges(int errorNumber){}
 }

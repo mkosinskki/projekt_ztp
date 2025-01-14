@@ -270,16 +270,28 @@ public class GameManager {
     {
         int[] coordinates = new int[2];
         boolean hitShip = false, isPlayerHuman = player instanceof HumanPlayer;
+        boolean poprawneKoordynaty = false;
 
         if(isPlayerHuman)//gdy człowiek
         {
-            coordinates=myInterface.getCoordinates(); 
+            System.out.println("ATAKUJE BOTA");
+            if(coordinates[0] > opponent.board.getSize() || coordinates[0] < 0)
+            {
+                poprawneKoordynaty = true;
+            }
+            else
+            {
+                myInterface.errorMesseges(0);
+                coordinates=myInterface.getCoordinates(); 
+            }
         }
         else//gdy AI
         {
             coordinates=((ComputerPlayer)player).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
         }
+
         hitShip = opponent.board.markShot(coordinates[0],coordinates[1]);
+
         if(!isPlayerHuman)
         {
             myInterface.showBoard(opponent);

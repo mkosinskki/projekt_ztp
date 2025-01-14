@@ -38,4 +38,6 @@ public abstract class Interface {
     public abstract void CustomisationErrorMessage(String nick);
 
     public abstract void loggedInMessage(String nick);
+
+    public abstract void errorMesseges(int errorNumber);
 }

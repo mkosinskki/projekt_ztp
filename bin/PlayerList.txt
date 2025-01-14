@@ -9,3 +9,5 @@ Nick: g, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia
 Nick: sran, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia: 
 Nick: sraka, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia: 
 Nick: 2, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia: 
+Nick: papug, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia: 
+Nick: test, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia: 
