@@ -11,6 +11,18 @@ public class Board {
         initializeGrid();
     }
 
+    public String getBoardForHistory(Player player){
+        StringBuilder sb = new StringBuilder();
+        ICustomization customization = GameManager.getInstance(null).myInterface.getCustomization(player.nickname);
+        for(Cell[] wiersz : grid){
+            for(Cell c : wiersz){
+                sb.append(c.containsShip()?customization.shipForSave():
+                customization.waterForSave());
+            }
+        }
+        return sb.toString();
+    }
+
     public int getSize()
     {
         return size;
@@ -87,18 +99,4 @@ public class Board {
         }
         return true;
     }
-
-  //  @Override
-/*    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                sb.append(grid[i][j].containsShip() ? shipChar : waterChar);
-                sb.append(grid[i][j].isHit() ? "X" : " ");
-            }
-            sb.append("\n");
-        }
-        return sb.toString();
-    }*/
 }

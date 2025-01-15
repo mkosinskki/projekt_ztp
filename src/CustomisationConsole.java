@@ -1,12 +1,12 @@
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class CustomisationConsole{
+public class CustomisationConsole implements ICustomization{
     private char waterChar;
     private char shipChar;
     private static Dictionary<String,CustomisationConsole> customs = new Hashtable<>();
 
-    public static CustomisationConsole getInstance(String nick)
+    public static ICustomization getInstance(String nick)
     {
         if(customs.get(nick) == null)
         {
@@ -19,19 +19,27 @@ public class CustomisationConsole{
         shipChar='S';
         waterChar='.';
     }
-    public char getShip() {
+    public Object getShip() {
         return shipChar;
     }
 
-    public char getWater() {
+    public Object getWater() {
         return waterChar;
     }
 
-    public void setShip(char shipChar) {
-        this.shipChar = shipChar;
+    public char shipForSave(){
+        return shipChar;
     }
 
-    public void setWater(char waterChar) {
-        this.waterChar = waterChar;
+    public char waterForSave(){
+        return waterChar;
+    }
+
+    public void setShip(Object ship) {
+        this.shipChar = (char)shipChar;
+    }
+
+    public void setWater(Object water) {
+        this.waterChar = (char)waterChar;
     }
 }

@@ -1,4 +1,10 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InterfaceConsole extends Interface 
 {
@@ -47,6 +53,37 @@ public class InterfaceConsole extends Interface
         }
     }
 
+    private char readCharCustomization(String prompt, char... invalidChars) 
+    {
+        boolean signChosen=false;
+        while (true) 
+        {
+            char ch;
+            System.out.println(prompt);
+            String input = scanner.nextLine().trim();
+            if (input.length() == 1) 
+            {
+                ch = input.charAt(0);
+                signChosen=true;
+                for (char invalid : invalidChars) 
+                {
+                    if (ch == invalid) 
+                    {
+                        System.out.println("Niepoprawny znak. Spróbuj ponownie.");
+                        signChosen=false;
+                        continue;
+                    }
+                }
+            }
+            else{
+                System.out.println("Niepoprawny znak. Spróbuj ponownie.");
+                continue;
+            }
+            if(signChosen)
+            return ch;
+        }
+    }
+
     @Override
     public int menu() 
     {
@@ -67,7 +104,7 @@ public class InterfaceConsole extends Interface
     @Override
     public void showBoard(Player player) 
     {
-        CustomisationConsole customisation = CustomisationConsole.getInstance(player.nickname);
+        ICustomization customisation = CustomisationConsole.getInstance(player.nickname);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < player.board.getSize(); i++) 
         {
@@ -179,7 +216,7 @@ public class InterfaceConsole extends Interface
     @Override
     public void winnerMessage(Player Winner) 
     {
-        System.out.println("Wygrał: " + Winner.toString());
+        System.out.println("Wygrał: " + Winner.nickname);
     }
 
     @Override
@@ -202,19 +239,19 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
-    public void customisationMenu() 
+    public void customisationMenu(String nickname) 
     {
-        CustomisationConsole customisation = CustomisationConsole.getInstance(getNickname());
+        ICustomization customisation = CustomisationConsole.getInstance(nickname);
         boolean menu = true;
         while (menu) 
         {
             switch (readString("Wybierz opcję:\n\t0: Personalizuj statek\n\t1: Personalizuj wodę\n\tKażdy inny znak: Wyjdź")) 
             {
                 case "0":
-                    customisation.setShip(readChar("Podaj znak, który ustawić jako statek", 's', '#')); // Przykład znaków
+                    customisation.setShip(readCharCustomization("Podaj znak, który ustawić jako statek", (char)customisation.getWater(), 'X')); // Przykład znaków
                     break;
                 case "1":
-                    customisation.setWater(readChar("Podaj znak, który ustawić jako wodę", '~', '.')); // Przykład znaków
+                    customisation.setWater(readCharCustomization("Podaj znak, który ustawić jako wodę", (char)customisation.getShip(), 'X')); // Przykład znaków
                     break;
                 default:
                     menu = false;
@@ -258,8 +295,157 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
+    public void showHistoryMenu(GameHistory gameHistory)
+    {
+        StringBuilder sb = new StringBuilder();
+        int gamesNumber=0;
+        try 
+        {
+            List<String> lines = Files.readAllLines(Paths.get("src/History.txt"));
+
+            Pattern gameModePattern = Pattern.compile("Game Mode: (.*)");
+            Pattern datePattern = Pattern.compile("Date: (.*)");
+            Pattern player1Pattern = Pattern.compile("  - Player 1: (.*)");
+            Pattern player2Pattern = Pattern.compile("  - Player 2: (.*)");
+            String wynik;
+            for (String line : lines) 
+            {
+                Matcher matcher = gameModePattern.matcher(line);
+                if (matcher.find()) 
+                {
+                    wynik = matcher.group(1);
+                    sb.append((gamesNumber++)+") "+wynik);
+                }
+                matcher = datePattern.matcher(line);
+                if (matcher.find()) 
+                {
+                    wynik = matcher.group(1);
+                    sb.append(": "+wynik+" ");
+                }
+                matcher = player1Pattern.matcher(line);
+                if (matcher.find()) 
+                {
+                    wynik = matcher.group(1);
+                    sb.append(wynik+" vs ");
+                }
+                matcher = player2Pattern.matcher(line);
+                if (matcher.find()) 
+                {
+                    wynik = matcher.group(1);
+                    sb.append(wynik+"\n");
+                }
+            }
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+        int game=0;
+        boolean gameChosen=false;
+        while(!gameChosen)
+        {
+            game=readInt(sb.toString());
+            if(game<gamesNumber&&game>=0)
+                gameChosen=true;
+        }
+        historyFinder(game);
+    }
+
+    private void historyFinder(int game)
+    {
+        String p1=null, p2=null; 
+        char[] p1Board=null,p2Board=null;
+        int boardSize=0;
+        try{
+            List<String> lines = Files.readAllLines(Paths.get("src/History.txt"));
+            Pattern pattern = Pattern.compile("Game Mode: (.*)");
+            Pattern winPattern = Pattern.compile("(.*)Action: won, Details: ");
+            int foundGames=0;
+            boolean playesFound=false, boardFound=false,p1Move=true, gameFound=false, end=false;
+            for (String line : lines) {
+                Matcher matcher = pattern.matcher(line);
+                if(!gameFound && matcher.find()){
+                    if(foundGames++==game){
+                        gameFound=true;
+                        pattern=Pattern.compile("  - Player 1: (.*)");}
+                }
+                else if(!playesFound && matcher.find()){
+                    if(p1==null){
+                        p1=matcher.group(1);
+                        pattern=Pattern.compile("  - Player 2: (.*)");
+                    }
+                    else{
+                        p2=matcher.group(1);
+                        playesFound=true;
+                        pattern=Pattern.compile("(.*)Action: uzupelnil plansze, Details: (.*)");}
+                }
+                else if(!boardFound && matcher.find()){
+                    if(p1Board==null){
+                        p1Board=matcher.group(2).toCharArray();
+                        boardSize = (int)Math.sqrt(matcher.group(2).length());
+                        System.out.print("Aby wyjsc wpisz 1\n");
+                        end=scanner.nextLine().equals("1");
+                        if(end) break;
+                        drawHistoryBoard(p1Board, boardSize);
+                        System.out.print("Plansza gracza "+p1+"\n");
+                        end=scanner.nextLine().equals("1");}
+                    else{
+                        p2Board=matcher.group(2).toCharArray();
+                        boardFound=true;
+                        drawHistoryBoard(p2Board, boardSize);
+                        System.out.print("Plansza gracza "+p2+"\n");
+                        end=scanner.nextLine().equals("1");
+                        pattern=Pattern.compile("(.*)Action: zaatakowal gracza (.*), Details: Strzal w pole x: (\\d+) y: (\\d+)");}
+                }
+                else if(matcher.find()){
+                    if(p1Move){
+                        p2Board[Integer.parseInt(matcher.group(3))*boardSize+Integer.parseInt(matcher.group(4))]='X';
+                        drawHistoryBoard(p2Board, boardSize);
+                        System.out.print("Atak gracza "+p1+" na gracza "+p2+"\n");
+                        p1Move=false;
+                    }
+                    else{
+                        p1Board[Integer.parseInt(matcher.group(3))*boardSize+Integer.parseInt(matcher.group(4))]='X';
+                        drawHistoryBoard(p1Board, boardSize);
+                        System.out.print("Atak gracza "+p2+" na gracza "+p1+"\n");
+                        p1Move=true;
+                    }
+                    end=scanner.nextLine().equals("1");
+                }
+                if(gameFound && (winPattern.matcher(line).find())){
+                    System.out.print("Zwyciestwo gracza "+(p1Move?p2:p1)+"\n");
+                    end=scanner.nextLine().equals("1");
+                    break;
+                }
+                if(end) break;
+
+            }
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void drawHistoryBoard(char[] board, int size)
+    {
+        for(int x=0;x<size;x++)
+        {
+            for(int y=0;y<size;y++)
+            {
+                System.out.print(board[x*size+y]);
+            }
+        System.out.print("\n");
+        }
+    }
+
+    @Override
     public int choosePlayerToCheck()
     {
         return readInt("\n0) Powrot\n1) Podaj nick gracza którego plansza bedzie customizowana\n");
+    }
+
+    @Override
+    public ICustomization getCustomization(String nick){
+        return CustomisationConsole.getInstance(nick);
     }
 }

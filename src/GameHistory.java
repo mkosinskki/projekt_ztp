@@ -14,38 +14,45 @@ public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
     private String player1; // Nazwa pierwszego gracza
     private String player2; // Nazwa drugiego gracza
 
-    public GameHistory setGameMode(String gameMode) {
+    public GameHistory setGameMode(String gameMode) 
+    {
         this.gameMode = gameMode;
         return this;
     }
 
-    public GameHistory setDate(String date) {
+    public GameHistory setDate(String date) 
+    {
         this.date = date;
         return this;
     }
 
-    public GameHistory setPlayer1(String player1) {
+    public GameHistory setPlayer1(String player1) 
+    {
         this.player1 = player1;
         return this;
     }
 
-    public GameHistory setPlayer2(String player2) {
+    public GameHistory setPlayer2(String player2) 
+    {
         this.player2 = player2;
         return this;
     }
 
-    public GameHistory addEvent(Event event) {
+    public GameHistory addEvent(Event event) 
+    {
         //this.events.add(event);
         events.add(event);
         return this;
     }
 
-    public GameHistory setWinner(String winner) {
+    public GameHistory setWinner(String winner) 
+    {
         this.winner = winner;
         return this;
     }
 
-    public GameHistory() {
+    public GameHistory() 
+    {
 
     }
 
@@ -57,7 +64,8 @@ public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
 
 
     // Zwraca listę wszystkich zdarzeń
-    public List<Event> getEvents() {
+    public List<Event> getEvents() 
+    {
         return events;
     }
 
@@ -72,7 +80,8 @@ public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
         history.append("Winner: ").append(winner != null ? winner : "No winner").append("\n");
         history.append("Events:\n");
 
-        for (Event event : events) {
+        for (Event event : events) 
+        {
             history.append("- ").append(event.toString()).append("\n");
         }
 
@@ -87,7 +96,9 @@ public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
             writer.write(exportHistory());
             writer.write("\n\n\n");
             System.out.println("Game history saved to " + filePath);
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             System.err.println("Error saving game history: " + e.getMessage());
         }
     }
@@ -98,7 +109,9 @@ public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
         try 
         {
             return new String(Files.readAllBytes(Paths.get(filePath)));
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             System.err.println("Error loading game history: " + e.getMessage());
             return null;
         }

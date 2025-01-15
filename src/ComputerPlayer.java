@@ -1,43 +1,51 @@
 import java.util.Random;
 
-public class ComputerPlayer extends Player {
+public class ComputerPlayer extends Player 
+{
     private AIStrategy strategy;
     private Board PlayerBoard;
 
-    public ComputerPlayer( String nickname, AIStrategy strategy) {
+    public ComputerPlayer( String nickname, AIStrategy strategy) 
+    {
         super(nickname);
         this.strategy = strategy;
         super.winCount = 0;
     }
 
     @Override
-    public void setBoard(Board board) {
+    public void setBoard(Board board) 
+    {
         super.board = board;
     }
 
-    public void setPlayerBoard(Board playerBoard) {
+    public void setPlayerBoard(Board playerBoard) 
+    {
         PlayerBoard = playerBoard;
     }
 
-    @Override
-    public boolean placeShips(Ship ship)
+    public int[] getShipPlacement() 
     {
-        boolean placed = false;
-        while (!placed) 
-        {
-            int startX = new Random().nextInt(board.getSize());
-            int startY = new Random().nextInt(board.getSize());
-            boolean horizontal = new Random().nextBoolean();
-
-            placed = board.placeShip(ship, startX, startY, horizontal);
-        }
-        return true;
+        int x = new Random().nextInt(board.getSize());
+        int y = new Random().nextInt(board.getSize());
+        return new int[]{x, y};
+    }
+    public char getShipDirection(){
+        return new Random().nextBoolean()?'h':'v';
     }
 
     @Override 
     public boolean placeShips(int tab[], char direction, Ship ship)
     {
-        return false; //zwrot bledu
+        int startX = tab[0];
+        int startY = tab[1];
+        boolean horizontal = (direction == 'h');
+        boolean placed = board.placeShip(ship, startX, startY, horizontal);
+
+        if (placed) 
+        {
+            return true;
+        } 
+        return false;
     }
 
     @Override

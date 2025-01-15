@@ -3,30 +3,37 @@ import java.time.format.DateTimeFormatter;
 
 public class GameManager {
     public final static String[] achievements = {"1 win", "5 wins", "30 ships placed", "you hit an enemy 20 times"};
-    public final static IObserver[] usableObservers = {new OneWinObserver(),
+    public final static IObserver[] usableObservers = 
+    {
+        new OneWinObserver(),
         new FiveOrMoreWinsObserver(),
         new ShipsPlacedObserver(),
-        new EnemiesHitObserver()};
+        new EnemiesHitObserver()
+    };
     private static GameManager instance;
     private Player p1, p2;
     private Ship[] ships;
     public Interface myInterface;
     private GameHistory gameHistory;
     private PlayerList playerList;
-    private int wyborTrybuGry;
+    private int chooseGameMode;
 
-    private GameManager(Interface ChosenInterface){
+    private GameManager(Interface ChosenInterface)
+    {
         gameHistory = new GameHistory();
         playerList = new PlayerList();
         this.myInterface = ChosenInterface;
     }
 
-    public void updateAllPlayers(){
+    public void updateAllPlayers()
+    {
         playerList.updateAllPlayersInList();
             }
 
-    public static GameManager getInstance(Interface myInterface) {
-        if (instance == null) {
+    public static GameManager getInstance(Interface myInterface) 
+    {
+        if (instance == null) 
+        {
             instance = new GameManager(myInterface);
         }
         return instance;
@@ -44,13 +51,13 @@ public class GameManager {
     public void userMenu() 
     {
         int wybor;
-        wybor = myInterface.menu();
         while (true) 
         { 
+            wybor = myInterface.menu();
             switch (wybor) 
             {
                 case 1:
-                    wyborTrybuGry = myInterface.chooseGameMode();
+                    chooseGameMode = myInterface.chooseGameMode();
                     LocalDateTime now = LocalDateTime.now();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
                     String formattedDate = now.format(formatter);
@@ -59,7 +66,7 @@ public class GameManager {
 
                     while(!valid)
                     {
-                        switch (wyborTrybuGry) 
+                        switch (chooseGameMode) 
                         {
                             case 0:
                                 userMenu();
@@ -79,20 +86,20 @@ public class GameManager {
                                 gameHistory.setGameMode("Gracz vs AI");
                                 p1 = new HumanPlayer(myInterface.getNickname());
 
-                                p2 = new ComputerPlayer("AI Shaniqua", wyborTrudnosciBota());
+                                p2 = new ComputerPlayer("AI Shaniqua", chooseBotDifficulty());
                                 valid = true;
                                 break;
                             case 3:
                                 gameHistory.setGameMode("Tryb symulacji");
 
-                                p1 = new ComputerPlayer("AI Thanapat", wyborTrudnosciBota());
+                                p1 = new ComputerPlayer("AI Thanapat", chooseBotDifficulty());
 
-                                p2 = new ComputerPlayer("AI Bubbles", wyborTrudnosciBota());
+                                p2 = new ComputerPlayer("AI Bubbles", chooseBotDifficulty());
                                 valid = true;
                                 break;
                             default:
                                 myInterface.errorMessages(1);
-                                wyborTrybuGry = myInterface.chooseGameMode();
+                                chooseGameMode = myInterface.chooseGameMode();
                                 break;
                         }
                     }
@@ -100,7 +107,6 @@ public class GameManager {
                     gameHistory.setPlayer2(p2.nickname);
                     setupGame();
                     startGame();
-                    wybor = myInterface.menu();
                     break;
                 case 2:
                     switch (myInterface.chooseStatistics()) 
@@ -129,7 +135,7 @@ public class GameManager {
                             String nick = myInterface.getNickname();
                             if (playerList.findPlayer(nick).getMyAchievements(0)) 
                             {
-                                myInterface.customisationMenu();
+                                myInterface.customisationMenu(nick);
                             } 
                             else 
                             {
@@ -138,24 +144,23 @@ public class GameManager {
                             break;
                         default:
                         myInterface.errorMessages(1);
-                        wybor = 3;
                         break;
                     }
+                    break;
                 case 4:
-                    //DO IMPLEMENTACJI HISTORII GRY
+                    myInterface.showHistoryMenu(gameHistory);
                     break;
                 case 5:
                     System.exit(1);
                     break;
                 default:
                     myInterface.errorMessages(1);
-                    wybor = myInterface.menu();
                     break;
             }
         }
     }
 
-    public AIStrategy wyborTrudnosciBota() 
+    public AIStrategy chooseBotDifficulty() 
     {
         int mode = myInterface.chooseAIdifficulty();
         switch (mode)
@@ -225,7 +230,7 @@ public class GameManager {
         Player winner = null;
         while (!GameOver) 
         {
-            atak(p1, p2);
+            attack(p1, p2);
             GameOver = p2.board.areAllShipsSunk();
             if(GameOver)
             {
@@ -233,7 +238,7 @@ public class GameManager {
                 break;
             }
 
-            atak(p2, p1);
+            attack(p2, p1);
             GameOver = p1.board.areAllShipsSunk();
             if(GameOver)
             {
@@ -243,7 +248,7 @@ public class GameManager {
         }
         gameHistory.setWinner(winner.nickname);
         winner.addWinCount();
-
+        gameHistory.addEvent(new Event(winner.nickname,"won",""));
         if(p1 instanceof HumanPlayer)
         {
             playerList.updateWins(p1);
@@ -253,7 +258,6 @@ public class GameManager {
             playerList.updateWins(p2);
         }
         myInterface.winnerMessage(winner);
-        gameHistory.exportHistory();
         gameHistory.saveToFile("src/History.txt");
     }
 
@@ -286,19 +290,27 @@ public class GameManager {
                 else
                 {
                     myInterface.MessagesRegardingShip(1, ships[i].getSize());
-                    
-                    player.placeShips(ships[i]);
+                    while (!placed)
+                    {
+                        myInterface.MessagesRegardingShip(1, ships[i].getSize());
+                        coordinates = ((ComputerPlayer)player).getShipPlacement();
+                        direction = ((ComputerPlayer)player).getShipDirection();
+                        placed = player.placeShips(coordinates, direction, ships[i]);
+                    }
+                    placed = false;
                 }
             }
         }
         myInterface.MessagesRegardingShip(4, 0);
+        gameHistory.addEvent(new Event(player.nickname, "uzupelnil plansze", 
+                                            player.board.getBoardForHistory(player)));
         if(player instanceof HumanPlayer)
         {
             myInterface.showBoard(player);
         }
     }
 
-    public void atak(Player player, Player opponent)
+    public void attack(Player player, Player opponent)
     {
         int[] coordinates = new int[2];
         boolean hitShip = false, isPlayerHuman = player instanceof HumanPlayer;
@@ -307,7 +319,7 @@ public class GameManager {
         if(isPlayerHuman)//gdy człowiek
         {
             coordinates=myInterface.getCoordinates();
-            if(coordinates[0] > opponent.board.getSize() || coordinates[0] < 0)
+            if(coordinates[0] < player.board.getSize() && coordinates[0] >= 0)
             {
                 poprawneKoordynaty = true;
             }
@@ -319,7 +331,7 @@ public class GameManager {
         }
         else//gdy AI
         {
-            coordinates=((ComputerPlayer)player).attackEnemy();// i tu by sie usuneło że ai samo zaznacza dla oponenta plansze
+            coordinates=((ComputerPlayer)player).attackEnemy();
         }
 
         hitShip = opponent.board.markShot(coordinates[0],coordinates[1]);
@@ -335,6 +347,6 @@ public class GameManager {
             ((HumanPlayer)player).updateHits(hitShip);
             myInterface.shotResultMessage(coordinates, hitShip);
         }
-        gameHistory.addEvent(new Event(player.nickname, " zaatakowal gracza " + opponent.nickname, "Strzal w pole x: " + coordinates[0] + " y: " + coordinates[1]));
+        gameHistory.addEvent(new Event(player.nickname, "zaatakowal gracza " + opponent.nickname, "Strzal w pole x: " + coordinates[0] + " y: " + coordinates[1]));
     }
 }

@@ -1,60 +1,76 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class HumanPlayer extends Player {
+public class HumanPlayer extends Player 
+{
     private boolean[] myAchievements = new boolean[GameManager.achievements.length];
     private int shipsPlaced=0, enemiesHit=0;
     List<IObserver> observers;
-    public HumanPlayer(String nickname) {
+    List<IObserver> toDelete;
+
+    public HumanPlayer(String nickname) 
+    {
         super(nickname);
         super.winCount = 0;
         observers=new ArrayList<IObserver>();
+        toDelete = new ArrayList<IObserver>();
         for(int i=0; i<GameManager.usableObservers.length; i++)
             Subscribe(GameManager.usableObservers[i]);
     }
 
-    public boolean getMyAchievements(int i) {
+    public boolean getMyAchievements(int i) 
+    {
         return myAchievements[i];
     }
-    public void setRecords(int a, int b){
+
+    public void setRecords(int a, int b)
+    {
         shipsPlaced=b;
         enemiesHit=a;
     }
-    public void updateHits(boolean bool){
-        if(bool)
+
+    public void updateHits(boolean bool)
+    {
+        if(bool){
             enemiesHit++;
-        Notify();
+            Notify();
+        }
     }
     private void Subscribe(IObserver observer)
     {
         observers.add(observer);
     }
 
-    public void Unsubscribe(IObserver observer){
-        observers.remove(observer);
+    public void Unsubscribe(IObserver observer)
+    {
+        toDelete.add(observer);
     }
-    private void Notify(){
-        for (IObserver observer : observers) {
+
+    private void Notify()
+    {
+        for (IObserver observer : observers) 
+        {
             observer.Notify(winCount, shipsPlaced, enemiesHit, this);
         }
+        if(!toDelete.isEmpty())
+        {
+        for (IObserver observer : toDelete)
+            observers.remove(observer);
+        toDelete=new ArrayList<IObserver>();
+    }
+
     }
     @Override
     public void addWinCount()
     {
-        Notify();
         winCount++;
+        Notify();
     }
-    /*public void addAchievement(Achievement a) {
-        this.achievementList.add(a);
-    }*/
 
     public void setWins(int wins)
     {
         super.winCount = wins;
     }
-
-
-
 
     @Override
     public boolean placeShips(int tab[], char direction, Ship ship)
@@ -78,11 +94,6 @@ public class HumanPlayer extends Player {
         super.board = board;
     }
 
-    @Override
-    public boolean placeShips(Ship ship)
-    {
-        return false; //zwrot bledu 
-    }
 
     @Override
     public boolean makeMove(int[] arr)
@@ -90,9 +101,9 @@ public class HumanPlayer extends Player {
         boolean hit = board.markShot(arr[0], arr[1]);
         if(hit)
         {
-            return true; //trafiono w statek
+            return true;
         }
-        return false; //nie trafiono w statek
+        return false;
     }
 
     public void setAchievementList(int i) {
@@ -113,5 +124,5 @@ public class HumanPlayer extends Player {
             if(myAchievements[i])
                 sb.append(i + " " + "\"" + GameManager.achievements[i] + "\"" +",");
         return sb.toString();
-    } //trzeba zmienic i dodac jeszcze wypisanie osiagniec
+    }
 }
