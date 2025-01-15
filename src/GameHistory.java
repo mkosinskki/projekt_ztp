@@ -80,8 +80,10 @@ public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
     }
 
     // Zapis historii gry do pliku tekstowego
-    public void saveToFile(String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+    public void saveToFile(String filePath) 
+    {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) 
+        {
             writer.write(exportHistory());
             writer.write("\n\n\n");
             System.out.println("Game history saved to " + filePath);
@@ -93,7 +95,8 @@ public class GameHistory { // wyrzucony wzorzec builder, ale jest IoC
     // Odczyt historii gry z pliku tekstowego
     public static String loadFromFile(String filePath) 
     {
-        try {
+        try 
+        {
             return new String(Files.readAllBytes(Paths.get(filePath)));
         } catch (IOException e) {
             System.err.println("Error loading game history: " + e.getMessage());
