@@ -53,6 +53,37 @@ public class InterfaceConsole extends Interface
         }
     }
 
+    private char readCharCustomization(String prompt, char... invalidChars) 
+    {
+        boolean signChosen=false;
+        while (true) 
+        {
+            char ch;
+            System.out.println(prompt);
+            String input = scanner.nextLine().trim();
+            if (input.length() == 1) 
+            {
+                ch = input.charAt(0);
+                signChosen=true;
+                for (char invalid : invalidChars) 
+                {
+                    if (ch == invalid) 
+                    {
+                        System.out.println("Niepoprawny znak. Spróbuj ponownie.");
+                        signChosen=false;
+                        continue;
+                    }
+                }
+            }
+            else{
+                System.out.println("Niepoprawny znak. Spróbuj ponownie.");
+                continue;
+            }
+            if(signChosen)
+            return ch;
+        }
+    }
+
     @Override
     public int menu() 
     {
@@ -73,7 +104,7 @@ public class InterfaceConsole extends Interface
     @Override
     public void showBoard(Player player) 
     {
-        CustomisationConsole customisation = CustomisationConsole.getInstance(player.nickname);
+        ICustomization customisation = CustomisationConsole.getInstance(player.nickname);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < player.board.getSize(); i++) 
         {
@@ -185,7 +216,7 @@ public class InterfaceConsole extends Interface
     @Override
     public void winnerMessage(Player Winner) 
     {
-        System.out.println("Wygrał: " + Winner.toString());
+        System.out.println("Wygrał: " + Winner.nickname);
     }
 
     @Override
@@ -208,19 +239,19 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
-    public void customisationMenu() 
+    public void customisationMenu(String nickname) 
     {
-        CustomisationConsole customisation = CustomisationConsole.getInstance(getNickname());
+        ICustomization customisation = CustomisationConsole.getInstance(nickname);
         boolean menu = true;
         while (menu) 
         {
             switch (readString("Wybierz opcję:\n\t0: Personalizuj statek\n\t1: Personalizuj wodę\n\tKażdy inny znak: Wyjdź")) 
             {
                 case "0":
-                    customisation.setShip(readChar("Podaj znak, który ustawić jako statek", 's', '#')); // Przykład znaków
+                    customisation.setShip(readCharCustomization("Podaj znak, który ustawić jako statek", (char)customisation.getWater(), 'X')); // Przykład znaków
                     break;
                 case "1":
-                    customisation.setWater(readChar("Podaj znak, który ustawić jako wodę", '~', '.')); // Przykład znaków
+                    customisation.setWater(readCharCustomization("Podaj znak, który ustawić jako wodę", (char)customisation.getShip(), 'X')); // Przykład znaków
                     break;
                 default:
                     menu = false;
@@ -398,5 +429,10 @@ public class InterfaceConsole extends Interface
     public int choosePlayerToCheck()
     {
         return readInt("\n0) Powrot\n1) Podaj nick gracza którego plansza bedzie customizowana\n");
+    }
+
+    @Override
+    public ICustomization getCustomization(String nick){
+        return CustomisationConsole.getInstance(nick);
     }
 }

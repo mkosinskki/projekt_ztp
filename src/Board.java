@@ -11,12 +11,13 @@ public class Board {
         initializeGrid();
     }
 
-    public String wypiszInfo(Player player){
+    public String getBoardForHistory(Player player){
         StringBuilder sb = new StringBuilder();
+        ICustomization customization = GameManager.getInstance(null).myInterface.getCustomization(player.nickname);
         for(Cell[] wiersz : grid){
             for(Cell c : wiersz){
-                sb.append(c.containsShip()?CustomisationConsole.getInstance(player.nickname).getShip():
-                CustomisationConsole.getInstance(player.nickname).getWater());
+                sb.append(c.containsShip()?customization.shipForSave():
+                customization.waterForSave());
             }
         }
         return sb.toString();

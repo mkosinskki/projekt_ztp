@@ -550,3 +550,60 @@ Events:
 
 
 
+Game Mode: Gracz vs Gracz
+Date: 15.01.2025, 16:20
+Players:
+  - Player 1: dupa
+  - Player 2: sraka
+Winner: sraka
+Events:
+- Player: dupa, Action: uzupelnil plansze, Details: ...........S........................................................................................
+- Player: sraka, Action: uzupelnil plansze, Details: ......................S.............................................................................
+- Player: dupa, Action: zaatakowal gracza sraka, Details: Strzal w pole x: 1 y: 1
+- Player: sraka, Action: zaatakowal gracza dupa, Details: Strzal w pole x: 1 y: 1
+- Player: sraka, Action: won, Details: 
+
+
+
+Game Mode: Gracz vs Gracz
+Date: 15.01.2025, 16:24
+Players:
+  - Player 1: dupa
+  - Player 2: sraka
+Winner: dupa
+Events:
+- Player: dupa, Action: uzupelnil plansze, Details: S...................................................................................................
+- Player: sraka, Action: uzupelnil plansze, Details: S...................................................................................................
+- Player: dupa, Action: zaatakowal gracza sraka, Details: Strzal w pole x: 0 y: 0
+- Player: dupa, Action: won, Details: 
+
+
+
+Game Mode: Gracz vs Gracz
+Date: 15.01.2025, 17:12
+Players:
+  - Player 1: dupa
+  - Player 2: sraka
+Winner: dupa
+Events:
+- Player: dupa, Action: uzupelnil plansze, Details: S...................................................................................................
+- Player: sraka, Action: uzupelnil plansze, Details: S...................................................................................................
+- Player: dupa, Action: zaatakowal gracza sraka, Details: Strzal w pole x: 0 y: 0
+- Player: dupa, Action: won, Details: 
+
+
+
+Game Mode: Gracz vs Gracz
+Date: 15.01.2025, 17:32
+Players:
+  - Player 1: 1
+  - Player 2: 2
+Winner: 1
+Events:
+- Player: 1, Action: uzupelnil plansze, Details: S...................................................................................................
+- Player: 2, Action: uzupelnil plansze, Details: S...................................................................................................
+- Player: 1, Action: zaatakowal gracza 2, Details: Strzal w pole x: 0 y: 0
+- Player: 1, Action: won, Details: 
+
+
+

@@ -33,7 +33,7 @@ public abstract class Interface {
 
     public abstract int getBoardSize();
 
-    public abstract void customisationMenu();
+    public abstract void customisationMenu(String nickname);
 
     public abstract void CustomisationErrorMessage(String nick);
 
@@ -46,4 +46,6 @@ public abstract class Interface {
     public abstract void showHistoryMenu(GameHistory gameHistory);
 
     public abstract int choosePlayerToCheck();
+
+    public abstract ICustomization getCustomization(String nick);
 }

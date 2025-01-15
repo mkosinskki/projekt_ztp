@@ -5,10 +5,12 @@ public class HumanPlayer extends Player {
     private boolean[] myAchievements = new boolean[GameManager.achievements.length];
     private int shipsPlaced=0, enemiesHit=0;
     List<IObserver> observers;
+    List<IObserver> toDelete;
     public HumanPlayer(String nickname) {
         super(nickname);
         super.winCount = 0;
         observers=new ArrayList<IObserver>();
+        toDelete = new ArrayList<IObserver>();
         for(int i=0; i<GameManager.usableObservers.length; i++)
             Subscribe(GameManager.usableObservers[i]);
     }
@@ -21,9 +23,10 @@ public class HumanPlayer extends Player {
         enemiesHit=a;
     }
     public void updateHits(boolean bool){
-        if(bool)
+        if(bool){
             enemiesHit++;
-        Notify();
+            Notify();
+        }
     }
     private void Subscribe(IObserver observer)
     {
@@ -31,18 +34,23 @@ public class HumanPlayer extends Player {
     }
 
     public void Unsubscribe(IObserver observer){
-        observers.remove(observer);
+        toDelete.add(observer);
     }
     private void Notify(){
         for (IObserver observer : observers) {
             observer.Notify(winCount, shipsPlaced, enemiesHit, this);
         }
+        if(!toDelete.isEmpty()){
+        for (IObserver observer : toDelete)
+            observers.remove(observer);
+        toDelete=new ArrayList<IObserver>();}
+
     }
     @Override
     public void addWinCount()
     {
-        Notify();
         winCount++;
+        Notify();
     }
     /*public void addAchievement(Achievement a) {
         this.achievementList.add(a);

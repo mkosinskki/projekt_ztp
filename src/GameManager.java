@@ -128,7 +128,7 @@ public class GameManager {
                             String nick = myInterface.getNickname();
                             if (playerList.findPlayer(nick).getMyAchievements(0)) 
                             {
-                                myInterface.customisationMenu();
+                                myInterface.customisationMenu(nick);
                             } 
                             else 
                             {
@@ -296,7 +296,7 @@ public class GameManager {
         }
         myInterface.MessagesRegardingShip(4, 0);
         gameHistory.addEvent(new Event(player.nickname, "uzupelnil plansze", 
-                                            player.board.wypiszInfo(player)));
+                                            player.board.getBoardForHistory(player)));
         if(player instanceof HumanPlayer)
         {
             myInterface.showBoard(player);
@@ -312,7 +312,7 @@ public class GameManager {
         if(isPlayerHuman)//gdy człowiek
         {
             coordinates=myInterface.getCoordinates();
-            if(coordinates[0] > opponent.board.getSize() || coordinates[0] < 0)
+            if(coordinates[0] < player.board.getSize() && coordinates[0] >= 0)
             {
                 poprawneKoordynaty = true;
             }

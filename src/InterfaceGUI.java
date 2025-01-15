@@ -75,7 +75,7 @@ public class InterfaceGUI extends Interface {
     }
     
     @Override
-    public void customisationMenu()
+    public void customisationMenu(String nickname)
     {
         
     }
@@ -104,4 +104,8 @@ public class InterfaceGUI extends Interface {
 
     @Override
     public int choosePlayerToCheck(){return 0;}
+
+    @Override
+    public ICustomization getCustomization(String nick){
+        return null;}
 }
