@@ -137,9 +137,9 @@ public class GameManager {
                             break;
                         default:
                         myInterface.errorMessages(1);
-                        wybor = 3;
                         break;
                     }
+                    break;
                 case 4:
                     myInterface.showHistoryMenu(gameHistory);
                     break;

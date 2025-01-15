@@ -320,7 +320,7 @@ public class InterfaceConsole extends Interface
             Pattern pattern = Pattern.compile("Game Mode: (.*)");
             Pattern winPattern = Pattern.compile("(.*)Action: won, Details: ");
             int foundGames=0;
-            boolean playesFound=false, boardFound=false,p1Move=true, gameFound=false;
+            boolean playesFound=false, boardFound=false,p1Move=true, gameFound=false, end=false;
             for (String line : lines) {
                 Matcher matcher = pattern.matcher(line);
                 if(!gameFound && matcher.find()){
@@ -342,16 +342,18 @@ public class InterfaceConsole extends Interface
                     if(p1Board==null){
                         p1Board=matcher.group(2).toCharArray();
                         boardSize = (int)Math.sqrt(matcher.group(2).length());
-                        System.out.print("\n");
+                        System.out.print("Aby wyjsc wpisz 1\n");
+                        end=scanner.nextLine().equals("1");
+                        if(end) break;
                         drawHistoryBoard(p1Board, boardSize);
                         System.out.print("Plansza gracza "+p1+"\n");
-                        scanner.nextLine();}
+                        end=scanner.nextLine().equals("1");}
                     else{
                         p2Board=matcher.group(2).toCharArray();
                         boardFound=true;
                         drawHistoryBoard(p2Board, boardSize);
                         System.out.print("Plansza gracza "+p2+"\n");
-                        scanner.nextLine();
+                        end=scanner.nextLine().equals("1");
                         pattern=Pattern.compile("(.*)Action: zaatakowal gracza (.*), Details: Strzal w pole x: (\\d+) y: (\\d+)");}
                 }
                 else if(matcher.find()){
@@ -367,13 +369,15 @@ public class InterfaceConsole extends Interface
                         System.out.print("Atak gracza "+p2+" na gracza "+p1+"\n");
                         p1Move=true;
                     }
-                    scanner.nextLine();
+                    end=scanner.nextLine().equals("1");
                 }
                 if(gameFound && (winPattern.matcher(line).find())){
                     System.out.print("Zwyciestwo gracza "+(p1Move?p2:p1)+"\n");
-                    scanner.nextLine();
+                    end=scanner.nextLine().equals("1");
                     break;
                 }
+                if(end) break;
+
             }
         } 
         catch (IOException e) {
@@ -384,7 +388,7 @@ public class InterfaceConsole extends Interface
     void drawHistoryBoard(char[] board, int size){
         for(int x=0;x<size;x++){
             for(int y=0;y<size;y++){
-                System.out.print(board[x+y*size]);
+                System.out.print(board[x*size+y]);
             }
         System.out.print("\n");
         }
