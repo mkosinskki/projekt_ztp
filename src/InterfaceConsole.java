@@ -383,7 +383,7 @@ public class InterfaceConsole extends Interface
                     if(p1Board==null){
                         p1Board=matcher.group(2).toCharArray();
                         boardSize = (int)Math.sqrt(matcher.group(2).length());
-                        System.out.print("Aby wyjsc wpisz 1\n");
+                        System.out.print("Aby wyjsc wpisz 1\nKazdy inny przycisk powoduje przejscie dalej\n");
                         end=scanner.nextLine().equals("1");
                         if(end) break;
                         drawHistoryBoard(p1Board, boardSize);
@@ -445,7 +445,8 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
-    public ICustomization getCustomization(String nick){
+    public ICustomization getCustomization(String nick)
+    {
         return CustomisationConsole.getInstance(nick);
     }
 }

@@ -1,3 +1,4 @@
+import java.lang.classfile.ClassFile;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -84,7 +85,9 @@ public class GameManager {
                                 break;
                             case 2:
                                 gameHistory.setGameMode("Gracz vs AI");
-                                p1 = new HumanPlayer(myInterface.getNickname());
+                                String nick3 = myInterface.getNickname();
+                                p1 = playerList.loggingIn(nick3);
+                                myInterface.loggedInMessage(p1.nickname);
 
                                 p2 = new ComputerPlayer("AI Shaniqua", chooseBotDifficulty());
                                 valid = true;
@@ -276,7 +279,14 @@ public class GameManager {
                     {
                         myInterface.MessagesRegardingShip(1, ships[i].getSize());
                         coordinates = myInterface.getCoordinates();
-                        direction = myInterface.getDirection();
+                        if(ships[i].getSize() == 1)
+                        {
+                            direction = 'h';
+                        }
+                        else
+                        {
+                            direction = myInterface.getDirection();
+                        }
                         placed = player.placeShips(coordinates, direction, ships[i]);
                         if (!placed)
                         {
@@ -319,7 +329,7 @@ public class GameManager {
         if(isPlayerHuman)//gdy człowiek
         {
             coordinates=myInterface.getCoordinates();
-            if(coordinates[0] < player.board.getSize() && coordinates[0] >= 0)
+            if(coordinates[0] < player.board.getSize() && coordinates[0] >= 0 && coordinates[1] >= 0)
             {
                 poprawneKoordynaty = true;
             }
