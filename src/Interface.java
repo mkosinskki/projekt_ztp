@@ -53,4 +53,6 @@ public abstract class Interface
     public abstract void attackingStageMessage();
 
     public abstract ICustomization getCustomization(String nick);
+
+    public abstract void printInfo(String info);
 }

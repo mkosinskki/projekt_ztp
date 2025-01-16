@@ -117,4 +117,7 @@ public class InterfaceGUI extends Interface {
     @Override
     public ICustomization getCustomization(String nick){
         return null;}
+
+    @Override
+    public void printInfo(String info){}
 }

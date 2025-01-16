@@ -109,6 +109,11 @@ public class InterfaceConsole extends Interface
         }
     }
 
+    public void printString(String text)
+    {
+        System.out.print(text);
+    }
+
     @Override
     public int menu() 
     {
@@ -504,5 +509,11 @@ public class InterfaceConsole extends Interface
     public ICustomization getCustomization(String nick)
     {
         return CustomisationConsole.getInstance(nick);
+    }
+
+    @Override
+    public void printInfo(String info)
+    {
+        System.out.print(info);
     }
 }

@@ -306,12 +306,14 @@ public class GameManager {
                         coordinates = ((ComputerPlayer)player).getShipPlacement();
                         direction = ((ComputerPlayer)player).getShipDirection();
                         placed = player.placeShips(coordinates, direction, ships[i]);
+                        App.Delay(1500);
                     }
                     placed = false;
                 }
             }
         }
         myInterface.MessagesRegardingShip(4, 0);
+        App.Delay(1500);
         gameHistory.addEvent(new Event(player.nickname, "uzupelnil plansze", 
                                             player.board.getBoardForHistory(player)));
         if(player instanceof HumanPlayer)
@@ -327,18 +329,18 @@ public class GameManager {
 
     public void attack(Player player, Player opponent)
     {
+        App.Delay(3000);
         int[] coordinates = new int[2];
         boolean hitShip = false, isPlayerHuman = player instanceof HumanPlayer;
         boolean poprawneKoordynaty = false;
-
-        System.out.println("\n=========================================");
-        System.out.println("Gracz: " + player.getNickname() + " atakuje\n");
+        myInterface.printInfo("\n=========================================\n");
+        myInterface.printInfo("Gracz: " + player.getNickname() + " atakuje\n");
 
         if(isPlayerHuman)//gdy człowiek
         {
             myInterface.showBoard(player,opponent);
             coordinates=myInterface.getCoordinates();
-            System.out.println("=========================================\n");
+            myInterface.printInfo("=========================================\n\n");
             while(!poprawneKoordynaty)
             {
                 if(coordinates[0] < player.board.getSize() && coordinates[1] < player.board.getSize() && coordinates[0] >= 0 && coordinates[1] >= 0)
@@ -355,16 +357,16 @@ public class GameManager {
         else//gdy AI
         {
             coordinates=((ComputerPlayer)player).attackEnemy();
-            System.out.println("=========================================\n");
+            myInterface.showBoard(player,opponent);
+            myInterface.printInfo("=========================================\n\n");
         }
 
         hitShip = opponent.board.markShot(coordinates[0],coordinates[1]);
 
         if(!isPlayerHuman)
         {
+            App.Delay(3000);
             myInterface.shotResultMessage(coordinates, hitShip);
-            myInterface.showBoard(player,opponent);
-            App.Delay(2500);
         }
         else
         {
