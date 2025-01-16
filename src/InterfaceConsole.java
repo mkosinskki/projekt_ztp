@@ -362,7 +362,10 @@ public class InterfaceConsole extends Interface
                 System.out.println("Podano niepoprawne koordynaty.");
                 break;
             case 1:
-            System.out.println("Niepoprawny wybor");
+                System.out.println("Niepoprawny wybor");
+                break;
+            case 2:
+                System.out.println("\nNiepoprawna nazwa uzytkownika, wybierz ponownie");
                 break;
             default:
                 System.out.println("Nieznany blad.");

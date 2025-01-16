@@ -73,18 +73,34 @@ public class GameManager {
                             case 1:
                                 gameHistory.setGameMode("Gracz vs Gracz");
 
-                                String nick1 = myInterface.getNickname();
+                                String nick1="";
+                                while(nick1.equals("")){
+                                nick1 = myInterface.getNickname();
+                                if(nick1.equals(""))
+                                myInterface.errorMessages(2);
+                                }
+                                nick1=myInterface.getNickname();
                                 p1 = playerList.loggingIn(nick1);
                                 myInterface.loggedInMessage(p1.nickname);
-
-                                String nick2 = myInterface.getNickname();
+                                String nick2="";
+                                do{
+                                if(nick2.equals(nick1))
+                                myInterface.errorMessages(2);
+                                nick2 = myInterface.getNickname();
+                                }
+                                while(nick2.equals(nick1));
                                 p2 = playerList.loggingIn(nick2);
                                 myInterface.loggedInMessage(p2.nickname);
                                 valid = true;
                                 break;
                             case 2:
                                 gameHistory.setGameMode("Gracz vs AI");
-                                String nick3 = myInterface.getNickname();
+                                String nick3="";
+                                while(nick3.equals("")){
+                                nick3 = myInterface.getNickname();
+                                if(nick3.equals(""))
+                                myInterface.errorMessages(2);
+                                }
                                 p1 = playerList.loggingIn(nick3);
                                 myInterface.loggedInMessage(p1.nickname);
 
@@ -121,7 +137,12 @@ public class GameManager {
                         case 0:
                             userMenu();
                         case 1:
-                            String nick = myInterface.getNickname();
+                            String nick="";
+                            while(nick.equals("")){
+                            nick = myInterface.getNickname();
+                            if(nick.equals(""))
+                            myInterface.errorMessages(2);
+                            }
                             myInterface.showPlayer(playerList.findPlayer(nick));
                             break;
                         case 2:
@@ -318,12 +339,12 @@ public class GameManager {
             }
         }
         myInterface.messagesRegardingShip(4, 0);
-        myInterface.delay(1500);
         gameHistory.addEvent(new Event(player.nickname, "uzupelnil plansze", 
                                             player.board.getBoardForHistory(player)));
         if(player instanceof HumanPlayer)
         {
             myInterface.showBoard(player);
+            myInterface.delay(1500);
             myInterface.clear();
         }
         else if(p1 instanceof ComputerPlayer && p2 instanceof ComputerPlayer)

@@ -54,9 +54,10 @@ public class Board {
     public boolean placeShip(Ship ship, int startX, int startY, boolean horizontal) 
     {
         int size = ship.getSize();
+        if(startX<0||startY<0||startX>=this.size||startY>=this.size)return false;
         if (horizontal) 
         {
-            if (startY + size > this.size) return false; // Wychodzi poza planszę
+            if (startY + size - 1 >= this.size) return false; // Wychodzi poza planszę
             for (int i = 0; i < size; i++) 
             {
                 if (grid[startX][startY + i].containsShip()) return false; // Kolizja
@@ -68,7 +69,7 @@ public class Board {
         } 
         else 
         {
-            if (startX + size > this.size) return false; // Wychodzi poza planszę
+            if (startX + size - 1 >= this.size) return false; // Wychodzi poza planszę
             for (int i = 0; i < size; i++) 
             {
                 if (grid[startX + i][startY].containsShip()) return false; // Kolizja
