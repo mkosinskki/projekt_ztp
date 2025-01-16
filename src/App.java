@@ -10,16 +10,4 @@ public class App {
         InterfaceConsole console = new InterfaceConsole();
         GameManager.getInstance(console).userMenu();
     }
-
-    public static void clearConsole()
-    {
-        try 
-        {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } 
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-        }
-    }
 }
