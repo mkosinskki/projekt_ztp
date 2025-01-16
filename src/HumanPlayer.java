@@ -5,8 +5,9 @@ public class HumanPlayer extends Player
 {
     private boolean[] myAchievements = new boolean[GameManager.achievements.length];
     private int shipsPlaced=0, enemiesHit=0;
-    List<IObserver> observers;
-    List<IObserver> toDelete;
+    private List<IObserver> observers;
+    private List<IObserver> toDelete;
+
 
     public HumanPlayer(String nickname) 
     {
