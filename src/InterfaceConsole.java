@@ -123,7 +123,7 @@ public class InterfaceConsole extends Interface
 
     @Override
     public void pauseLine(){
-        System.out.println("=========================================\n\n");
+        System.out.println("\n=========================================\n");
     }
 
     @Override

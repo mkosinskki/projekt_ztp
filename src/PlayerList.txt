@@ -5,6 +5,6 @@ Nick: f, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 3, Osiagniecia
 Nick: d, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia: 
 Nick: g, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia: 
 Nick: 2, Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 1, Osiagniecia: 
-Nick: test, Ilosc zwyciestw: 5, Trafione pola: 6, Postawione statki: 8, Osiagniecia: 0 "1 win",1 "5 wins",
+Nick: test, Ilosc zwyciestw: 5, Trafione pola: 6, Postawione statki: 9, Osiagniecia: 0 "1 win",1 "5 wins",
 Nick: test2, Ilosc zwyciestw: 0, Trafione pola: 1, Postawione statki: 3, Osiagniecia: 
 Nick: , Ilosc zwyciestw: 0, Trafione pola: 0, Postawione statki: 0, Osiagniecia: 

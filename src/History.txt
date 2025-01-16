@@ -804,3 +804,62 @@ Events:
 
 
 
+Game Mode: Tryb symulacji
+Date: 16.01.2025, 20:42
+Players:
+  - Player 1: AI Thanapat
+  - Player 2: AI Bubbles
+Winner: AI Thanapat
+Events:
+- Player: AI Thanapat, Action: uzupelnil plansze, Details: S........
+- Player: AI Bubbles, Action: uzupelnil plansze, Details: .....S...
+- Player: AI Thanapat, Action: zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 1 y: 2
+- Player: AI Thanapat, Action: won, Details: 
+
+
+
+Game Mode: Gracz vs AI
+Date: 16.01.2025, 20:51
+Players:
+  - Player 1: test
+  - Player 2: AI Shaniqua
+Winner: AI Shaniqua
+Events:
+- Player: test, Action: uzupelnil plansze, Details: ....S....
+- Player: AI Shaniqua, Action: uzupelnil plansze, Details: ...S.....
+- Player: test, Action: zaatakowal gracza AI Shaniqua, Details: Strzal w pole x: 0 y: 0
+- Player: AI Shaniqua, Action: zaatakowal gracza test, Details: Strzal w pole x: 1 y: 1
+- Player: AI Shaniqua, Action: won, Details: 
+
+
+
+Game Mode: Tryb symulacji
+Date: 16.01.2025, 20:55
+Players:
+  - Player 1: AI Thanapat
+  - Player 2: AI Bubbles
+Winner: AI Thanapat
+Events:
+- Player: AI Thanapat, Action: uzupelnil plansze, Details: .....S...
+- Player: AI Bubbles, Action: uzupelnil plansze, Details: S........
+- Player: AI Thanapat, Action: zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 0 y: 0
+- Player: AI Thanapat, Action: won, Details: 
+
+
+
+Game Mode: Tryb symulacji
+Date: 16.01.2025, 20:57
+Players:
+  - Player 1: AI Thanapat
+  - Player 2: AI Bubbles
+Winner: AI Thanapat
+Events:
+- Player: AI Thanapat, Action: uzupelnil plansze, Details: ..........S.S...
+- Player: AI Bubbles, Action: uzupelnil plansze, Details: ......S..S......
+- Player: AI Thanapat, Action: zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 1 y: 2
+- Player: AI Bubbles, Action: zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 2 y: 2
+- Player: AI Thanapat, Action: zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 2 y: 1
+- Player: AI Thanapat, Action: won, Details: 
+
+
+
