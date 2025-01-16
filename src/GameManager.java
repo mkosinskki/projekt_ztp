@@ -105,10 +105,15 @@ public class GameManager {
                                 break;
                         }
                     }
+                    App.clear();
                     gameHistory.setPlayer1(p1.nickname);
                     gameHistory.setPlayer2(p2.nickname);
                     setupGame();
+                    App.Delay(3000);
+                    App.clear();
                     startGame();
+                    App.Delay(3000);
+                    App.clear();
                     break;
                 case 2:
                     switch (myInterface.chooseStatistics()) 
