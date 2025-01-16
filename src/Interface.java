@@ -18,11 +18,17 @@ public abstract class Interface
 
     public abstract int chooseAIdifficulty();
 
+    public abstract void delay(long time);
+
+    public abstract void pauseLine();
+
+    public abstract void clear();
+
     public abstract void showBoard(Player attacker, Player attacked);
 
     public abstract void showBoard(Player player);
 
-    public abstract void MessagesRegardingShip(int option, int ShipSize);
+    public abstract void messagesRegardingShip(int option, int ShipSize);
 
     public abstract void showPlayer(Player player);
 
@@ -38,7 +44,7 @@ public abstract class Interface
 
     public abstract void customisationMenu(String nickname);
 
-    public abstract void CustomisationErrorMessage(String nick);
+    public abstract void customisationErrorMessage(String nick);
 
     public abstract void loggedInMessage(String nick);
 

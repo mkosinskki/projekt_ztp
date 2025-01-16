@@ -115,6 +115,24 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
+    public void delay(long time)
+    {
+        long millis = System.currentTimeMillis() % 10000000;
+        while(millis+time>System.currentTimeMillis() % 10000000);
+    }
+
+    @Override
+    public void pauseLine(){
+        System.out.println("=========================================\n\n");
+    }
+
+    @Override
+    public void clear()
+    {
+        App.clearConsole();
+    }
+
+    @Override
     public int menu() 
     {
         return readInt("\nMenu użytkownika\n" +
@@ -228,7 +246,7 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
-    public void MessagesRegardingShip(int option, int ShipSize) 
+    public void messagesRegardingShip(int option, int ShipSize) 
     {
         switch (option) 
         {
@@ -279,7 +297,7 @@ public class InterfaceConsole extends Interface
     public void achievementMessage(int i) 
     {
         System.out.println("Zdobyto nowe osiagniecie!: " + GameManager.achievements[i]);
-        App.Delay(2000);
+        delay(2000);
 }
 
     @Override
@@ -316,7 +334,7 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
-    public void CustomisationErrorMessage(String nick)
+    public void customisationErrorMessage(String nick)
     {
         System.out.println("Gracz " + nick + " nie wygral jeszcze ani jednej gry aby odblokowac customizacje\n");
     }

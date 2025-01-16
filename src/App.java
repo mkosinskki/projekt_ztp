@@ -10,14 +10,8 @@ public class App {
         InterfaceConsole console = new InterfaceConsole();
         GameManager.getInstance(console).userMenu();
     }
-    
-    public static void Delay(long time)
-    {
-        long millis = System.currentTimeMillis() % 10000000;
-        while(millis+time>System.currentTimeMillis() % 10000000);
-    }
 
-    public static void clear()
+    public static void clearConsole()
     {
         try 
         {

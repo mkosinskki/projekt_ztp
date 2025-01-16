@@ -788,3 +788,19 @@ Events:
 
 
 
+Game Mode: Gracz vs Gracz
+Date: 16.01.2025, 19:48
+Players:
+  - Player 1: test
+  - Player 2: test2
+Winner: test
+Events:
+- Player: test, Action: uzupelnil plansze, Details: S..........S........................................................................................
+- Player: test2, Action: uzupelnil plansze, Details: S..................................................................................................S
+- Player: test, Action: zaatakowal gracza test2, Details: Strzal w pole x: 0 y: 0
+- Player: test2, Action: zaatakowal gracza test, Details: Strzal w pole x: 1 y: 1
+- Player: test, Action: zaatakowal gracza test2, Details: Strzal w pole x: 9 y: 9
+- Player: test, Action: won, Details: 
+
+
+

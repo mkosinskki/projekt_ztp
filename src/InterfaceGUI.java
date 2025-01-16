@@ -55,7 +55,7 @@ public class InterfaceGUI extends Interface {
 
 
     @Override
-    public void MessagesRegardingShip(int option, int ShipSize){}
+    public void messagesRegardingShip(int option, int ShipSize){}
 
     @Override
     public void winnerMessage(Player Winner) {
@@ -73,6 +73,23 @@ public class InterfaceGUI extends Interface {
     }
 
     @Override
+    public void delay(long time)
+    {
+        long millis = System.currentTimeMillis() % 10000000;
+        while(millis+time>System.currentTimeMillis() % 10000000);
+    }
+
+    @Override
+    public void pauseLine(){
+
+    }
+
+    @Override
+    public void clear()
+    {
+    }
+
+    @Override
     public int getBoardSize()
     {
         return 0;
@@ -85,7 +102,7 @@ public class InterfaceGUI extends Interface {
     }
 
     @Override
-    public void CustomisationErrorMessage(String nick){
+    public void customisationErrorMessage(String nick){
         System.out.println("Gracz "+nick+" nie wygral jeszcze ani jednej gry aby odblokowac customizacje\n");
     }
 

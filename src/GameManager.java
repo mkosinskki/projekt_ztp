@@ -105,15 +105,15 @@ public class GameManager {
                                 break;
                         }
                     }
-                    App.clear();
+                    myInterface.clear();
                     gameHistory.setPlayer1(p1.nickname);
                     gameHistory.setPlayer2(p2.nickname);
                     setupGame();
-                    App.Delay(3000);
-                    App.clear();
+                    myInterface.delay(3000);
+                    myInterface.clear();
                     startGame();
-                    App.Delay(3000);
-                    App.clear();
+                    myInterface.delay(3000);
+                    myInterface.clear();
                     break;
                 case 2:
                     switch (myInterface.chooseStatistics()) 
@@ -146,7 +146,7 @@ public class GameManager {
                             } 
                             else 
                             {
-                                myInterface.CustomisationErrorMessage(nick);
+                                myInterface.customisationErrorMessage(nick);
                             }
                             break;
                         default:
@@ -283,7 +283,7 @@ public class GameManager {
                     myInterface.showBoard(player);
                     while (!placed)
                     {
-                        myInterface.MessagesRegardingShip(1, ships[i].getSize());
+                        myInterface.messagesRegardingShip(1, ships[i].getSize());
                         coordinates = myInterface.getCoordinates();
                         if(ships[i].getSize() == 1)
                         {
@@ -296,56 +296,57 @@ public class GameManager {
                         placed = player.placeShips(coordinates, direction, ships[i]);
                         if (!placed)
                         {
-                            myInterface.MessagesRegardingShip(3, ships[i].getSize());
+                            myInterface.messagesRegardingShip(3, ships[i].getSize());
                         }
                     }
-                    myInterface.MessagesRegardingShip(2, ships[i].getSize());
+                    myInterface.messagesRegardingShip(2, ships[i].getSize());
                     placed = false;
 
                 }
                 else
                 {
-                    myInterface.MessagesRegardingShip(1, ships[i].getSize());
+                    myInterface.messagesRegardingShip(1, ships[i].getSize());
                     while (!placed)
                     {
                         coordinates = ((ComputerPlayer)player).getShipPlacement();
                         direction = ((ComputerPlayer)player).getShipDirection();
                         placed = player.placeShips(coordinates, direction, ships[i]);
-                        App.Delay(1500);
+                        myInterface.delay(1500);
                     }
                     placed = false;
                 }
             }
         }
-        myInterface.MessagesRegardingShip(4, 0);
-        App.Delay(1500);
+        myInterface.messagesRegardingShip(4, 0);
+        myInterface.delay(1500);
         gameHistory.addEvent(new Event(player.nickname, "uzupelnil plansze", 
                                             player.board.getBoardForHistory(player)));
         if(player instanceof HumanPlayer)
         {
             myInterface.showBoard(player);
+            myInterface.clear();
         }
         else if(p1 instanceof ComputerPlayer && p2 instanceof ComputerPlayer)
         {
             myInterface.showBoard(player);
-            App.Delay(1500);
+            myInterface.delay(1500);
         }
     }
 
     public void attack(Player player, Player opponent)
     {
-        App.Delay(3000);
+        myInterface.delay(3000);
         int[] coordinates = new int[2];
         boolean hitShip = false, isPlayerHuman = player instanceof HumanPlayer;
         boolean poprawneKoordynaty = false;
-        myInterface.printInfo("\n=========================================\n");
+        myInterface.pauseLine();
         myInterface.printInfo("Gracz: " + player.getNickname() + " atakuje\n");
 
         if(isPlayerHuman)//gdy człowiek
         {
             myInterface.showBoard(player,opponent);
             coordinates=myInterface.getCoordinates();
-            myInterface.printInfo("=========================================\n\n");
+            myInterface.pauseLine();
             while(!poprawneKoordynaty)
             {
                 if(coordinates[0] < player.board.getSize() && coordinates[1] < player.board.getSize() && coordinates[0] >= 0 && coordinates[1] >= 0)
@@ -363,14 +364,14 @@ public class GameManager {
         {
             coordinates=((ComputerPlayer)player).attackEnemy();
             myInterface.showBoard(player,opponent);
-            myInterface.printInfo("=========================================\n\n");
+            myInterface.pauseLine();
         }
 
         hitShip = opponent.board.markShot(coordinates[0],coordinates[1]);
 
         if(!isPlayerHuman)
         {
-            App.Delay(3000);
+            myInterface.delay(3000);
             myInterface.shotResultMessage(coordinates, hitShip);
         }
         else
