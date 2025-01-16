@@ -18,7 +18,7 @@ public abstract class Interface
 
     public abstract int chooseAIdifficulty();
 
-    public abstract void showBoard(Player player);
+    public abstract void showBoard(Player player, boolean displayShips);
 
     public abstract void MessagesRegardingShip(int option, int ShipSize);
 
@@ -47,6 +47,8 @@ public abstract class Interface
     public abstract void showHistoryMenu(GameHistory gameHistory);
 
     public abstract int choosePlayerToCheck();
+
+    public abstract void attackingStageMessage();
 
     public abstract ICustomization getCustomization(String nick);
 }
