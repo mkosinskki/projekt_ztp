@@ -48,7 +48,7 @@ public class InterfaceGUI extends Interface {
     }
 
     @Override
-    public void showBoard(Player player){}
+    public void showBoard(Player player, boolean displayShips){}
 
     @Override
     public void MessagesRegardingShip(int option, int ShipSize){}
@@ -104,6 +104,11 @@ public class InterfaceGUI extends Interface {
 
     @Override
     public int choosePlayerToCheck(){return 0;}
+
+    @Override
+    public void attackingStageMessage() {
+
+    }
 
     @Override
     public ICustomization getCustomization(String nick){

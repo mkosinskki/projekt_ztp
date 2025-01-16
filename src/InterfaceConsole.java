@@ -102,7 +102,7 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
-    public void showBoard(Player player) 
+    public void showBoard(Player player, boolean displayShips)
     {
         ICustomization customisation = CustomisationConsole.getInstance(player.nickname);
         StringBuilder sb = new StringBuilder();
@@ -110,10 +110,25 @@ public class InterfaceConsole extends Interface
         {
             for (int j = 0; j < player.board.getSize(); j++) 
             {
-                if(!player.board.getGrid()[i][j].isHit())
-                sb.append(player.board.getGrid()[i][j].containsShip() ? customisation.getShip() : customisation.getWater());
-                else
-                sb.append("X");
+                // Jeśli tryb wyświetlania statków jest włączony
+                if (displayShips) {
+                    if (player.board.getGrid()[i][j].containsShip()) {
+                        sb.append(customisation.getShip()); // Wyświetl statek
+                    } else {
+                        sb.append(customisation.getWater()); // Wyświetl wodę
+                    }
+                } else {
+                    // Jeśli statki nie są wyświetlane
+                    if (player.board.getGrid()[i][j].isHit()) {
+                        if (player.board.getGrid()[i][j].containsShip()) {
+                            sb.append("X"); // Trafiony statek
+                        } else {
+                            sb.append("O"); // Puste pole trafione
+                        }
+                    } else {
+                        sb.append(customisation.getWater()); // Woda na nietrafionym polu
+                    }
+                }
             }
             sb.append("\n");
         }
@@ -442,6 +457,11 @@ public class InterfaceConsole extends Interface
     public int choosePlayerToCheck()
     {
         return readInt("\n0) Powrot\n1) Podaj nick gracza którego plansza bedzie customizowana\n");
+    }
+
+    @Override
+    public void attackingStageMessage() {
+        System.out.println("Faza atakowania:");
     }
 
     @Override
