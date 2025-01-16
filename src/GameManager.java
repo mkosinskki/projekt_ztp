@@ -230,6 +230,7 @@ public class GameManager {
     {
         boolean GameOver = false;
         Player winner = null;
+        myInterface.attackingStageMessage();
         while (!GameOver) 
         {
             attack(p1, p2);
@@ -274,6 +275,7 @@ public class GameManager {
             {
                 if(player instanceof HumanPlayer)
                 {
+                    myInterface.showBoard(player, true);
                     while (!placed)
                     {
                         myInterface.MessagesRegardingShip(1, ships[i].getSize());
@@ -294,7 +296,7 @@ public class GameManager {
                     }
                     myInterface.MessagesRegardingShip(2, ships[i].getSize());
                     placed = false;
-                    myInterface.showBoard(player);
+
                 }
                 else
                 {
@@ -314,11 +316,11 @@ public class GameManager {
                                             player.board.getBoardForHistory(player)));
         if(player instanceof HumanPlayer)
         {
-            myInterface.showBoard(player);
+            myInterface.showBoard(player, true);
         }
         else if(p1 instanceof ComputerPlayer && p2 instanceof ComputerPlayer)
         {
-            myInterface.showBoard(player);
+            myInterface.showBoard(player, true);
             App.Delay(1500);
         }
     }
@@ -331,6 +333,7 @@ public class GameManager {
 
         if(isPlayerHuman)//gdy człowiek
         {
+            myInterface.showBoard(opponent, false);
             coordinates=myInterface.getCoordinates();
             if(coordinates[0] < player.board.getSize() && coordinates[0] >= 0 && coordinates[1] >= 0)
             {
@@ -351,8 +354,8 @@ public class GameManager {
 
         if(!isPlayerHuman)
         {
-            myInterface.showBoard(opponent);
             myInterface.shotResultMessage(coordinates, hitShip);
+            myInterface.showBoard(opponent, false);
             App.Delay(2500);
         }
         else
