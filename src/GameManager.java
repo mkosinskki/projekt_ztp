@@ -331,23 +331,31 @@ public class GameManager {
         boolean hitShip = false, isPlayerHuman = player instanceof HumanPlayer;
         boolean poprawneKoordynaty = false;
 
+        System.out.println("\n=========================================");
+        System.out.println("Gracz: " + player.getNickname() + " atakuje\n");
+
         if(isPlayerHuman)//gdy człowiek
         {
             myInterface.showBoard(opponent, false);
             coordinates=myInterface.getCoordinates();
-            if(coordinates[0] < player.board.getSize() && coordinates[0] >= 0 && coordinates[1] >= 0)
+            System.out.println("=========================================\n");
+            while(!poprawneKoordynaty)
             {
-                poprawneKoordynaty = true;
-            }
-            else
-            {
-                myInterface.errorMessages(0);
-                coordinates=myInterface.getCoordinates(); 
+                if(coordinates[0] < player.board.getSize() && coordinates[1] < player.board.getSize() && coordinates[0] >= 0 && coordinates[1] >= 0)
+                {
+                    poprawneKoordynaty = true;
+                }
+                else
+                {
+                    myInterface.errorMessages(0);
+                    coordinates=myInterface.getCoordinates(); 
+                }
             }
         }
         else//gdy AI
         {
             coordinates=((ComputerPlayer)player).attackEnemy();
+            System.out.println("=========================================\n");
         }
 
         hitShip = opponent.board.markShot(coordinates[0],coordinates[1]);

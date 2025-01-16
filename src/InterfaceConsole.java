@@ -26,6 +26,31 @@ public class InterfaceConsole extends Interface
         }
     }
 
+    private int[] readCoordinates(String prompt) 
+    {
+        while (true) 
+        {
+            try 
+            {
+                System.out.print(prompt + " ");
+                String input = scanner.nextLine().trim();
+                String[] parts = input.split("\\s+"); // Rozdzielamy wejście po spacji
+                if (parts.length != 2) 
+                {
+                    System.out.println("Podaj dokładnie dwie liczby oddzielone spacją.");
+                    continue;
+                }
+                int x = Integer.parseInt(parts[0]);
+                int y = Integer.parseInt(parts[1]);
+                return new int[]{x, y}; // Zwracamy tablicę dwóch liczb
+            } 
+            catch (NumberFormatException e) 
+            {
+                System.out.println("Niepoprawny format. Podaj dwie liczby całkowite oddzielone spacją.");
+            }
+        }
+    }
+
     private String readString(String prompt) 
     {
         System.out.println(prompt);
@@ -180,9 +205,11 @@ public class InterfaceConsole extends Interface
     @Override
     public int[] getCoordinates() 
     {
-        System.out.println("Podaj koordynaty:");
-        int x = readInt("Podaj współrzędną X:");
-        int y = readInt("Podaj współrzędną Y:");
+        int[] coordinates = readCoordinates("Podaj koordynaty X Y:");
+        // int x = readInt("Podaj współrzędną X:");
+        // int y = readInt("Podaj współrzędną Y:");
+        int x = coordinates[0];
+        int y = coordinates[1];
         return new int[]{y, x};
     }
 
@@ -217,7 +244,7 @@ public class InterfaceConsole extends Interface
     @Override
     public void shotResultMessage(int[] coordinates, boolean hit) 
     {
-        System.out.println("Strzelono w pole: " + coordinates[0] + ", " + coordinates[1]);
+        System.out.println("Strzelono w pole: " + coordinates[1] + ", " + coordinates[0]);
         if (hit) 
         {
             System.out.println("Trafiłeś w statek przeciwnika");

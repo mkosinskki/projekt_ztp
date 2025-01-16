@@ -13,6 +13,6 @@ public class AIEasy implements AIStrategy {
         int size = board.getSize();
         int x = random.nextInt(size);
         int y = random.nextInt(size);
-        return new int[]{x, y};
+        return new int[]{y, x};
     }
 }
