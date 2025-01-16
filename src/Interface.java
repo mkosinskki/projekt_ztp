@@ -18,7 +18,9 @@ public abstract class Interface
 
     public abstract int chooseAIdifficulty();
 
-    public abstract void showBoard(Player player, boolean displayShips);
+    public abstract void showBoard(Player attacker, Player attacked);
+
+    public abstract void showBoard(Player player);
 
     public abstract void MessagesRegardingShip(int option, int ShipSize);
 

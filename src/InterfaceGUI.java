@@ -48,7 +48,11 @@ public class InterfaceGUI extends Interface {
     }
 
     @Override
-    public void showBoard(Player player, boolean displayShips){}
+    public void showBoard(Player attacker, Player attacked){}
+
+    @Override
+    public void showBoard(Player player){}
+
 
     @Override
     public void MessagesRegardingShip(int option, int ShipSize){}

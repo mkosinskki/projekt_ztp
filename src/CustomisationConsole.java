@@ -36,10 +36,10 @@ public class CustomisationConsole implements ICustomization{
     }
 
     public void setShip(Object ship) {
-        this.shipChar = (char)shipChar;
+        this.shipChar = (char)ship;
     }
 
     public void setWater(Object water) {
-        this.waterChar = (char)waterChar;
+        this.waterChar = (char)water;
     }
 }

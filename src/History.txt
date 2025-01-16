@@ -546,7 +546,9 @@ Events:
 - Player: AI Thanapat, Action: zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 6 y: 5
 - Player: AI Bubbles, Action: zaatakowal gracza AI Thanapat, Details: Strzal w pole x: 5 y: 3
 - Player: AI Thanapat, Action: zaatakowal gracza AI Bubbles, Details: Strzal w pole x: 6 y: 6
-- Player: AI Thanapat, Action: won, Details: Game Mode: Gracz vs Gracz
+- Player: AI Thanapat, Action: won, Details: 
+
+Game Mode: Gracz vs Gracz
 Date: 16.01.2025, 11:46
 Players:
   - Player 1: 1

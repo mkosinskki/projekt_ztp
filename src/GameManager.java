@@ -275,7 +275,7 @@ public class GameManager {
             {
                 if(player instanceof HumanPlayer)
                 {
-                    myInterface.showBoard(player, true);
+                    myInterface.showBoard(player);
                     while (!placed)
                     {
                         myInterface.MessagesRegardingShip(1, ships[i].getSize());
@@ -316,11 +316,11 @@ public class GameManager {
                                             player.board.getBoardForHistory(player)));
         if(player instanceof HumanPlayer)
         {
-            myInterface.showBoard(player, true);
+            myInterface.showBoard(player);
         }
         else if(p1 instanceof ComputerPlayer && p2 instanceof ComputerPlayer)
         {
-            myInterface.showBoard(player, true);
+            myInterface.showBoard(player);
             App.Delay(1500);
         }
     }
@@ -336,7 +336,7 @@ public class GameManager {
 
         if(isPlayerHuman)//gdy człowiek
         {
-            myInterface.showBoard(opponent, false);
+            myInterface.showBoard(player,opponent);
             coordinates=myInterface.getCoordinates();
             System.out.println("=========================================\n");
             while(!poprawneKoordynaty)
@@ -363,7 +363,7 @@ public class GameManager {
         if(!isPlayerHuman)
         {
             myInterface.shotResultMessage(coordinates, hitShip);
-            myInterface.showBoard(opponent, false);
+            myInterface.showBoard(player,opponent);
             App.Delay(2500);
         }
         else

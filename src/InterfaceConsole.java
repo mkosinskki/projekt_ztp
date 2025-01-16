@@ -127,7 +127,30 @@ public class InterfaceConsole extends Interface
     }
 
     @Override
-    public void showBoard(Player player, boolean displayShips)
+    public void showBoard(Player attacker, Player attacked)
+    {
+        ICustomization customisation = CustomisationConsole.getInstance(attacker.nickname);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < attacked.board.getSize(); i++) 
+        {
+            for (int j = 0; j < attacked.board.getSize(); j++) 
+            {
+                if (attacked.board.getGrid()[i][j].isHit()) {
+                    if (attacked.board.getGrid()[i][j].containsShip()) {
+                        sb.append("X"); // Trafiony statek
+                    } else {
+                        sb.append("O"); // Puste pole trafione
+                    }
+                } else {
+                    sb.append(customisation.getWater()); // Woda na nietrafionym polu
+                }
+            }
+            sb.append("\n");
+        }
+        System.out.println(sb.toString());
+    }
+    @Override
+    public void showBoard(Player player)
     {
         ICustomization customisation = CustomisationConsole.getInstance(player.nickname);
         StringBuilder sb = new StringBuilder();
@@ -135,24 +158,10 @@ public class InterfaceConsole extends Interface
         {
             for (int j = 0; j < player.board.getSize(); j++) 
             {
-                // Jeśli tryb wyświetlania statków jest włączony
-                if (displayShips) {
-                    if (player.board.getGrid()[i][j].containsShip()) {
-                        sb.append(customisation.getShip()); // Wyświetl statek
-                    } else {
-                        sb.append(customisation.getWater()); // Wyświetl wodę
-                    }
+                if (player.board.getGrid()[i][j].containsShip()) {
+                    sb.append(customisation.getShip()); // Wyświetl statek
                 } else {
-                    // Jeśli statki nie są wyświetlane
-                    if (player.board.getGrid()[i][j].isHit()) {
-                        if (player.board.getGrid()[i][j].containsShip()) {
-                            sb.append("X"); // Trafiony statek
-                        } else {
-                            sb.append("O"); // Puste pole trafione
-                        }
-                    } else {
-                        sb.append(customisation.getWater()); // Woda na nietrafionym polu
-                    }
+                    sb.append(customisation.getWater()); // Wyświetl wodę
                 }
             }
             sb.append("\n");
@@ -283,17 +292,17 @@ public class InterfaceConsole extends Interface
     @Override
     public void customisationMenu(String nickname) 
     {
-        ICustomization customisation = CustomisationConsole.getInstance(nickname);
+        ICustomization customization = CustomisationConsole.getInstance(nickname);
         boolean menu = true;
         while (menu) 
         {
             switch (readString("Wybierz opcję:\n\t0: Personalizuj statek\n\t1: Personalizuj wodę\n\tKażdy inny znak: Wyjdź")) 
             {
                 case "0":
-                    customisation.setShip(readCharCustomization("Podaj znak, który ustawić jako statek", (char)customisation.getWater(), 'X')); // Przykład znaków
+                    customization.setShip(readCharCustomization("Podaj znak, który ustawić jako statek", (char)customization.getWater(), 'X')); // Przykład znaków
                     break;
                 case "1":
-                    customisation.setWater(readCharCustomization("Podaj znak, który ustawić jako wodę", (char)customisation.getShip(), 'X')); // Przykład znaków
+                    customization.setWater(readCharCustomization("Podaj znak, który ustawić jako wodę", (char)customization.getShip(), 'X')); // Przykład znaków
                     break;
                 default:
                     menu = false;
