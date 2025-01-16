@@ -168,7 +168,7 @@ public class InterfaceConsole extends Interface
         System.out.println("Podaj koordynaty:");
         int x = readInt("Podaj współrzędną X:");
         int y = readInt("Podaj współrzędną Y:");
-        return new int[]{x, y};
+        return new int[]{y, x};
     }
 
     @Override

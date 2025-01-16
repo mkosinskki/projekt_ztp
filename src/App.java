@@ -6,11 +6,8 @@ public class App {
         {
             GameManager.getInstance(null).updateAllPlayers();
         }));
-        // GameManager.getInstance(new GameConsole());
-        // GameManager.getInstance(null).startGame();
 
         InterfaceConsole console = new InterfaceConsole();
-        //GameManagerPrototype.getInstance(konsola).setupGame();
         GameManager.getInstance(console).userMenu();
     }
     

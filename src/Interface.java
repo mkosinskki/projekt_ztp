@@ -1,4 +1,5 @@
-public abstract class Interface {
+public abstract class Interface 
+{
     public abstract int menu();
 
     public abstract int chooseGameMode();

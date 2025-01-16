@@ -1,4 +1,3 @@
-import java.lang.classfile.ClassFile;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -302,7 +301,6 @@ public class GameManager {
                     myInterface.MessagesRegardingShip(1, ships[i].getSize());
                     while (!placed)
                     {
-                        myInterface.MessagesRegardingShip(1, ships[i].getSize());
                         coordinates = ((ComputerPlayer)player).getShipPlacement();
                         direction = ((ComputerPlayer)player).getShipDirection();
                         placed = player.placeShips(coordinates, direction, ships[i]);
@@ -317,6 +315,11 @@ public class GameManager {
         if(player instanceof HumanPlayer)
         {
             myInterface.showBoard(player);
+        }
+        else if(p1 instanceof ComputerPlayer && p2 instanceof ComputerPlayer)
+        {
+            myInterface.showBoard(player);
+            App.Delay(1500);
         }
     }
 

@@ -90,7 +90,8 @@ public class HumanPlayer extends Player
     }
 
     @Override
-    public void setBoard(Board board) {
+    public void setBoard(Board board) 
+    {
         super.board = board;
     }
 
@@ -106,10 +107,13 @@ public class HumanPlayer extends Player
         return false;
     }
 
-    public void setAchievementList(int i) {
+    public void setAchievementList(int i) 
+    {
         myAchievements[i]=true;
     }
-    public void setAchievementList(boolean[] lista) {
+
+    public void setAchievementList(boolean[] lista) 
+    {
         myAchievements =lista;
     }
 

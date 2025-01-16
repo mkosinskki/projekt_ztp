@@ -1,4 +1,5 @@
-public interface ICustomization {
+public interface ICustomization 
+{
 
     public static ICustomization getInstance(String nick){
         return null;

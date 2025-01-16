@@ -11,11 +11,14 @@ public class Board {
         initializeGrid();
     }
 
-    public String getBoardForHistory(Player player){
+    public String getBoardForHistory(Player player)
+    {
         StringBuilder sb = new StringBuilder();
         ICustomization customization = GameManager.getInstance(null).myInterface.getCustomization(player.nickname);
-        for(Cell[] wiersz : grid){
-            for(Cell c : wiersz){
+        for(Cell[] wiersz : grid)
+        {
+            for(Cell c : wiersz)
+            {
                 sb.append(c.containsShip()?customization.shipForSave():
                 customization.waterForSave());
             }
@@ -48,7 +51,8 @@ public class Board {
         }
     }
 
-    public boolean placeShip(Ship ship, int startX, int startY, boolean horizontal) {
+    public boolean placeShip(Ship ship, int startX, int startY, boolean horizontal) 
+    {
         int size = ship.getSize();
         if (horizontal) 
         {
@@ -82,7 +86,7 @@ public class Board {
         Cell cell = grid[x][y];
         if (cell.isHit()) return false; // Już trafione
         cell.setHit(true);
-        return cell.containsShip(); //zeby uzytkownik wiedzial czy trafil | w gamemenager dodac sprawdzanie areAllShipsSunk jezeli zwroci trafienie w statek
+        return cell.containsShip(); //zeby uzytkownik wiedzial czy trafil 
     }
 
     public boolean areAllShipsSunk() 
